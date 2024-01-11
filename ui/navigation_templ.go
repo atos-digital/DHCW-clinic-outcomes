@@ -13,7 +13,7 @@ import "bytes"
 import (
 	"strings"
 
-	"github.com/atos-digital/10.10.0-template/internal/middleware"
+	"github.com/atos-digital/DHCW-clinic-outcomes/internal/middleware"
 )
 
 func Navigation() templ.Component {

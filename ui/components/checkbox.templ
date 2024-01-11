@@ -1,0 +1,27 @@
+package components
+
+import "strings"
+import "github.com/atos-digital/DHCW-clinic-outcomes/ui/models"
+
+templ Checkbox(label models.Label, followUp templ.Component) {
+	<div class="gap-x-5">
+		<div>
+			<input _={ "on change toggle between .hidden and .flex on #" + strings.ReplaceAll(label.Qn, " ", "-") + "-followUp" } type="checkbox" value={ label.Qn }/>
+			<label class={ label.Style }>
+				if label.Required {
+					{ label.Qn }<span class="text-red-500">*</span>
+				} else {
+					{ label.Qn }
+				}
+				if label.Tooltip != "" {
+					<span><img src="/assets/img/tooltip.svg" class="w-4 ml-1 inline-block"/></span>
+				}
+			</label>
+		</div>
+		if followUp != nil {
+			<div id={ strings.ReplaceAll(label.Qn, " ", "-") + "-followUp" } class="hidden">
+				@followUp
+			</div>
+		}
+	</div>
+}

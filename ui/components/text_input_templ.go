@@ -10,7 +10,9 @@ import "context"
 import "io"
 import "bytes"
 
-func TextInput(label string) templ.Component {
+import "strings"
+
+func TextInput(label, placeholder string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -27,7 +29,7 @@ func TextInput(label string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if label != "" {
+		if label != "" && !strings.HasSuffix(label, "followup") {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<label class=\"text-black mr-1\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -35,7 +37,7 @@ func TextInput(label string) templ.Component {
 			var templ_7745c5c3_Var2 string
 			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/text_input.templ`, Line: 6, Col: 11}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/text_input.templ`, Line: 8, Col: 11}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
@@ -46,7 +48,23 @@ func TextInput(label string) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input class=\"border-black border-2 w-32\"></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input name=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(label))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"border-gray-300 border rounded shadow-inner px-2 py-0.5 w-2/3\" placeholder=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(placeholder))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

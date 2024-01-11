@@ -10,7 +10,7 @@ import "context"
 import "io"
 import "bytes"
 
-import "github.com/atos-digital/10.10.0-template/ui"
+import "github.com/atos-digital/DHCW-clinic-outcomes/ui"
 
 var DefaultHome = ui.Index(Home())
 

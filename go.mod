@@ -1,4 +1,4 @@
-module github.com/atos-digital/10.10.0-template
+module github.com/atos-digital/DHCW-clinic-outcomes
 
 go 1.21
 

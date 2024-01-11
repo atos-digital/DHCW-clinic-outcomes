@@ -68,7 +68,7 @@ func Footer() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a></small></div><small class=\"text-cyan-600\"><a href=\"https://github.com/atos-digital/10.10.0-template\" target=\"_blank\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a></small></div><small class=\"text-cyan-600\"><a href=\"https://github.com/atos-digital/DHCW-clinic-outcomes\" target=\"_blank\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

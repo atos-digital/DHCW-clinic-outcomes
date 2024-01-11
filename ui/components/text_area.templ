@@ -2,13 +2,13 @@ package components
 
 import "strings"
 
-templ TextInput(label, placeholder string) {
+templ TextArea(label, placeholder string) {
 	<div class="flex flex-col">
 		if label != "" && !strings.HasSuffix(label, "followup") {
 			<label class="text-black mr-1">
 				{ label }
 			</label>
 		}
-		<input name={ label } class="border-gray-300 border rounded shadow-inner px-2 py-0.5 w-2/3" placeholder={ placeholder }/>
+		<textarea name={ label } class="border-gray-300 border rounded shadow-inner px-2 py-0.5" placeholder={ placeholder }></textarea>
 	</div>
 }

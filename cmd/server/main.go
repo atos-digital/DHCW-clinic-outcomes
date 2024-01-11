@@ -9,8 +9,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/atos-digital/10.10.0-template/internal/config"
-	"github.com/atos-digital/10.10.0-template/internal/server"
+	"github.com/atos-digital/DHCW-clinic-outcomes/internal/config"
+	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server"
 )
 
 func main() {

@@ -1,12 +1,14 @@
 package components
 
+import "strings"
+
 templ DateInput(label string) {
 	<div class="flex flex-col">
-		if label != "" {
+		if label != "" && !strings.HasSuffix(label, "followup") {
 			<label class="text-black mr-1">
 				{ label }
 			</label>
 		}
-		<input type="date" class="border-black border-2 w-32"/>
+		<input type="date" name={ label } class="border-gray-300 border rounded w-fit"/>
 	</div>
 }

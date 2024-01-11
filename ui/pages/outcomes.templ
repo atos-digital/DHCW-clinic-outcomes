@@ -1,51 +1,85 @@
 package pages
 
-import "github.com/atos-digital/10.10.0-template/ui"
-import "github.com/atos-digital/10.10.0-template/ui/components"
+import "github.com/atos-digital/DHCW-clinic-outcomes/ui"
+import "github.com/atos-digital/DHCW-clinic-outcomes/ui/components"
+import "github.com/atos-digital/DHCW-clinic-outcomes/ui/models"
 
 var DefaultOutcomes = ui.Index(Outcomes())
 
 templ Outcomes() {
-	<div class="">
+	<div>
+		@OutcomesEventDetails()
+		<br/>
+		@OutcomesOptions()
+		<br/>
+		@OutcomesFollowUp()
+		<br/>
+		<div class="px-4">
+			@components.TextArea("Other information", "Add any other relevant information such as any outpatient procedures taken, or details of any tests required before next appointment.")
+		</div>
+	</div>
+}
+
+templ OutcomesEventDetails() {
+	<div>
 		<h1 class="text-lg font-semibold bg-sky-800 text-white px-4 py-1 mb-2">
 			Enter Event Details
 		</h1>
-		<div class="flex space-x-8 items-end mb-10 px-4">
+		<div class="flex space-x-8 items-end px-4">
 			@components.DateInput("Date")
 			@components.TimeInput("Time")
 			@components.Dropdown("Consultation Type", []string{"Telephone Consultation", "Video Consultation", "Face-to-face", "Office-based Decision"})
 			@components.Dropdown("Specialty", []string{"Cardiology", "Dermatology", "Endocrinology", "Gastroenterology", "Geriatrics", "Hematology", "Infectious Disease", "Nephrology", "Neurology", "Oncology", "Pulmonology", "Rheumatology", "Urology"})
 			@components.Dropdown("Senior Responsible Clinician", []string{"A", "B", "C"})
 		</div>
+	</div>
+}
+
+templ OutcomesOptions() {
+	<div
+		id="outcomes-options"
+		hx-get="/hx/radio"
+		hx-trigger="change from:input[type='radio']"
+		hx-include="#outcomes-options"
+		hx-swap="outerHTML"
+	>
 		<h1 class="text-lg font-semibold bg-sky-800 text-white px-4 py-1 mb-4">
 			Outcome
 		</h1>
 		<div class="grid grid-cols-2 px-4">
-			@components.Radio("Patient Discharged","outcome",nil)
-			@components.Radio("Did Not Answer","outcome",nil)
-			@components.Radio("See on Symptom", "outcome",components.Dropdown("",[]string{"6 months", "12 months"}))
-			@components.Radio("Did Not Attend","outcome",nil)
-			@components.Radio("Patient Initiated Follow Up","outcome",nil)
-			@components.Radio("Could Not Attend","outcome",nil)
+			@components.Radio("Patient Discharged","outcomes-option",nil)
+			@components.Radio("Did Not Answer","outcomes-option",nil)
+			@components.Radio("See on Symptom", "outcomes-option",components.Dropdown(components.CreateFollowupLabel("See on Symptom"),[]string{"6 months", "12 months"}))
+			@components.Radio("Did Not Attend","outcomes-option",components.RadioGroup("",components.CreateFollowupLabel("Did Not Attend"), []string{"Send for again", "Discharge"}))
+			@components.Radio("Patient Initiated Follow Up","outcomes-option",nil)
+			@components.Radio("Could Not Attend","outcomes-option",nil)
 		</div>
 		<br/>
 		<div class="flex flex-col px-4">
-			@components.Radio("Refer to Diagnostics","outcome",nil)
-			@components.Radio("Refer to another consultant / specialty","outcome",nil)
-			@components.Radio("Refer to Therapies","outcome",nil)
-			@components.Radio("Refer to Treatment","outcome",nil)
+			@components.Radio("Refer to Diagnostics","outcomes-option",nil)
+			@components.Radio("Refer to another consultant / specialty","outcomes-option",nil)
+			@components.Radio("Refer to Therapies","outcomes-option",components.TextInput(components.CreateFollowupLabel("Refer to Therapies"),"Type who to refer to"))
+			@components.Radio("Refer to Treatment","outcomes-option",nil)
 		</div>
 		<br/>
 		<div class="flex flex-col px-4">
-			@components.Radio("Add to Daycare List","outcome",nil)
-			@components.Radio("Add to Inpatient List","outcome",nil)
-			@components.Radio("Awaiting Clinical Decision (i.e. MDT, test results)","outcome",nil)
-			@components.Radio("Discuss at MDT","outcome",nil)
-			@components.Radio("Listed for Outpatient Procedure","outcome",nil)
+			@components.Radio("Add to Daycare List","outcomes-option",nil)
+			@components.Radio("Add to Inpatient List","outcomes-option",nil)
+			@components.Radio("Awaiting Clinical Decision (i.e. MDT, test results)","outcomes-option",nil)
+			@components.Radio("Discuss at MDT","outcomes-option",components.TextInput(components.CreateFollowupLabel("Discuss at MDT"),"Which MDT (if known)?"))
+			@components.Radio("Listed for Outpatient Procedure","outcomes-option",nil)
 		</div>
 		<br/>
 		<div class="flex flex-col px-4">
-			@components.Radio("Admit from Clinic / Consultation","outcome",nil)
+			@components.Radio("Admit from Clinic / Consultation","outcomes-option",nil)
+		</div>
+	</div>
+}
+
+templ OutcomesFollowUp() {
+	<div class="">
+		<div class="flex flex-col px-4">
+			@components.Checkbox(models.Label{Qn:"Follow Up", Required:true, Tooltip:"hi", Style:"font-bold"}, nil)
 		</div>
 	</div>
 }
