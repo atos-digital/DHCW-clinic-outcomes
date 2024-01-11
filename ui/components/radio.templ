@@ -5,11 +5,11 @@ import "strings"
 templ Radio(label, groupName string, followUp templ.Component) {
 	<div class="gap-x-5">
 		<div>
-			<input _={ "on click show #" + strings.ReplaceAll(label, " ", "-") + "-followUp" } type="radio" name={ groupName } value={ label }/>
+			<input _={ "on click toggle between .hidden and .flex on #" + strings.ReplaceAll(label, " ", "-") + "-followUp" } type="radio" name={ groupName } value={ label }/>
 			<label>{ label }</label>
 		</div>
 		if followUp != nil {
-			<div id={ strings.ReplaceAll(label, " ", "-") + "-followUp" } class="my-1" style="display:none">
+			<div id={ strings.ReplaceAll(label, " ", "-") + "-followUp" } class="hidden">
 				@followUp
 			</div>
 		}
