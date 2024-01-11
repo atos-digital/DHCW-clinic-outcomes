@@ -1,12 +1,51 @@
 package pages
 
 import "github.com/atos-digital/10.10.0-template/ui"
+import "github.com/atos-digital/10.10.0-template/ui/components"
 
 var DefaultOutcomes = ui.Index(Outcomes())
 
 templ Outcomes() {
-	<div>
-		<h1>Outcomes</h1>
-		<p>Outcomes page</p>
+	<div class="">
+		<h1 class="text-lg font-semibold bg-sky-800 text-white px-4 py-1 mb-2">
+			Enter Event Details
+		</h1>
+		<div class="flex space-x-8 items-end mb-10 px-4">
+			@components.DateInput("Date")
+			@components.TimeInput("Time")
+			@components.Dropdown("Consultation Type", []string{"Telephone Consultation", "Video Consultation", "Face-to-face", "Office-based Decision"})
+			@components.Dropdown("Specialty", []string{"Cardiology", "Dermatology", "Endocrinology", "Gastroenterology", "Geriatrics", "Hematology", "Infectious Disease", "Nephrology", "Neurology", "Oncology", "Pulmonology", "Rheumatology", "Urology"})
+			@components.Dropdown("Senior Responsible Clinician", []string{"A", "B", "C"})
+		</div>
+		<h1 class="text-lg font-semibold bg-sky-800 text-white px-4 py-1 mb-4">
+			Outcome
+		</h1>
+		<div class="grid grid-cols-2 px-4">
+			@components.Radio("Patient Discharged","outcome",nil)
+			@components.Radio("Did Not Answer","outcome",nil)
+			@components.Radio("See on Symptom", "outcome",components.Dropdown("",[]string{"6 months", "12 months"}))
+			@components.Radio("Did Not Attend","outcome",nil)
+			@components.Radio("Patient Initiated Follow Up","outcome",nil)
+			@components.Radio("Could Not Attend","outcome",nil)
+		</div>
+		<br/>
+		<div class="flex flex-col px-4">
+			@components.Radio("Refer to Diagnostics","outcome",nil)
+			@components.Radio("Refer to another consultant / specialty","outcome",nil)
+			@components.Radio("Refer to Therapies","outcome",nil)
+			@components.Radio("Refer to Treatment","outcome",nil)
+		</div>
+		<br/>
+		<div class="flex flex-col px-4">
+			@components.Radio("Add to Daycare List","outcome",nil)
+			@components.Radio("Add to Inpatient List","outcome",nil)
+			@components.Radio("Awaiting Clinical Decision (i.e. MDT, test results)","outcome",nil)
+			@components.Radio("Discuss at MDT","outcome",nil)
+			@components.Radio("Listed for Outpatient Procedure","outcome",nil)
+		</div>
+		<br/>
+		<div class="flex flex-col px-4">
+			@components.Radio("Admit from Clinic / Consultation","outcome",nil)
+		</div>
 	</div>
 }

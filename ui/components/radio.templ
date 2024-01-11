@@ -1,0 +1,17 @@
+package components
+
+import "strings"
+
+templ Radio(label, groupName string, followUp templ.Component) {
+	<div class="gap-x-5">
+		<div>
+			<input _={ "on click show #" + strings.ReplaceAll(label, " ", "-") + "-followUp" } type="radio" name={ groupName } value={ label }/>
+			<label>{ label }</label>
+		</div>
+		if followUp != nil {
+			<div id={ strings.ReplaceAll(label, " ", "-") + "-followUp" } class="my-1" style="display:none">
+				@followUp
+			</div>
+		}
+	</div>
+}

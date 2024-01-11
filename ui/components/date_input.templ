@@ -1,0 +1,12 @@
+package components
+
+templ DateInput(label string) {
+	<div class="flex flex-col">
+		if label != "" {
+			<label class="text-black mr-1">
+				{ label }
+			</label>
+		}
+		<input type="date" class="border-black border-2 w-32"/>
+	</div>
+}

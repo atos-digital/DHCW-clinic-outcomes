@@ -1,0 +1,14 @@
+package components
+
+templ Dropdown(label string, options []string) {
+	<div class="w-56">
+		if label != "" {
+			<label>{ label }</label>
+		}
+		<select class="border-black border-2 w-56">
+			for _, option := range options {
+				<option>{ option }</option>
+			}
+		</select>
+	</div>
+}
