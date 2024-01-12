@@ -7,40 +7,27 @@ type RadioButton struct {
 	FollowUp templ.Component
 }
 
-func checked(ctx context.Context, groupName, label string) bool {
+func Checked(ctx context.Context, groupName, label string) bool {
 	session := middleware.SessionFromContext(ctx)
 	return session.Values[groupName] == label
 }
 
-templ Radio(label, groupName string, followUp templ.Component) {
-	<div class="gap-x-5">
-		<div>
-			<input
-				_={ "on input toggle .hidden on #" + CreateFollowupLabel(label) }
-				type="radio"
-				name={ groupName }
-				value={ label }
-				id={ label }
-				if checked(ctx, groupName, label) {
-					checked
-				}
-			/>
-			<label for={ label }>
-				{ label }
-			</label>
-		</div>
-		if followUp != nil && checked(ctx, groupName, label) {
-			<div id={ CreateFollowupLabel(label) } class="ml-4 my-1">
-				@followUp
-			</div>
-		}
-	</div>
-}
-
 templ RadioGroup(label, groupName string, options []string) {
-	<div class="flex gap-x-5">
+	<div>
 		for _, option := range options {
-			@Radio(option, groupName, nil)
+			<div class=" gap-x-5">
+				<input
+					type="radio"
+					name={ groupName }
+					value={ option }
+					if Checked(ctx, groupName, option) {
+						checked
+					}
+				/>
+				<label for={ option }>
+					{ option }
+				</label>
+			</div>
 		}
 	</div>
 }

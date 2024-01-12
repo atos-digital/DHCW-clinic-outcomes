@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"net/http"
 	"strings"
 
@@ -37,9 +36,7 @@ func (s *Server) handleRadio() http.HandlerFunc {
 			http.Error(w, "Error parsing form data", http.StatusInternalServerError)
 			return
 		}
-		fmt.Println(r.Form)
 		selected := strings.Join(r.Form["outcomes-option"], " ")
-		fmt.Println(selected)
 
 		session, err := s.sess.Get(r, s.conf.CookieName)
 		if err != nil {
@@ -47,6 +44,7 @@ func (s *Server) handleRadio() http.HandlerFunc {
 			return
 		}
 		session.Values["outcomes-option"] = selected
+		session.Save(r, w)
 
 		w.Header().Set("Content-Type", "text/html")
 		pages.OutcomesOptions().Render(r.Context(), w)
