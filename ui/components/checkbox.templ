@@ -1,47 +1,51 @@
 package components
 
-import "strings"
 import "github.com/atos-digital/DHCW-clinic-outcomes/ui/models"
 
-templ Checkbox(label models.Label, followUp templ.Component) {
-	<div class="gap-x-5">
-		<div>
-			<input _={ "on change toggle between .hidden and .flex on #" + strings.ReplaceAll(label.Qn, " ", "-") + "-followUp" } type="checkbox" value={ label.Qn }/>
-			<label class={ label.Style }>
-				if label.Required {
-					{ label.Qn }<span class="text-red-500">*</span>
-				} else {
-					{ label.Qn }
-				}
-				if label.Tooltip != "" {
-					<span><img src="/assets/img/tooltip.svg" class="w-4 ml-1 inline-block"/></span>
-				}
-			</label>
-		</div>
-		if followUp != nil {
-			<div id={ strings.ReplaceAll(label.Qn, " ", "-") + "-followUp" } class="hidden">
-				@followUp
-			</div>
-		}
-	</div>
-}
-
-templ CheckboxGroup(label, groupName string, options []string) {
+templ CheckboxGroup(label, groupName string, options []models.Label) {
 	<div>
 		for _, option := range options {
-			<div class=" gap-x-5">
+			<div class="gap-x-5">
 				<input
 					type="checkbox"
 					name={ groupName }
-					value={ option }
-					if IsChecked(ctx, groupName, option) {
+					value={ option.Label }
+					if IsChecked(ctx, groupName, option.Label) {
 						checked
 					}
 				/>
-				<label for={ option }>
-					{ option }
-				</label>
+				@Label(option)
 			</div>
 		}
 	</div>
 }
+
+// templ CheckboxGroup(label, groupName string, options []models.Label) {
+// 	<div>
+// 		for _, option := range options {
+// 			<div class=" gap-x-5">
+// 				<input
+// 					type="checkbox"
+// 					name={ groupName }
+// 					value={ option.Label }
+// 					if IsChecked(ctx, groupName, option.Label) {
+// 						checked
+// 					}
+// 				/>
+// 				<label for={ option.Label } class={ option.Style }>
+// 					if option.Required {
+// 						{ option.Label }<span class="text-red-500">*</span>
+// 					} else {
+// 						{ option.Label }
+// 					}
+// 					if option.Tooltip != "" {
+// 						<span class="relative group">
+// 							<span id="tooltip" class="invisible group-hover:visible absolute rounded shadow-lg px-2 py-1 bg-gray-100 text-black font-normal ml-1 w-52 transform -translate-y-full">Tooltip</span>
+// 							<img src="/assets/img/tooltip.svg" class="w-4 inline-block"/>
+// 						</span>
+// 					}
+// 				</label>
+// 			</div>
+// 		}
+// 	</div>
+// }

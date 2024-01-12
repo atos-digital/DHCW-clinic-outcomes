@@ -1,7 +1,7 @@
 package models
 
 type Label struct {
-	Qn       string
+	Label    string
 	Required bool
 	Tooltip  string
 	Style    string

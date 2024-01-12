@@ -235,7 +235,7 @@ func OutcomesFollowUp() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.Checkbox(models.Label{Qn: "Follow Up", Required: true, Tooltip: "hi", Style: "font-bold"}, nil).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.CheckboxGroup("", "follow-up", []models.Label{{"Follow Up", true, "hi", "font-bold"}}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

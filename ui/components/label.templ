@@ -1,0 +1,19 @@
+package components
+
+import "github.com/atos-digital/DHCW-clinic-outcomes/ui/models"
+
+templ Label(label models.Label) {
+	<label for={ label.Label } class={ label.Style }>
+		if label.Required {
+			{ label.Label }<span class="text-red-500">*</span>
+		} else {
+			{ label.Label }
+		}
+		if label.Tooltip != "" {
+			<span class="relative group">
+				<span id="tooltip" class="invisible group-hover:visible absolute rounded shadow-lg px-2 py-1 bg-gray-100 text-black font-normal ml-1 w-52 transform -translate-y-full">Tooltip</span>
+				<img src="/assets/img/tooltip.svg" class="w-4 inline-block"/>
+			</span>
+		}
+	</label>
+}
