@@ -142,7 +142,7 @@ func OutcomesOptions() templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"outcomes-options\" hx-get=\"/hx/radio\" hx-trigger=\"change from:input[name=&#39;outcomes-option&#39;]\" hx-include=\"#outcomes-options\" hx-swap=\"outerHTML\"><h1 class=\"text-lg font-semibold bg-sky-800 text-white px-4 py-1 mb-4\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"outcomes-options\" hx-get=\"/hx/outcomes-options-radio\" hx-trigger=\"change from:input[name=&#39;outcomes-option&#39;]\" hx-include=\"#outcomes-options\" hx-swap=\"outerHTML\"><h1 class=\"text-lg font-semibold bg-sky-800 text-white px-4 py-1 mb-4\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

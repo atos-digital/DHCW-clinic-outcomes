@@ -24,7 +24,7 @@ func (s *Server) Routes() error {
 	s.r.Method(http.MethodGet, "/outcomes", s.handlePageOutcomes())
 
 	s.r.Route("/hx", func(r chi.Router) {
-		r.Method(http.MethodGet, "/radio", s.handleRadio())
+		r.Method(http.MethodGet, "/outcomes-options-radio", s.handleOutcomesOptionsRadio())
 	})
 
 	return nil

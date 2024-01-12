@@ -29,7 +29,7 @@ func (s *Server) handlePageOutcomes() http.Handler {
 	return templ.Handler(pages.DefaultOutcomes, templ.WithContentType("text/html"))
 }
 
-func (s *Server) handleRadio() http.HandlerFunc {
+func (s *Server) handleOutcomesOptionsRadio() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		err := r.ParseForm()
 		if err != nil {
