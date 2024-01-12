@@ -25,3 +25,23 @@ templ Checkbox(label models.Label, followUp templ.Component) {
 		}
 	</div>
 }
+
+templ CheckboxGroup(label, groupName string, options []string) {
+	<div>
+		for _, option := range options {
+			<div class=" gap-x-5">
+				<input
+					type="checkbox"
+					name={ groupName }
+					value={ option }
+					if IsChecked(ctx, groupName, option) {
+						checked
+					}
+				/>
+				<label for={ option }>
+					{ option }
+				</label>
+			</div>
+		}
+	</div>
+}

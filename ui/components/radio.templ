@@ -1,26 +1,22 @@
 package components
 
-import "github.com/atos-digital/DHCW-clinic-outcomes/internal/middleware"
-
 type RadioButton struct {
 	Label    string
 	FollowUp templ.Component
 }
 
-func Checked(ctx context.Context, groupName, label string) bool {
-	session := middleware.SessionFromContext(ctx)
-	return session.Values[groupName] == label
-}
-
 templ RadioGroup(label, groupName string, options []string) {
 	<div>
+		if label != "" {
+			<label>{ label }</label>
+		}
 		for _, option := range options {
 			<div class=" gap-x-5">
 				<input
 					type="radio"
 					name={ groupName }
 					value={ option }
-					if Checked(ctx, groupName, option) {
+					if IsChecked(ctx, groupName, option) {
 						checked
 					}
 				/>

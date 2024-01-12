@@ -10,16 +10,9 @@ import "context"
 import "io"
 import "bytes"
 
-import "github.com/atos-digital/DHCW-clinic-outcomes/internal/middleware"
-
 type RadioButton struct {
 	Label    string
 	FollowUp templ.Component
-}
-
-func Checked(ctx context.Context, groupName, label string) bool {
-	session := middleware.SessionFromContext(ctx)
-	return session.Values[groupName] == label
 }
 
 func RadioGroup(label, groupName string, options []string) templ.Component {
@@ -38,6 +31,25 @@ func RadioGroup(label, groupName string, options []string) templ.Component {
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
+		}
+		if label != "" {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<label>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var2 string
+			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(label)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/radio.templ`, Line: 10, Col: 17}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
 		for _, option := range options {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\" gap-x-5\"><input type=\"radio\" name=\"")
@@ -60,7 +72,7 @@ func RadioGroup(label, groupName string, options []string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if Checked(ctx, groupName, option) {
+			if IsChecked(ctx, groupName, option) {
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" checked")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -78,12 +90,12 @@ func RadioGroup(label, groupName string, options []string) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var2 string
-			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(option)
+			var templ_7745c5c3_Var3 string
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(option)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/radio.templ`, Line: 27, Col: 13}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/radio.templ`, Line: 23, Col: 13}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

@@ -43,7 +43,7 @@ func (s *Server) handleOutcomesOptionsRadio() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		session.Values["outcomes-option"] = selected
+		session.Values["outcomes-option"] = []string{selected}
 		session.Save(r, w)
 
 		w.Header().Set("Content-Type", "text/html")

@@ -320,7 +320,7 @@ func OutcomesOptionsRadioGroup(label, groupName string, options []OutcomesOption
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if components.Checked(ctx, groupName, option.label) {
+			if components.IsChecked(ctx, groupName, option.label) {
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" checked")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -351,7 +351,7 @@ func OutcomesOptionsRadioGroup(label, groupName string, options []OutcomesOption
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if option.followUp != nil && components.Checked(ctx, groupName, option.label) {
+			if option.followUp != nil && components.IsChecked(ctx, groupName, option.label) {
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
