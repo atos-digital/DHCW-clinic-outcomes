@@ -237,7 +237,7 @@ func OutcomesEventDetails() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label> <input type=\"date\" name=\"consultation-date\" class=\"border-gray-300 border rounded w-fit\"></div><div class=\"flex flex-col\"><label for=\"consultation-time\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label> <input type=\"date\" name=\"consultation-date\" class=\"border-gray-300 border rounded\"></div><div class=\"flex flex-col\"><label for=\"consultation-time\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -246,7 +246,7 @@ func OutcomesEventDetails() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label> <input type=\"time\" name=\"consultation-time\" class=\"border-gray-300 border rounded w-fit\"></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label> <input type=\"time\" name=\"consultation-time\" class=\"border-gray-300 border rounded\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
