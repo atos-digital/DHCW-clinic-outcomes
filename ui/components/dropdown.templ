@@ -1,16 +1,9 @@
 package components
 
-import "strings"
-
-templ Dropdown(label string, options []string) {
-	<div class="w-fit flex flex-col">
-		if label != "" && !strings.HasSuffix(label, "followup") {
-			<label>{ label }</label>
+templ Dropdown(options []string) {
+	<select class="border-gray-300 border rounded p-1">
+		for _, option := range options {
+			<option>{ option }</option>
 		}
-		<select name={ label } class="border-gray-300 border rounded py-0.5 w-56 ">
-			for _, option := range options {
-				<option>{ option }</option>
-			}
-		</select>
-	</div>
+	</select>
 }

@@ -10,9 +10,7 @@ import "context"
 import "io"
 import "bytes"
 
-import "github.com/atos-digital/DHCW-clinic-outcomes/ui/models"
-
-func CheckboxGroup(label, groupName string, options []models.Label) templ.Component {
+func CheckboxGroup(label, groupName string, options []LabelOpts) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {

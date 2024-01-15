@@ -1,8 +1,6 @@
 package components
 
-import "github.com/atos-digital/DHCW-clinic-outcomes/ui/models"
-
-templ CheckboxGroup(label, groupName string, options []models.Label) {
+templ CheckboxGroup(label, groupName string, options []LabelOpts) {
 	<div>
 		for _, option := range options {
 			<div class="gap-x-5">

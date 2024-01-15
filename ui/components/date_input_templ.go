@@ -30,7 +30,7 @@ func DateInput(label string) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if label != "" && !strings.HasSuffix(label, "followup") {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<label class=\"text-black mr-1\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<label>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

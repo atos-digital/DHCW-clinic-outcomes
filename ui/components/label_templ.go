@@ -10,9 +10,14 @@ import "context"
 import "io"
 import "bytes"
 
-import "github.com/atos-digital/DHCW-clinic-outcomes/ui/models"
+type LabelOpts struct {
+	Label    string
+	Required bool
+	Tooltip  string
+	Style    string
+}
 
-func Label(label models.Label) templ.Component {
+func Label(opts LabelOpts) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -25,7 +30,7 @@ func Label(label models.Label) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var2 = []any{label.Style}
+		var templ_7745c5c3_Var2 = []any{opts.Style}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -34,7 +39,7 @@ func Label(label models.Label) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(label.Label))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(opts.Label))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -50,11 +55,11 @@ func Label(label models.Label) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if label.Required {
+		if opts.Required {
 			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(label.Label)
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(opts.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/label.templ`, Line: 7, Col: 16}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/label.templ`, Line: 12, Col: 15}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -75,16 +80,16 @@ func Label(label models.Label) templ.Component {
 			}
 		} else {
 			var templ_7745c5c3_Var5 string
-			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(label.Label)
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(opts.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/label.templ`, Line: 9, Col: 16}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/label.templ`, Line: 14, Col: 15}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		if label.Tooltip != "" {
+		if opts.Tooltip != "" {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<span class=\"relative group\"><span id=\"tooltip\" class=\"invisible group-hover:visible absolute rounded shadow-lg px-2 py-1 bg-gray-100 text-black font-normal ml-1 w-52 transform -translate-y-full\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err

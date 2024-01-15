@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -37,6 +38,7 @@ func (s *Server) handleOutcomesOptionsRadio() http.HandlerFunc {
 			return
 		}
 		selected := strings.Join(r.Form["outcomes-option"], " ")
+		fmt.Println(selected)
 
 		session, err := s.sess.Get(r, s.conf.CookieName)
 		if err != nil {

@@ -5,7 +5,7 @@ import "strings"
 templ DateInput(label string) {
 	<div class="flex flex-col">
 		if label != "" && !strings.HasSuffix(label, "followup") {
-			<label class="text-black mr-1">
+			<label>
 				{ label }
 			</label>
 		}

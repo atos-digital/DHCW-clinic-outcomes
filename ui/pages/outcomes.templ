@@ -1,37 +1,79 @@
 package pages
 
-import "github.com/atos-digital/DHCW-clinic-outcomes/ui"
-import "github.com/atos-digital/DHCW-clinic-outcomes/ui/components"
-import "github.com/atos-digital/DHCW-clinic-outcomes/ui/models"
+import (
+	"github.com/atos-digital/DHCW-clinic-outcomes/ui"
+	"github.com/atos-digital/DHCW-clinic-outcomes/ui/components"
+)
 
 var DefaultOutcomes = ui.Index(Outcomes())
 
+templ SectionTitle(title string) {
+	<h1 class="text-lg font-semibold bg-sky-800 text-white px-4 py-1">
+		{ title }
+	</h1>
+}
+
 templ Outcomes() {
-	<div>
+	<div class="flex flex-col gap-4">
 		@OutcomesEventDetails()
-		<br/>
 		@OutcomesOptions()
-		<br/>
 		@OutcomesFollowUp()
-		<br/>
 		<div class="px-4">
 			@components.TextArea("Other information", "Add any other relevant information such as any outpatient procedures taken, or details of any tests required before next appointment.")
 		</div>
 	</div>
 }
 
+var consultationTypes = []string{
+	"Telephone Consultation",
+	"Video Consultation",
+	"Face-to-face",
+	"Office-based Decision",
+}
+
+var specialties = []string{
+	"Cardiology",
+	"Dermatology",
+	"Endocrinology",
+	"Gastroenterology",
+	"Geriatrics",
+	"Hematology",
+	"Infectious Disease",
+	"Nephrology",
+	"Neurology",
+	"Oncology",
+	"Pulmonology",
+	"Rheumatology",
+	"Urology",
+}
+
+var clinicians = []string{"A", "B", "C"}
+
+templ outcomeEventDropDown(label, name string, options []string) {
+	<div class="flex flex-col">
+		<label for={ name }>{ label }</label>
+		<select id={ name } name={ name } class="border-gray-300 border rounded p-1">
+			for _, option := range options {
+				<option>{ option }</option>
+			}
+		</select>
+	</div>
+}
+
 templ OutcomesEventDetails() {
-	<div>
-		<h1 class="text-lg font-semibold bg-sky-800 text-white px-4 py-1 mb-2">
-			Enter Event Details
-		</h1>
-		<div class="flex space-x-8 items-end px-4">
-			@components.DateInput("Date")
-			@components.TimeInput("Time")
-			@components.Dropdown("Consultation Type", []string{"Telephone Consultation", "Video Consultation", "Face-to-face", "Office-based Decision"})
-			@components.Dropdown("Specialty", []string{"Cardiology", "Dermatology", "Endocrinology", "Gastroenterology", "Geriatrics", "Hematology", "Infectious Disease", "Nephrology", "Neurology", "Oncology", "Pulmonology", "Rheumatology", "Urology"})
-			@components.Dropdown("Senior Responsible Clinician", []string{"A", "B", "C"})
+	@SectionTitle("Enter Event Details")
+	<div class="flex justify-between px-4">
+		<div class="flex flex-col">
+			<label for="consultation-date">Date</label>
+			<input type="date" name="consultation-date" class="border-gray-300 border rounded w-fit"/>
 		</div>
+		<div class="flex flex-col">
+			<label for="consultation-time">Time</label>
+			<input type="time" name="consultation-time" class="border-gray-300 border rounded w-fit"/>
+		</div>
+		@outcomeEventDropDown("Consultation Type", "consultation-type", consultationTypes)
+		@outcomeEventDropDown("Specialty", "specialty" , specialties)
+		@outcomeEventDropDown("Senior Responsible Clinician", "senior-responsible-clinician", clinicians)
 	</div>
 }
 
@@ -43,53 +85,48 @@ templ OutcomesOptions() {
 		hx-include="#outcomes-options"
 		hx-swap="outerHTML"
 	>
-		<h1 class="text-lg font-semibold bg-sky-800 text-white px-4 py-1 mb-4">
-			Outcome
-		</h1>
-		<div class="grid grid-cols-2">
-			<div class="flex flex-col px-4">
-				@OutcomesOptionsRadioGroup("","outcomes-option", []OutcomesOptionsRadio{
+		@SectionTitle("Outcomes")
+		<div class="flex flex-col gap-6 px-4">
+			<div class="grid grid-cols-2">
+				<div class="flex flex-col">
+					@OutcomesOptionsRadioGroup("","outcomes-option", []OutcomesOptionsRadio{
 				{"Patient Discharged",nil},
-				{"See on Symptom",components.Dropdown(components.CreateFollowupLabel("See on Symptom"),[]string{"6 months", "12 months"})},
+				{"See on Symptom",components.Dropdown([]string{"6 months", "12 months"})},
 				{"Patient Initiated Follow Up",nil}})
-			</div>
-			<div class="flex flex-col px-4">
-				@OutcomesOptionsRadioGroup("","outcomes-option", []OutcomesOptionsRadio{
+				</div>
+				<div class="flex flex-col">
+					@OutcomesOptionsRadioGroup("","outcomes-option", []OutcomesOptionsRadio{
 				{"Did Not Answer",nil},
 				{"Did Not Attend",components.RadioGroup("",components.CreateFollowupLabel("Did Not Attend"), []string{"Send for again", "Discharge"})},
 				{"Could Not Attend",nil}})
+				</div>
 			</div>
-		</div>
-		<br/>
-		<div class="flex flex-col px-4">
-			@OutcomesOptionsRadioGroup("","outcomes-option", []OutcomesOptionsRadio{
+			<div class="flex flex-col">
+				@OutcomesOptionsRadioGroup("","outcomes-option", []OutcomesOptionsRadio{
 				{"Refer to Diagnostics",nil},
 				{"Refer to another consultant / specialty",nil},
 				{"Refer to Therapies",components.TextInput(components.CreateFollowupLabel("Refer to Therapies"),"Type who to refer to")},
 				{"Refer to Treatment",nil}})
-		</div>
-		<br/>
-		<div class="flex flex-col px-4">
-			@OutcomesOptionsRadioGroup("","outcomes-option", []OutcomesOptionsRadio{
+			</div>
+			<div class="flex flex-col">
+				@OutcomesOptionsRadioGroup("","outcomes-option", []OutcomesOptionsRadio{
 				{"Add to Daycare List",nil},
 				{"Add to Inpatient List",nil},
 				{"Awaiting Clinical Decision (i.e. MDT, test results)",nil},
 				{"Discuss at MDT",components.TextInput(components.CreateFollowupLabel("Discuss at MDT"),"Which MDT (if known)?")},
 				{"Listed for Outpatient Procedure",nil}})
-		</div>
-		<br/>
-		<div class="flex flex-col px-4">
-			@OutcomesOptionsRadioGroup("","outcomes-option", []OutcomesOptionsRadio{
+			</div>
+			<div class="flex flex-col">
+				@OutcomesOptionsRadioGroup("","outcomes-option", []OutcomesOptionsRadio{
 				{"Admit from Clinic / Consultation",nil}})
+			</div>
 		</div>
 	</div>
 }
 
 templ OutcomesFollowUp() {
-	<div class="">
-		<div class="flex flex-col px-4">
-			@components.CheckboxGroup("", "follow-up", []models.Label{{"Follow Up",true,"hi","font-bold"}})
-		</div>
+	<div class="flex flex-col px-4">
+		@components.CheckboxGroup("", "follow-up", []components.LabelOpts{{Label: "Follow Up", Required: true, Tooltip: "hi", Style:  "font-bold"}})
 	</div>
 }
 
@@ -100,27 +137,22 @@ type OutcomesOptionsRadio struct {
 
 templ OutcomesOptionsRadioGroup(label, groupName string, options []OutcomesOptionsRadio) {
 	<div>
-		if label != "" {
-			<label>{ label }</label>
-		}
 		for _, option := range options {
-			<div class="gap-x-5">
-				<div>
-					<input
-						_={ "on input toggle .hidden on #" + components.CreateFollowupLabel(label) }
-						type="radio"
-						name={ groupName }
-						value={ option.label }
-						if components.IsChecked(ctx, groupName, option.label) {
-							checked
-						}
-					/>
-					<label for={ option.label }>
-						{ option.label }
-					</label>
-				</div>
+			<label>
+				<input
+					_={ "on input toggle .hidden on next <div/>" }
+					type="radio"
+					name={ groupName }
+					value={ option.label }
+					if components.IsChecked(ctx, groupName, option.label) {
+						checked
+					}
+				/>
+				{ option.label }
+			</label>
+			<div class="">
 				if option.followUp != nil && components.IsChecked(ctx, groupName, option.label) {
-					<div id={ components.CreateFollowupLabel(option.label) } class="ml-4 my-1">
+					<div class="ml-4 my-1">
 						@option.followUp
 					</div>
 				}
