@@ -2,13 +2,21 @@ package components
 
 import (
 	"context"
-	"strings"
 
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/middleware"
 )
 
-func CreateFollowupLabel(label string) string {
-	return strings.ToLower(strings.ReplaceAll(strings.ReplaceAll(label, " / ", "-"), " ", "-") + "-followUp")
+type LabelOpts struct {
+	Label    string
+	Required bool
+	Tooltip  string
+	Bold     bool
+}
+
+func DefaultLabel(label string) LabelOpts {
+	return LabelOpts{
+		Label: label,
+	}
 }
 
 func IsChecked(ctx context.Context, groupName, label string) bool {

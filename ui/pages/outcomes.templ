@@ -93,9 +93,26 @@ templ OutcomesOptions() {
 				</div>
 				<div class="flex flex-col">
 					@OutcomesOptionsRadioGroup("","outcomes-option", []OutcomesOptionsRadio{
-				{"Did Not Answer",components.RadioGroup("did-not-answer", []components.LabelOpts{components.DefaultLabel("Send for again"), components.DefaultLabel("Discharge")})},
-				{"Did Not Attend",components.RadioGroup("did-not-attend", []components.LabelOpts{components.DefaultLabel("Send for again"), components.DefaultLabel("Discharge")})},
-				{"Could Not Attend",components.RadioGroup("could-not-attend", []components.LabelOpts{components.DefaultLabel("Send for again"), components.DefaultLabel("Discharge")})}})
+						{
+							"Did Not Answer",components.RadioGroup("did-not-answer", []components.LabelOpts{
+								components.DefaultLabel("Send for again"),
+								components.DefaultLabel("Discharge"),
+							}),
+						},
+						{
+							"Did Not Attend",components.RadioGroup("did-not-attend", []components.LabelOpts{
+								components.DefaultLabel("Send for again"), 
+								components.DefaultLabel("Discharge"),
+							}),
+						},
+						{
+							"Could Not Attend",components.RadioGroup("could-not-attend", []components.LabelOpts{
+								components.DefaultLabel("Send for again"),
+								components.DefaultLabel("Discharge"),
+							}),
+						},
+					},
+				)
 				</div>
 			</div>
 			<div class="flex flex-col">
@@ -123,7 +140,7 @@ templ OutcomesOptions() {
 
 templ OutcomesFollowUp() {
 	<div class="flex flex-col px-4 gap-2">
-		@components.CheckboxGroup("follow-up", []components.LabelOpts{{"Follow Up", true, "hi", true}})
+		@components.CheckboxGroup("follow-up", []components.LabelOpts{{Label:"Follow Up", Required: true, Tooltip: "hi", Bold: true}})
 		<div class="border border-black p-4">
 			@components.RadioGroupWithTextbox("same-clinician", []components.LabelOpts{components.DefaultLabel("Yes"), components.DefaultLabel("No")}, map[string]string{"No": "Specify"})
 		</div>

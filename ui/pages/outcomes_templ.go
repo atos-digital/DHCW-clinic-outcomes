@@ -242,9 +242,26 @@ func OutcomesOptions() templ.Component {
 			return templ_7745c5c3_Err
 		}
 		templ_7745c5c3_Err = OutcomesOptionsRadioGroup("", "outcomes-option", []OutcomesOptionsRadio{
-			{"Did Not Answer", components.RadioGroup("did-not-answer", []components.LabelOpts{components.DefaultLabel("Send for again"), components.DefaultLabel("Discharge")})},
-			{"Did Not Attend", components.RadioGroup("did-not-attend", []components.LabelOpts{components.DefaultLabel("Send for again"), components.DefaultLabel("Discharge")})},
-			{"Could Not Attend", components.RadioGroup("could-not-attend", []components.LabelOpts{components.DefaultLabel("Send for again"), components.DefaultLabel("Discharge")})}}).Render(ctx, templ_7745c5c3_Buffer)
+			{
+				"Did Not Answer", components.RadioGroup("did-not-answer", []components.LabelOpts{
+					components.DefaultLabel("Send for again"),
+					components.DefaultLabel("Discharge"),
+				}),
+			},
+			{
+				"Did Not Attend", components.RadioGroup("did-not-attend", []components.LabelOpts{
+					components.DefaultLabel("Send for again"),
+					components.DefaultLabel("Discharge"),
+				}),
+			},
+			{
+				"Could Not Attend", components.RadioGroup("could-not-attend", []components.LabelOpts{
+					components.DefaultLabel("Send for again"),
+					components.DefaultLabel("Discharge"),
+				}),
+			},
+		},
+		).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -310,7 +327,7 @@ func OutcomesFollowUp() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.CheckboxGroup("follow-up", []components.LabelOpts{{"Follow Up", true, "hi", true}}).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.CheckboxGroup("follow-up", []components.LabelOpts{{Label: "Follow Up", Required: true, Tooltip: "hi", Bold: true}}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -397,7 +414,7 @@ func OutcomesOptionsRadioGroup(label, groupName string, options []OutcomesOption
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(option.label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 150, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 167, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
