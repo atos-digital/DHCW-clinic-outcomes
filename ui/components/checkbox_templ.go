@@ -10,7 +10,7 @@ import "context"
 import "io"
 import "bytes"
 
-func CheckboxGroup(label, groupName string, options []LabelOpts) templ.Component {
+func CheckboxGroup(groupName string, options []LabelOpts) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -23,12 +23,22 @@ func CheckboxGroup(label, groupName string, options []LabelOpts) templ.Component
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		for _, option := range options {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"gap-x-5\"><input type=\"checkbox\" name=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<label")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			if option.Bold {
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"font-bold\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("><input type=\"checkbox\" name=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -54,15 +64,60 @@ func CheckboxGroup(label, groupName string, options []LabelOpts) templ.Component
 					return templ_7745c5c3_Err
 				}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Label(option).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
+			if option.Required {
+				var templ_7745c5c3_Var2 string
+				templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(option.Label)
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/checkbox.templ`, Line: 19, Col: 19}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<span class=\"text-red-500\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Var3 := `*`
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			} else {
+				var templ_7745c5c3_Var4 string
+				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(option.Label)
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/checkbox.templ`, Line: 21, Col: 19}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
+			if option.Tooltip != "" {
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<span class=\"relative group\"><span id=\"tooltip\" class=\"invisible group-hover:visible absolute rounded shadow-lg px-2 py-1 bg-gray-100 text-black font-normal ml-1 w-52 transform -translate-y-full\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Var5 := `Tooltip`
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var5)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> <img src=\"/assets/img/tooltip.svg\" class=\"w-4 inline-block\"></span>")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -77,33 +132,3 @@ func CheckboxGroup(label, groupName string, options []LabelOpts) templ.Component
 		return templ_7745c5c3_Err
 	})
 }
-
-// templ CheckboxGroup(label, groupName string, options []models.Label) {
-// 	<div>
-// 		for _, option := range options {
-// 			<div class=" gap-x-5">
-// 				<input
-// 					type="checkbox"
-// 					name={ groupName }
-// 					value={ option.Label }
-// 					if IsChecked(ctx, groupName, option.Label) {
-// 						checked
-// 					}
-// 				/>
-// 				<label for={ option.Label } class={ option.Style }>
-// 					if option.Required {
-// 						{ option.Label }<span class="text-red-500">*</span>
-// 					} else {
-// 						{ option.Label }
-// 					}
-// 					if option.Tooltip != "" {
-// 						<span class="relative group">
-// 							<span id="tooltip" class="invisible group-hover:visible absolute rounded shadow-lg px-2 py-1 bg-gray-100 text-black font-normal ml-1 w-52 transform -translate-y-full">Tooltip</span>
-// 							<img src="/assets/img/tooltip.svg" class="w-4 inline-block"/>
-// 						</span>
-// 					}
-// 				</label>
-// 			</div>
-// 		}
-// 	</div>
-// }

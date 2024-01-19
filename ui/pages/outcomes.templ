@@ -19,7 +19,7 @@ templ Outcomes() {
 		@OutcomesOptions()
 		@OutcomesFollowUp()
 		<div class="px-4">
-			@components.TextArea("Other information", "Add any other relevant information such as any outpatient procedures taken, or details of any tests required before next appointment.")
+			@components.LabelledTextArea(components.DefaultLabel("Other information"), "Add any other relevant information such as any outpatient procedures taken, or details of any tests required before next appointment.")
 		</div>
 	</div>
 }
@@ -49,17 +49,6 @@ var specialties = []string{
 
 var clinicians = []string{"A", "B", "C"}
 
-templ outcomeEventDropDown(label, name string, options []string) {
-	<div class="flex flex-col">
-		<label for={ name }>{ label }</label>
-		<select id={ name } name={ name } class="border-gray-300 border rounded p-1">
-			for _, option := range options {
-				<option>{ option }</option>
-			}
-		</select>
-	</div>
-}
-
 templ OutcomesEventDetails() {
 	@SectionTitle("Enter Event Details")
 	<div class="flex justify-between px-4">
@@ -71,9 +60,9 @@ templ OutcomesEventDetails() {
 			<label for="consultation-time">Time</label>
 			<input type="time" name="consultation-time" class="border-gray-300 border rounded"/>
 		</div>
-		@outcomeEventDropDown("Consultation Type", "consultation-type", consultationTypes)
-		@outcomeEventDropDown("Specialty", "specialty" , specialties)
-		@outcomeEventDropDown("Senior Responsible Clinician", "senior-responsible-clinician", clinicians)
+		@components.LabelledDropdown(components.DefaultLabel("Consultation Type"), consultationTypes)
+		@components.LabelledDropdown(components.DefaultLabel("Specialty"), specialties)
+		@components.LabelledDropdown(components.DefaultLabel("Senior Responsible Clinician"), clinicians)
 	</div>
 }
 
@@ -84,8 +73,16 @@ templ OutcomesOptions() {
 		hx-trigger="change from:input[name='outcomes-option']"
 		hx-include="#outcomes-options"
 		hx-swap="outerHTML"
+		class="flex flex-col gap-2"
 	>
 		@SectionTitle("Outcomes")
+		<div class="flex flex-col px-4">
+			@components.CheckboxGroup("cancer-pathway",[]components.LabelOpts{components.DefaultLabel("Cancer Pathway")})
+			<div class="flex flex-col ml-4 my-1">
+				@components.RadioGroupWithTextbox("cancer-pathway", []components.LabelOpts{components.DefaultLabel("First Suspicion of Cancer"), components.DefaultLabel("Patient to remain on USC pathway"), components.DefaultLabel("Other")}, map[string]string{"Other": "Specify"})
+			</div>
+		</div>
+		<hr/>
 		<div class="flex flex-col gap-6 px-4">
 			<div class="grid grid-cols-2">
 				<div class="flex flex-col">
@@ -96,25 +93,25 @@ templ OutcomesOptions() {
 				</div>
 				<div class="flex flex-col">
 					@OutcomesOptionsRadioGroup("","outcomes-option", []OutcomesOptionsRadio{
-				{"Did Not Answer",nil},
-				{"Did Not Attend",components.RadioGroup("",components.CreateFollowupLabel("Did Not Attend"), []string{"Send for again", "Discharge"})},
-				{"Could Not Attend",nil}})
+				{"Did Not Answer",components.RadioGroup("did-not-answer", []components.LabelOpts{components.DefaultLabel("Send for again"), components.DefaultLabel("Discharge")})},
+				{"Did Not Attend",components.RadioGroup("did-not-attend", []components.LabelOpts{components.DefaultLabel("Send for again"), components.DefaultLabel("Discharge")})},
+				{"Could Not Attend",components.RadioGroup("could-not-attend", []components.LabelOpts{components.DefaultLabel("Send for again"), components.DefaultLabel("Discharge")})}})
 				</div>
 			</div>
 			<div class="flex flex-col">
 				@OutcomesOptionsRadioGroup("","outcomes-option", []OutcomesOptionsRadio{
-				{"Refer to Diagnostics",nil},
-				{"Refer to another consultant / specialty",nil},
-				{"Refer to Therapies",components.TextInput(components.CreateFollowupLabel("Refer to Therapies"),"Type who to refer to")},
-				{"Refer to Treatment",nil}})
+				{"Refer to Diagnostics",components.TextInput("Enter Diagnostic Test(s)")},
+				{"Refer to another consultant / specialty",components.TextInput("Type in which consultant or specialty")},
+				{"Refer to Therapies",components.TextInput("Type who to refer to")},
+				{"Refer to Treatment",components.CheckboxGroup("refer-to-treatment",[]components.LabelOpts{components.DefaultLabel("SACT"),components.DefaultLabel("Radiotherapy"),components.DefaultLabel("Other")})}})
 			</div>
 			<div class="flex flex-col">
 				@OutcomesOptionsRadioGroup("","outcomes-option", []OutcomesOptionsRadio{
 				{"Add to Daycare List",nil},
 				{"Add to Inpatient List",nil},
 				{"Awaiting Clinical Decision (i.e. MDT, test results)",nil},
-				{"Discuss at MDT",components.TextInput(components.CreateFollowupLabel("Discuss at MDT"),"Which MDT (if known)?")},
-				{"Listed for Outpatient Procedure",nil}})
+				{"Discuss at MDT",components.TextInput("Which MDT (if known)?")},
+				{"Listed for Outpatient Procedure",components.TextInput("Type in which procedure")}})
 			</div>
 			<div class="flex flex-col">
 				@OutcomesOptionsRadioGroup("","outcomes-option", []OutcomesOptionsRadio{
@@ -125,8 +122,11 @@ templ OutcomesOptions() {
 }
 
 templ OutcomesFollowUp() {
-	<div class="flex flex-col px-4">
-		@components.CheckboxGroup("", "follow-up", []components.LabelOpts{{Label: "Follow Up", Required: true, Tooltip: "hi", Style:  "font-bold"}})
+	<div class="flex flex-col px-4 gap-2">
+		@components.CheckboxGroup("follow-up", []components.LabelOpts{{"Follow Up", true, "hi", true}})
+		<div class="border border-black p-4">
+			@components.RadioGroupWithTextbox("same-clinician", []components.LabelOpts{components.DefaultLabel("Yes"), components.DefaultLabel("No")}, map[string]string{"No": "Specify"})
+		</div>
 	</div>
 }
 

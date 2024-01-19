@@ -4,11 +4,11 @@ type LabelOpts struct {
 	Label    string
 	Required bool
 	Tooltip  string
-	Style    string
+	Bold     bool
 }
 
 templ Label(opts LabelOpts) {
-	<label for={ opts.Label } class={ opts.Style }>
+	<label for={ opts.Label }>
 		if opts.Required {
 			{ opts.Label }<span class="text-red-500">*</span>
 		} else {
@@ -21,4 +21,10 @@ templ Label(opts LabelOpts) {
 			</span>
 		}
 	</label>
+}
+
+func DefaultLabel(label string) LabelOpts {
+	return LabelOpts{
+		Label: label,
+	}
 }

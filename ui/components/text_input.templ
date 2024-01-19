@@ -1,14 +1,26 @@
 package components
 
-import "strings"
-
-templ TextInput(label, placeholder string) {
+templ TextInput( placeholder string) {
 	<div class="flex flex-col">
-		if label != "" && !strings.HasSuffix(label, "followup") {
-			<label class="text-black mr-1">
-				{ label }
-			</label>
-		}
-		<input name={ label } class="border-gray-300 border rounded shadow-inner px-2 py-0.5 w-2/3" placeholder={ placeholder }/>
+		<input class="border-gray-300 border rounded shadow-inner px-2 py-0.5 w-2/3" placeholder={ placeholder }/>
 	</div>
+}
+
+templ LabelledTextInput(label LabelOpts, placeholder string) {
+	<label
+		class={ "flex","flex-col", templ.KV("font-bold",label.Bold) }
+	>
+		if label.Required {
+			{ label.Label }<span class="text-red-500">*</span>
+		} else {
+			{ label.Label }
+		}
+		if label.Tooltip != "" {
+			<span class="relative group">
+				<span id="tooltip" class="invisible group-hover:visible absolute rounded shadow-lg px-2 py-1 bg-gray-100 text-black font-normal ml-1 w-52 transform -translate-y-full">Tooltip</span>
+				<img src="/assets/img/tooltip.svg" class="w-4 inline-block"/>
+			</span>
+		}
+		<input class="border-gray-300 border rounded shadow-inner px-2 py-0.5 w-2/3" placeholder={ placeholder }/>
+	</label>
 }
