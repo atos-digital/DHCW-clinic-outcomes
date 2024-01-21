@@ -25,6 +25,7 @@ func (s *Server) Routes() error {
 
 	s.r.Route("/hx", func(r chi.Router) {
 		r.Method(http.MethodGet, "/outcomes-options-radio", s.handleOutcomesOptionsRadio())
+		r.Method(http.MethodGet, "/add-followup-test", s.handleAddFollowupTest())
 	})
 
 	return nil

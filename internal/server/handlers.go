@@ -50,3 +50,10 @@ func (s *Server) handleOutcomesOptionsRadio() http.HandlerFunc {
 		pages.OutcomesOptions().Render(r.Context(), w)
 	}
 }
+
+func (s *Server) handleAddFollowupTest() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/html")
+		pages.FollowupTest().Render(r.Context(), w)
+	}
+}

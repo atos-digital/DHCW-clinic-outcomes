@@ -160,7 +160,7 @@ templ OutcomesFollowUp() {
 					<div>
 						@components.Label(components.RequiredLabel("See in?"))
 						<div class="flex gap-3">
-							<input type="number" class="border-gray-300 border rounded shadow-inner px-2 py-0.5 w-16"/>
+							<input type="number" min="1" class="border-gray-300 border rounded shadow-inner px-2 py-0.5 w-16"/>
 							@components.Dropdown([]string{"Weeks", "Months", "Years"})
 						</div>
 					</div>
@@ -205,20 +205,10 @@ templ OutcomesFollowUp() {
 						components.DefaultLabel("No"),
 					}),
 				)
-				<div class="flex gap-4">
-					<div class="w-1/3">
-						@components.LabelWrapper(components.RequiredLabel("Test(s) required"), components.TextInput(""))
-					</div>
-					<div class="w-1/3">
-						@components.LabelWrapper(components.RequiredLabel("Undertaken by"), components.TextInput(""))
-					</div>
-					<div class="w-1/3">
-						@components.LabelWrapper(components.RequiredLabel("Test(s) required by"), components.Dropdown(clinicians))
-					</div>
-					<button type="button">
-						<img src="/assets/img/plus.svg" class="w-6 mt-4"/>
-					</button>
-				</div>
+				<p class="font-semibold italic text-blue-600">
+					This information is to help administrative colleagues with planning for clinic. It does not automatically generate a test request. The patient should not defer their appointment if the test cannot take place at the specified time.
+				</p>
+				@FollowupTest()
 			</div>
 		</div>
 	</div>
@@ -229,7 +219,7 @@ type OutcomesOptionsRadio struct {
 	followUp templ.Component
 }
 
-templ OutcomesOptionsRadioGroup( groupName string, options []OutcomesOptionsRadio) {
+templ OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio) {
 	<div>
 		for _, option := range options {
 			<label>
@@ -252,5 +242,32 @@ templ OutcomesOptionsRadioGroup( groupName string, options []OutcomesOptionsRadi
 				}
 			</div>
 		}
+	</div>
+}
+
+templ FollowupTest() {
+	<div
+		class="flex gap-4"
+		hx-get="/hx/add-followup-test"
+		hx-trigger="click find button"
+		hx-swap="afterend"
+	>
+		<div class="w-1/3">
+			@components.LabelWrapper(components.RequiredLabel("Test(s) required"), components.TextInput(""))
+		</div>
+		<div class="w-1/3">
+			@components.LabelWrapper(components.RequiredLabel("Undertaken by"), components.TextInput(""))
+		</div>
+		<div class="w-1/3">
+			@components.LabelWrapper(components.RequiredLabel("Test(s) required by"), 
+			components.Dropdown([]string{
+				"Day Prior to the Clinic",
+				"Day of Clinic",
+				"Other (Please Specify)",
+				}),)
+		</div>
+		<button type="button">
+			<img src="/assets/img/plus.svg" class="w-6 mt-5"/>
+		</button>
 	</div>
 }
