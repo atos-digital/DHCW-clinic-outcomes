@@ -1,20 +1,5 @@
 package components
 
-templ LabelledTextArea(label LabelOpts, placeholder string) {
-	<label
-		class={ "flex","flex-col", templ.KV("font-bold",label.Bold) }
-	>
-		if label.Required {
-			{ label.Label }<span class="text-red-500">*</span>
-		} else {
-			{ label.Label }
-		}
-		if label.Tooltip != "" {
-			<span class="relative group">
-				<span id="tooltip" class="invisible group-hover:visible absolute rounded shadow-lg px-2 py-1 bg-gray-100 text-black font-normal ml-1 w-52 transform -translate-y-full">Tooltip</span>
-				<img src="/assets/img/tooltip.svg" class="w-4 inline-block"/>
-			</span>
-		}
-		<textarea class="border-gray-300 border rounded shadow-inner px-2 py-0.5" placeholder={ placeholder }></textarea>
-	</label>
+templ TextArea(placeholder string) {
+	<textarea class="border-gray-300 border rounded shadow-inner px-2 py-0.5" placeholder={ placeholder }></textarea>
 }

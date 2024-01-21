@@ -87,7 +87,10 @@ func Outcomes() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.LabelledTextArea(components.DefaultLabel("Other information"), "Add any other relevant information such as any outpatient procedures taken, or details of any tests required before next appointment.").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.LabelWrapper(
+			components.DefaultLabel("Other information"),
+			components.TextArea("Add any other relevant information such as any outpatient procedures taken, or details of any tests required before next appointment."),
+		).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -105,7 +108,7 @@ func Outcomes() templ.Component {
 var consultationTypes = []string{
 	"Telephone Consultation",
 	"Video Consultation",
-	"Face-to-face",
+	"Face to face",
 	"Office-based Decision",
 }
 
@@ -166,15 +169,15 @@ func OutcomesEventDetails() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.LabelledDropdown(components.DefaultLabel("Consultation Type"), consultationTypes).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.LabelWrapper(components.DefaultLabel("Consultation Type"), components.Dropdown(consultationTypes)).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.LabelledDropdown(components.DefaultLabel("Specialty"), specialties).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.LabelWrapper(components.DefaultLabel("Specialty"), components.Dropdown(specialties)).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.LabelledDropdown(components.DefaultLabel("Senior Responsible Clinician"), clinicians).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.LabelWrapper(components.DefaultLabel("Senior Responsible Clinician"), components.Dropdown(clinicians)).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -202,7 +205,7 @@ func OutcomesOptions() templ.Component {
 			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"outcomes-options\" hx-get=\"/hx/outcomes-options-radio\" hx-trigger=\"change from:input[name=&#39;outcomes-option&#39;]\" hx-include=\"#outcomes-options\" hx-swap=\"outerHTML\" class=\"flex flex-col gap-2\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"outcomes-options\" hx-get=\"/hx/outcomes-options-radio\" hx-trigger=\"change from:input[name=&#39;outcomes-option&#39;]\" hx-include=\"#outcomes-options\" hx-swap=\"outerHTML\" class=\"flex flex-col gap-3\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -230,7 +233,7 @@ func OutcomesOptions() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = OutcomesOptionsRadioGroup("", "outcomes-option", []OutcomesOptionsRadio{
+		templ_7745c5c3_Err = OutcomesOptionsRadioGroup("outcomes-option", []OutcomesOptionsRadio{
 			{"Patient Discharged", nil},
 			{"See on Symptom", components.Dropdown([]string{"6 months", "12 months"})},
 			{"Patient Initiated Follow Up", nil}}).Render(ctx, templ_7745c5c3_Buffer)
@@ -241,7 +244,7 @@ func OutcomesOptions() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = OutcomesOptionsRadioGroup("", "outcomes-option", []OutcomesOptionsRadio{
+		templ_7745c5c3_Err = OutcomesOptionsRadioGroup("outcomes-option", []OutcomesOptionsRadio{
 			{
 				"Did Not Answer", components.RadioGroup("did-not-answer", []components.LabelOpts{
 					components.DefaultLabel("Send for again"),
@@ -269,7 +272,7 @@ func OutcomesOptions() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = OutcomesOptionsRadioGroup("", "outcomes-option", []OutcomesOptionsRadio{
+		templ_7745c5c3_Err = OutcomesOptionsRadioGroup("outcomes-option", []OutcomesOptionsRadio{
 			{"Refer to Diagnostics", components.TextInput("Enter Diagnostic Test(s)")},
 			{"Refer to another consultant / specialty", components.TextInput("Type in which consultant or specialty")},
 			{"Refer to Therapies", components.TextInput("Type who to refer to")},
@@ -281,7 +284,7 @@ func OutcomesOptions() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = OutcomesOptionsRadioGroup("", "outcomes-option", []OutcomesOptionsRadio{
+		templ_7745c5c3_Err = OutcomesOptionsRadioGroup("outcomes-option", []OutcomesOptionsRadio{
 			{"Add to Daycare List", nil},
 			{"Add to Inpatient List", nil},
 			{"Awaiting Clinical Decision (i.e. MDT, test results)", nil},
@@ -294,7 +297,7 @@ func OutcomesOptions() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = OutcomesOptionsRadioGroup("", "outcomes-option", []OutcomesOptionsRadio{
+		templ_7745c5c3_Err = OutcomesOptionsRadioGroup("outcomes-option", []OutcomesOptionsRadio{
 			{"Admit from Clinic / Consultation", nil}}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -323,7 +326,7 @@ func OutcomesFollowUp() templ.Component {
 			templ_7745c5c3_Var8 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col px-4 gap-2\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col px-4 gap-3\"><div _=\"on change toggle between .hidden and .flex on #followup-form\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -331,15 +334,134 @@ func OutcomesFollowUp() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"border border-black p-4\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex-col border border-black p-4 hidden gap-6\" id=\"followup-form\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.RadioGroupWithTextbox("same-clinician", []components.LabelOpts{components.DefaultLabel("Yes"), components.DefaultLabel("No")}, map[string]string{"No": "Specify"}).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.LabelWrapper(
+			components.RequiredLabel("Pathway"),
+			components.RadioGroup("pathway", []components.LabelOpts{components.BoldLabel("Definitive Treatment given today (Clock stop)"), components.BoldLabel("Ongoing review")}),
+		).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"grid grid-cols-2\"><div class=\"flex flex-col gap-3\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = components.LabelWrapper(
+			components.RequiredLabel("To be seen under the same senior responsible clinician?"),
+			components.RadioGroup("same-clinician", []components.LabelOpts{components.DefaultLabel("Yes"), components.DefaultLabel("No")}),
+		).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = components.Label(components.RequiredLabel("See in?")).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex gap-3\"><input type=\"number\" class=\"border-gray-300 border rounded shadow-inner px-2 py-0.5 w-16\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = components.Dropdown([]string{"Weeks", "Months", "Years"}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = components.LabelWrapper(
+			components.LabelOpts{Label: "Appointment Directive / Priority", Required: true, Tooltip: "Appointment Directive / Priority"},
+			components.TextInput("Specify"),
+		).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex flex-col gap-3\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = components.LabelWrapper(
+			components.DefaultLabel("See in this clinic?"),
+			components.RadioGroup("same-clinic", []components.LabelOpts{
+				components.DefaultLabel("Yes"),
+				components.DefaultLabel("No"),
+			}),
+		).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = components.LabelWrapper(
+			components.DefaultLabel("In which hospital?"),
+			components.TextInput("Specify"),
+		).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = components.LabelWrapper(
+			components.TooltipLabel("Clinical Condition", "Clinical Condition"),
+			components.TextInput("Enter if applicable"),
+		).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><hr class=\"border-black -mx-4 my-px\"><div class=\"flex flex-col gap-3\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = components.LabelWrapper(
+			components.RequiredLabel("Patient's preferred consultation method"),
+			components.RadioGroup("preferred-consultation-method", []components.LabelOpts{
+				components.DefaultLabel("Face to face"),
+				components.DefaultLabel("Telephone"),
+				components.DefaultLabel("Video"),
+				components.DefaultLabel("Clinical review (patient not required to attend)"),
+			}),
+		).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = components.LabelWrapper(
+			components.DefaultLabel("Does the patient require any tests before their FUP appointment?"),
+			components.RadioGroup("preferred-consultation-method", []components.LabelOpts{
+				components.DefaultLabel("Yes"),
+				components.DefaultLabel("No"),
+			}),
+		).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex gap-4\"><div class=\"w-1/3\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = components.LabelWrapper(components.RequiredLabel("Test(s) required"), components.TextInput("")).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"w-1/3\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = components.LabelWrapper(components.RequiredLabel("Undertaken by"), components.TextInput("")).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"w-1/3\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = components.LabelWrapper(components.RequiredLabel("Test(s) required by"), components.Dropdown(clinicians)).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><button type=\"button\"><img src=\"/assets/img/plus.svg\" class=\"w-6 mt-4\"></button></div></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -355,7 +477,7 @@ type OutcomesOptionsRadio struct {
 	followUp templ.Component
 }
 
-func OutcomesOptionsRadioGroup(label, groupName string, options []OutcomesOptionsRadio) templ.Component {
+func OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -414,7 +536,7 @@ func OutcomesOptionsRadioGroup(label, groupName string, options []OutcomesOption
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(option.label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 167, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 244, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {

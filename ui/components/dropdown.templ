@@ -7,26 +7,3 @@ templ Dropdown(options []string) {
 		}
 	</select>
 }
-
-templ LabelledDropdown(label LabelOpts, options []string) {
-	<label
-		class={ "flex","flex-col", templ.KV("font-bold",label.Bold) }
-	>
-		if label.Required {
-			{ label.Label }<span class="text-red-500">*</span>
-		} else {
-			{ label.Label }
-		}
-		if label.Tooltip != "" {
-			<span class="relative group">
-				<span id="tooltip" class="invisible group-hover:visible absolute rounded shadow-lg px-2 py-1 bg-gray-100 text-black font-normal ml-1 w-52 transform -translate-y-full">Tooltip</span>
-				<img src="/assets/img/tooltip.svg" class="w-4 inline-block"/>
-			</span>
-		}
-		<select class="border-gray-300 border rounded p-1">
-			for _, option := range options {
-				<option>{ option }</option>
-			}
-		</select>
-	</label>
-}

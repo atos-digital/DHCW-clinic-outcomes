@@ -6,17 +6,8 @@ import (
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/middleware"
 )
 
-type LabelOpts struct {
-	Label    string
-	Required bool
-	Tooltip  string
-	Bold     bool
-}
-
-func DefaultLabel(label string) LabelOpts {
-	return LabelOpts{
-		Label: label,
-	}
+func CreateFollowupName(name string) string {
+	return name + "-followup"
 }
 
 func IsChecked(ctx context.Context, groupName, label string) bool {
