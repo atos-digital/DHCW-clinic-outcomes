@@ -581,7 +581,7 @@ func OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"flex flex-col\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -625,12 +625,25 @@ func OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label><div class=\"\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if option.followUp != nil && components.IsChecked(ctx, groupName, option.label) {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"ml-4 my-1\">")
+			if option.followUp != nil {
+				var templ_7745c5c3_Var13 = []any{"ml-4", "my-1", templ.KV("hidden", !components.IsChecked(ctx, groupName, option.label))}
+				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var13...)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ.CSSClasses(templ_7745c5c3_Var13).String()))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -642,10 +655,6 @@ func OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
 			}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</fieldset>")
@@ -667,9 +676,9 @@ func FollowupTest() templ.Component {
 			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var13 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var13 == nil {
-			templ_7745c5c3_Var13 = templ.NopComponent
+		templ_7745c5c3_Var14 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var14 == nil {
+			templ_7745c5c3_Var14 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"grid grid-cols-3 gap-4 w-full mb-2\">")

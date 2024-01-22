@@ -254,7 +254,7 @@ type OutcomesOptionsRadio struct {
 }
 
 templ OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio) {
-	<fieldset name={ groupName }>
+	<fieldset name={ groupName } class="flex flex-col">
 		for _, option := range options {
 			<label>
 				<input
@@ -265,13 +265,13 @@ templ OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio
 				/>
 				{ option.label }
 			</label>
-			<div class="">
-				if option.followUp != nil && components.IsChecked(ctx, groupName, option.label) {
-					<div class="ml-4 my-1">
-						@option.followUp
-					</div>
-				}
-			</div>
+			if option.followUp != nil {
+				<div
+					class={ "ml-4","my-1", templ.KV("hidden",!components.IsChecked(ctx, groupName, option.label)) }
+				>
+					@option.followUp
+				</div>
+			}
 		}
 	</fieldset>
 }
