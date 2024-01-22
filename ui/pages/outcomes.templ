@@ -109,70 +109,97 @@ templ OutcomesOptionsCancer() {
 	</div>
 }
 
+templ OutcomesOptionsPatientRadioGroup(name, option, subname string, suboptions []string) {
+	<label>
+		<input type="radio" name={ name } value={ option } checked?={ components.IsChecked(ctx,name,option) }/>
+		{ option }
+	</label>
+	<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !components.IsChecked(ctx,name,option)) }>
+		for _, v := range suboptions {
+			<label>
+				<input type="radio" name={ subname } value={ v } checked?={ components.IsChecked(ctx,subname,v) }/>
+				{ v }
+			</label>
+		}
+	</div>
+}
+
+templ OutcomesOptionsPatientText(name, option, placeholder string) {
+	<label>
+		<input type="radio" name={ name } value={ option } checked?={ components.IsChecked(ctx,name,option) }/>
+		{ option }
+	</label>
+	<input class={ "dhcw-border shadow-inner px-2 py-0.5 w-2/3", templ.KV("hidden", !components.IsChecked(ctx,name,option)) } placeholder={ placeholder }/>
+}
+
+templ OutcomesOptionsPatientCheckbox(name, option, subname string, suboptions []string) {
+	<label>
+		<input type="radio" name={ name } value={ option } checked?={ components.IsChecked(ctx,name,option) }/>
+		{ option }
+	</label>
+	<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !components.IsChecked(ctx,name,option)) }>
+		for _, v := range suboptions {
+			<label>
+				<input type="checkbox" name={ subname } value={ v } checked?={ components.IsChecked(ctx,subname,v) }/>
+				{ v }
+			</label>
+		}
+	</div>
+}
+
+templ OutcomesOptionsPatient(name string) {
+	<div class="flex flex-col gap-6 px-4">
+		<div class="grid grid-cols-2">
+			<div class="flex flex-col">
+				for _, v := range []string {"Patient Discharged", "See on Symptom", "Patient Initiated Follow Up"} {
+					<label>
+						<input type="radio" name={ name } value={ v } checked?={ components.IsChecked(ctx,name,v) }/>
+						{ v }
+					</label>
+					if v == "See on Symptom" {
+						<select class={ "dhcw-border p-1", templ.KV("hidden",!components.IsChecked(ctx,name,"See on Symptom") ) }>
+							for _, option := range []string{"6 months", "12 months"} {
+								<option>{ option }</option>
+							}
+						</select>
+					}
+				}
+			</div>
+			<div class="flex flex-col">
+				@OutcomesOptionsPatientRadioGroup(name, "Did Not Answer", "did-not-answer", []string{ "Send for again", "Discharge" })
+				@OutcomesOptionsPatientRadioGroup(name, "Did Not Attend", "did-not-attend", []string{ "Send for again", "Discharge" })
+				@OutcomesOptionsPatientRadioGroup(name, "Could Not Attend", "could-not-attend", []string{ "Send for again", "Discharge" })
+			</div>
+		</div>
+		<div class="flex flex-col">
+			@OutcomesOptionsPatientText(name,"Refer to Diagnostics","Enter Diagnostic Test(s)")
+			@OutcomesOptionsPatientText(name,"Refer to another consultant / specialty","Type in which consultant or specialty")
+			@OutcomesOptionsPatientText(name,"Refer to Therapies","Type who to refer to")
+			@OutcomesOptionsPatientCheckbox(name,"Refer to Treatment","refer-to-treatment",[]string{"SACT","Radiotherapy","Other"})
+		</div>
+		<div class="flex flex-col">
+			for _, v := range []string{"Add to Daycare List", "Add to Inpatient List", "Awaiting Clinical Decision (i.e. MDT, test results)"} {
+				<label>
+					<input type="radio" name={ name } value={ v } checked?={ components.IsChecked(ctx,name,v) }/>
+					{ v }
+				</label>
+			}
+			@OutcomesOptionsPatientText(name,"Discuss at MDT","Which MDT (if known)?")
+			@OutcomesOptionsPatientText(name,"Listed for Outpatient Procedure","Type in which procedure")
+		</div>
+		<label>
+			<input type="radio" name={ name } value="Admit from Clinic / Consultation" checked?={ components.IsChecked(ctx,name,"Admit from Clinic / Consultation") }/>
+			Admit from Clinic / Consultation
+		</label>
+	</div>
+}
+
 templ OutcomesOptions(data map[string]string) {
 	<div class="flex flex-col gap-3">
 		@components.SectionTitle("Outcomes")
 		@OutcomesOptionsCancer()
 		<hr/>
-		<div class="flex flex-col gap-6 px-4">
-			<div class="grid grid-cols-2">
-				<div class="flex flex-col">
-					@OutcomesOptionsRadioGroup("outcomes_option", []OutcomesOptionsRadio{
-						{"Patient Discharged",nil},
-						{"See on Symptom",components.Dropdown([]string{"6 months", "12 months"})},
-						{"Patient Initiated Follow Up",nil}},
-					)
-				</div>
-				<div class="flex flex-col">
-					@OutcomesOptionsRadioGroup("outcomes_option", []OutcomesOptionsRadio{
-						{
-							"Did Not Answer",components.RadioGroup("did-not-answer", []components.LabelOpts{
-								components.DefaultLabel("Send for again"),
-								components.DefaultLabel("Discharge"),
-							}),
-						},
-						{
-							"Did Not Attend",components.RadioGroup("did-not-attend", []components.LabelOpts{
-								components.DefaultLabel("Send for again"), 
-								components.DefaultLabel("Discharge"),
-							}),
-						},
-						{
-							"Could Not Attend",components.RadioGroup("could-not-attend", []components.LabelOpts{
-								components.DefaultLabel("Send for again"),
-								components.DefaultLabel("Discharge"),
-							}),
-						},
-					},
-				)
-				</div>
-			</div>
-			<div class="flex flex-col">
-				@OutcomesOptionsRadioGroup("outcomes_option", []OutcomesOptionsRadio{
-						{"Refer to Diagnostics",components.TextInput("Enter Diagnostic Test(s)")},
-						{"Refer to another consultant / specialty",components.TextInput("Type in which consultant or specialty")},
-						{"Refer to Therapies",components.TextInput("Type who to refer to")},
-						{"Refer to Treatment",components.CheckboxGroup("refer-to-treatment",[]components.LabelOpts{components.DefaultLabel("SACT"),components.DefaultLabel("Radiotherapy"),components.DefaultLabel("Other")})},
-					},
-				)
-			</div>
-			<div class="flex flex-col">
-				@OutcomesOptionsRadioGroup("outcomes_option", []OutcomesOptionsRadio{
-						{"Add to Daycare List",nil},
-						{"Add to Inpatient List",nil},
-						{"Awaiting Clinical Decision (i.e. MDT, test results)",nil},
-						{"Discuss at MDT",components.TextInput("Which MDT (if known)?")},
-						{"Listed for Outpatient Procedure",components.TextInput("Type in which procedure")},
-					},
-				)
-			</div>
-			<div class="flex flex-col">
-				@OutcomesOptionsRadioGroup("outcomes_option", []OutcomesOptionsRadio{
-						{"Admit from Clinic / Consultation",nil},
-					},
-				)
-			</div>
-		</div>
+		@OutcomesOptionsPatient("outcomes_option")
 	</div>
 }
 
@@ -258,34 +285,6 @@ templ OutcomesFollowUp() {
 			</div>
 		</div>
 	</div>
-}
-
-type OutcomesOptionsRadio struct {
-	label    string
-	followUp templ.Component
-}
-
-templ OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio) {
-	<fieldset name={ groupName } class="flex flex-col">
-		for _, option := range options {
-			<label>
-				<input
-					type="radio"
-					name={ groupName }
-					value={ option.label }
-					checked?={ components.IsChecked(ctx, groupName, option.label) }
-				/>
-				{ option.label }
-			</label>
-			if option.followUp != nil {
-				<div
-					class={ "ml-4 my-1", templ.KV("hidden",!components.IsChecked(ctx, groupName, option.label)) }
-				>
-					@option.followUp
-				</div>
-			}
-		}
-	</fieldset>
 }
 
 templ FollowupTest() {
