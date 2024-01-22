@@ -36,7 +36,7 @@ func TooltipLabel(label, tooltip string) LabelOpts {
 
 templ LabelWrapper(label LabelOpts, formControl templ.Component) {
 	<label
-		class={ "flex","flex-col", templ.KV("font-bold",label.Bold) }
+		class={ "flex flex-col", templ.KV("font-bold",label.Bold) }
 	>
 		<div>
 			if label.Required {
@@ -57,7 +57,7 @@ templ LabelWrapper(label LabelOpts, formControl templ.Component) {
 
 templ Label(label LabelOpts) {
 	<label
-		class={ "flex","flex-col", templ.KV("font-bold",label.Bold) }
+		class={ "flex flex-col", templ.KV("font-bold",label.Bold) }
 	>
 		<div>
 			if label.Required {

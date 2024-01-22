@@ -268,7 +268,7 @@ templ OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio
 			</label>
 			if option.followUp != nil {
 				<div
-					class={ "ml-4","my-1", templ.KV("hidden",!components.IsChecked(ctx, groupName, option.label)) }
+					class={ "ml-4 my-1", templ.KV("hidden",!components.IsChecked(ctx, groupName, option.label)) }
 				>
 					@option.followUp
 				</div>

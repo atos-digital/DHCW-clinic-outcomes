@@ -652,7 +652,7 @@ func OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio)
 				return templ_7745c5c3_Err
 			}
 			if option.followUp != nil {
-				var templ_7745c5c3_Var15 = []any{"ml-4", "my-1", templ.KV("hidden", !components.IsChecked(ctx, groupName, option.label))}
+				var templ_7745c5c3_Var15 = []any{"ml-4 my-1", templ.KV("hidden", !components.IsChecked(ctx, groupName, option.label))}
 				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var15...)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
