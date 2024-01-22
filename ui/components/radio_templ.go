@@ -159,7 +159,7 @@ func RadioGroupWithTextbox(groupName string, options []LabelOpts, withTextbox ma
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<label _=\"on click \n					hide &lt;input[type=&#39;text&#39;]/&gt; in my parentElement\n					show &lt;input[type=&#39;text&#39;]/&gt; in me\" class=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<label class=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -201,7 +201,7 @@ func RadioGroupWithTextbox(groupName string, options []LabelOpts, withTextbox ma
 				var templ_7745c5c3_Var9 string
 				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(option.Label)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/radio.templ`, Line: 46, Col: 19}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/radio.templ`, Line: 41, Col: 19}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 				if templ_7745c5c3_Err != nil {
@@ -224,7 +224,7 @@ func RadioGroupWithTextbox(groupName string, options []LabelOpts, withTextbox ma
 				var templ_7745c5c3_Var11 string
 				templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(option.Label)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/radio.templ`, Line: 48, Col: 19}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/radio.templ`, Line: 43, Col: 19}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 				if templ_7745c5c3_Err != nil {
@@ -247,7 +247,20 @@ func RadioGroupWithTextbox(groupName string, options []LabelOpts, withTextbox ma
 				}
 			}
 			if withTextbox[option.Label] != "" {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col\"><input style=\"display:none\" type=\"text\" class=\"dhcw-border shadow-inner px-2 py-0.5 w-1/3\" placeholder=\"")
+				var templ_7745c5c3_Var13 = []any{"flex", "flex-col", templ.KV("hidden", !IsChecked(ctx, groupName, option.Label))}
+				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var13...)
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ.CSSClasses(templ_7745c5c3_Var13).String()))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><input type=\"text\" class=\"dhcw-border shadow-inner px-2 py-0.5 w-1/3\" placeholder=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
