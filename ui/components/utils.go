@@ -2,6 +2,7 @@ package components
 
 import (
 	"context"
+	"encoding/json"
 
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/middleware"
 )
@@ -10,16 +11,13 @@ func CreateFollowupName(name string) string {
 	return name + "-followup"
 }
 
-func IsChecked(ctx context.Context, groupName, label string) bool {
+func IsChecked(ctx context.Context, key, value string) bool {
 	session := middleware.SessionFromContext(ctx)
-	checked, ok := session.Values[groupName].([]string)
+	var data map[string]string
+	b, ok := session.Values["outcomes-form-data"]
 	if !ok {
-		return session.Values[groupName] == label
+		return false
 	}
-	for _, v := range checked {
-		if v == label {
-			return true
-		}
-	}
-	return false
+	json.Unmarshal([]byte(b.(string)), &data)
+	return data[key] == value
 }

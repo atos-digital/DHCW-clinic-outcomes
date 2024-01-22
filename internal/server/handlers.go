@@ -2,12 +2,15 @@ package server
 
 import (
 	"encoding/json"
+	"fmt"
+	"io"
+	"log"
 	"net/http"
-	"os"
 	"strings"
 
 	"github.com/a-h/templ"
 
+	"github.com/atos-digital/DHCW-clinic-outcomes/ui"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/pages"
 )
 
@@ -27,14 +30,27 @@ func (s *Server) handlePageIndex() http.Handler {
 	return templ.Handler(pages.DefaultHome, templ.WithContentType("text/html"))
 }
 
-func (s *Server) handlePageOutcomes() http.Handler {
-	return templ.Handler(pages.DefaultOutcomes, templ.WithContentType("text/html"))
+func (s *Server) handlePageOutcomes() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		session, err := s.sess.Get(r, s.conf.CookieName)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		b := session.Values["outcomes-form-data"]
+		fmt.Println(session.Values["outcomes-form-data"])
+		w.Header().Set("Content-Type", "text/html")
+		var data map[string]string
+		if b != nil {
+			json.Unmarshal([]byte(b.(string)), &data)
+		}
+		ui.Index(pages.Outcomes(data)).Render(r.Context(), w)
+	}
 }
 
 func (s *Server) handleOutcomesForm() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var outcomesForm pages.OutcomesData
-		err := json.NewDecoder(r.Body).Decode(&outcomesForm)
+		b, err := io.ReadAll(r.Body)
 		if err != nil {
 			http.Error(w, "Error parsing form data", http.StatusInternalServerError)
 			return
@@ -44,10 +60,16 @@ func (s *Server) handleOutcomesForm() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		session.Values["outcomes-form-data"] = outcomesForm
-		session.Save(r, w)
-		b, _ := json.MarshalIndent(outcomesForm, "", "  ")
-		os.Stdout.Write(b)
+		fmt.Println(session.Values["outcomes-form-data"])
+		session.Values["outcomes-form-data"] = string(b)
+		err = session.Save(r, w)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		var outcomesForm map[string]string
+		json.Unmarshal(b, &outcomesForm)
 		pages.Outcomes(outcomesForm).Render(r.Context(), w)
 	}
 }
@@ -70,7 +92,7 @@ func (s *Server) handleOutcomesOptionsRadio() http.HandlerFunc {
 		session.Save(r, w)
 
 		w.Header().Set("Content-Type", "text/html")
-		pages.OutcomesOptions().Render(r.Context(), w)
+		pages.OutcomesOptions(nil).Render(r.Context(), w)
 	}
 }
 
