@@ -684,29 +684,13 @@ func FollowupTest() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.LabelWrapper(components.RequiredLabel("Undertaken by"), components.TextInput("")).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"w-1/3\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = components.LabelWrapper(components.RequiredLabel("Undertaken by"), components.TextInput("")).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"w-1/3\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
 		templ_7745c5c3_Err = components.LabelWrapper(components.RequiredLabel("Test(s) required by"),
 			components.Dropdown([]string{"Day Prior to the Clinic", "Day of Clinic", "Other (Please Specify)"}),
 		).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><button hx-get=\"/hx/add-followup-test\" hx-swap=\"outerHTML\"><img src=\"/assets/img/plus.svg\" class=\"w-6 mt-5\"></button>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><button type=\"button\" hx-get=\"/hx/add-followup-test\" hx-swap=\"outerHTML\"><img src=\"/assets/img/plus.svg\" class=\"w-6 mt-5\"></button>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
