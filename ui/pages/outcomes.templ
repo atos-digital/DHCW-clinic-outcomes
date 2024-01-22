@@ -89,17 +89,18 @@ templ OutcomesOptions(data map[string]string) {
 	<div class="flex flex-col gap-3">
 		@components.SectionTitle("Outcomes")
 		<div class="flex flex-col px-4">
-			@components.CheckboxGroup("cancer-pathway",[]components.LabelOpts{components.DefaultLabel("Cancer Pathway")})
-			if data["cancer-pathway"] != "" {
-				<div class="flex flex-col ml-4 my-1">
-					@components.RadioGroupWithTextbox("cancer-pathway", []components.LabelOpts{
+			<label>
+				<input type="checkbox" name="cancer-pathway" checked?={ components.IsChecked(ctx,"cancer-pathway","on") }/>
+				Cancer Pathway
+			</label>
+			<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !components.IsChecked(ctx,"cancer-pathway","on")) }>
+				@components.RadioGroupWithTextbox("cancer-pathway-options", []components.LabelOpts{
 					components.DefaultLabel("First Suspicion of Cancer"), 
 					components.DefaultLabel("Patient to remain on USC pathway"), 
 					components.DefaultLabel("Other")}, 
 					map[string]string{"Other": "Specify"},
 				)
-				</div>
-			}
+			</div>
 		</div>
 		<hr/>
 		<div class="flex flex-col gap-6 px-4">
