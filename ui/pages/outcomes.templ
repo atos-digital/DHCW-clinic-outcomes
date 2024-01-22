@@ -93,16 +93,14 @@ templ OutcomesOptions(data map[string]string) {
 				<input type="checkbox" name="cancer-pathway" checked?={ components.IsChecked(ctx,"cancer-pathway","on") }/>
 				Cancer Pathway
 			</label>
-			if components.IsChecked(ctx,"cancer-pathway","on") {
-				<div class="flex flex-col ml-4 my-1">
-					@components.RadioGroupWithTextbox("cancer-pathway-options", []components.LabelOpts{
+			<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !components.IsChecked(ctx,"cancer-pathway","on")) }>
+				@components.RadioGroupWithTextbox("cancer-pathway-options", []components.LabelOpts{
 					components.DefaultLabel("First Suspicion of Cancer"), 
 					components.DefaultLabel("Patient to remain on USC pathway"), 
 					components.DefaultLabel("Other")}, 
 					map[string]string{"Other": "Specify"},
 				)
-				</div>
-			}
+			</div>
 		</div>
 		<hr/>
 		<div class="flex flex-col gap-6 px-4">
@@ -257,7 +255,7 @@ type OutcomesOptionsRadio struct {
 }
 
 templ OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio) {
-	<fieldset name={ groupName }>
+	<fieldset name={ groupName } class="flex flex-col">
 		for _, option := range options {
 			<label>
 				<input
@@ -268,13 +266,13 @@ templ OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio
 				/>
 				{ option.label }
 			</label>
-			<div class="">
-				if option.followUp != nil && components.IsChecked(ctx, groupName, option.label) {
-					<div class="ml-4 my-1">
-						@option.followUp
-					</div>
-				}
-			</div>
+			if option.followUp != nil {
+				<div
+					class={ "ml-4 my-1", templ.KV("hidden",!components.IsChecked(ctx, groupName, option.label)) }
+				>
+					@option.followUp
+				</div>
+			}
 		}
 	</fieldset>
 }
