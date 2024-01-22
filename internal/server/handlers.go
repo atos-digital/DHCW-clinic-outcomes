@@ -2,8 +2,10 @@ package server
 
 import (
 	"encoding/json"
+	"fmt"
+	"io"
+	"log"
 	"net/http"
-	"os"
 	"strings"
 
 	"github.com/a-h/templ"
@@ -35,19 +37,20 @@ func (s *Server) handlePageOutcomes() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		b := session.Values["outcomes-form-data"]
+		fmt.Println(session.Values["outcomes-form-data"])
 		w.Header().Set("Content-Type", "text/html")
-		if session.Values["outcomes-form-data"] != nil {
-			ui.Index(pages.Outcomes(session.Values["outcomes-form-data"].(map[string]string))).Render(r.Context(), w)
-		} else {
-			ui.Index(pages.Outcomes(map[string]string{})).Render(r.Context(), w)
+		var data map[string]string
+		if b != nil {
+			json.Unmarshal([]byte(b.(string)), &data)
 		}
+		ui.Index(pages.Outcomes(data)).Render(r.Context(), w)
 	}
 }
 
 func (s *Server) handleOutcomesForm() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var outcomesForm map[string]string
-		err := json.NewDecoder(r.Body).Decode(&outcomesForm)
+		b, err := io.ReadAll(r.Body)
 		if err != nil {
 			http.Error(w, "Error parsing form data", http.StatusInternalServerError)
 			return
@@ -57,10 +60,16 @@ func (s *Server) handleOutcomesForm() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		session.Values["outcomes-form-data"] = outcomesForm
-		session.Save(r, w)
-		b, _ := json.MarshalIndent(outcomesForm, "", "  ")
-		os.Stdout.Write(b)
+		fmt.Println(session.Values["outcomes-form-data"])
+		session.Values["outcomes-form-data"] = string(b)
+		err = session.Save(r, w)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		var outcomesForm map[string]string
+		json.Unmarshal(b, &outcomesForm)
 		pages.Outcomes(outcomesForm).Render(r.Context(), w)
 	}
 }

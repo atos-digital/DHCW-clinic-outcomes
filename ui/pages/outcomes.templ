@@ -267,9 +267,7 @@ templ OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio
 					type="radio"
 					name={ groupName }
 					value={ option.label }
-					if components.IsChecked(ctx, groupName, option.label) {
-						checked
-					}
+					checked?={ components.IsChecked(ctx, groupName, option.label) }
 				/>
 				{ option.label }
 			</label>
