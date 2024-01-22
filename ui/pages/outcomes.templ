@@ -89,10 +89,13 @@ templ OutcomesOptions(data map[string]string) {
 	<div class="flex flex-col gap-3">
 		@components.SectionTitle("Outcomes")
 		<div class="flex flex-col px-4">
-			@components.CheckboxGroup("cancer-pathway",[]components.LabelOpts{components.DefaultLabel("Cancer Pathway")})
-			if data["cancer-pathway"] != "" {
+			<label>
+				<input type="checkbox" name="cancer-pathway" checked?={ components.IsChecked(ctx,"cancer-pathway","on") }/>
+				Cancer Pathway
+			</label>
+			if components.IsChecked(ctx,"cancer-pathway","on") {
 				<div class="flex flex-col ml-4 my-1">
-					@components.RadioGroupWithTextbox("cancer-pathway", []components.LabelOpts{
+					@components.RadioGroupWithTextbox("cancer-pathway-options", []components.LabelOpts{
 					components.DefaultLabel("First Suspicion of Cancer"), 
 					components.DefaultLabel("Patient to remain on USC pathway"), 
 					components.DefaultLabel("Other")}, 
