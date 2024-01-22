@@ -27,6 +27,7 @@ func (s *Server) Routes() error {
 		r.Method(http.MethodGet, "/outcomes-options-radio", s.handleOutcomesOptionsRadio())
 		// r.Method(http.MethodGet, "/radio", s.handleRadio())
 		r.Method(http.MethodGet, "/add-followup-test", s.handleAddFollowupTest())
+		r.Method(http.MethodPost, "/outcomes-form", s.handleOutcomesForm())
 	})
 
 	return nil
