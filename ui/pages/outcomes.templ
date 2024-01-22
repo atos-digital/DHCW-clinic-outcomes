@@ -86,11 +86,6 @@ templ OutcomesEventDetails(data map[string]string) {
 }
 
 templ OutcomesOptions(data map[string]string) {
-	// id="outcomes_options"
-	// hx-get="/hx/outcomes-options-radio"
-	// hx-trigger="change from:input[name='outcomes_option']"
-	// hx-include="#outcomes_options"
-	// hx-swap="outerHTML"
 	<div class="flex flex-col gap-3">
 		@components.SectionTitle("Outcomes")
 		<div class="flex flex-col px-4">
