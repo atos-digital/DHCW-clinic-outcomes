@@ -5,11 +5,7 @@ templ RadioGroup(groupName string, options []LabelOpts) {
 		class="flex flex-col"
 	>
 		for _, option := range options {
-			<label
-				if option.Bold {
-					class="font-bold"
-				}
-			>
+			<label class={ templ.KV("font-bold", option.Bold) }>
 				<input
 					type="radio"
 					name={ groupName }
@@ -33,25 +29,19 @@ templ RadioGroup(groupName string, options []LabelOpts) {
 }
 
 templ RadioGroupWithTextbox(groupName string, options []LabelOpts, withTextbox map[string]string) {
-	<div
-		class="flex flex-col"
-	>
+	<div class="flex flex-col">
 		for _, option := range options {
 			<label
 				_="on click 
 					hide <input[type='text']/> in my parentElement
 					show <input[type='text']/> in me"
-				if option.Bold {
-					class="font-bold"
-				}
+				class={ templ.KV("font-bold", option.Bold) }
 			>
 				<input
 					type="radio"
 					name={ groupName }
 					value={ option.Label }
-					if IsChecked(ctx, groupName, option.Label) {
-						checked
-					}
+					checked?={ IsChecked(ctx, groupName, option.Label) }
 				/>
 				if option.Required {
 					{ option.Label }<span class="text-red-500">*</span>

@@ -3,18 +3,12 @@ package components
 templ CheckboxGroup(groupName string, options []LabelOpts) {
 	<div class="flex flex-col">
 		for _, option := range options {
-			<label
-				if option.Bold {
-					class="font-bold"
-				}
-			>
+			<label class={ templ.KV("font-bold", option.Bold) }>
 				<input
 					type="checkbox"
 					name={ groupName }
 					value={ option.Label }
-					if IsChecked(ctx, groupName, option.Label) {
-						checked
-					}
+					checked?={ IsChecked(ctx, groupName, option.Label) }
 				/>
 				if option.Required {
 					{ option.Label }<span class="text-red-500">*</span>
