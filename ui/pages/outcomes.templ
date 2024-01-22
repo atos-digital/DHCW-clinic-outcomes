@@ -85,23 +85,34 @@ templ OutcomesEventDetails(data map[string]string) {
 	</div>
 }
 
+templ OutcomesOptionsCancer() {
+	<div class="flex flex-col px-4">
+		<label>
+			<input type="checkbox" name="cancer-pathway" checked?={ components.IsChecked(ctx,"cancer-pathway","on") }/>
+			Cancer Pathway
+		</label>
+		<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !components.IsChecked(ctx,"cancer-pathway","on")) }>
+			for _, v := range []string {"First Suspicion of Cancer", "Patient to remain on USC pathway", "Other"} {
+				<label>
+					<input type="radio" name="cancer-pathway-options" value={ v } checked?={ components.IsChecked(ctx,"cancer-pathway-options",v) }/>
+					{ v }
+				</label>
+			}
+			<div class="flex flex-col">
+				<input
+					type="text"
+					class={ "dhcw-border shadow-inner px-2 py-0.5 w-1/3", templ.KV("hidden", !components.IsChecked(ctx,"cancer-pathway-options","Other")) }
+					placeholder="Specify"
+				/>
+			</div>
+		</div>
+	</div>
+}
+
 templ OutcomesOptions(data map[string]string) {
 	<div class="flex flex-col gap-3">
 		@components.SectionTitle("Outcomes")
-		<div class="flex flex-col px-4">
-			<label>
-				<input type="checkbox" name="cancer-pathway" checked?={ components.IsChecked(ctx,"cancer-pathway","on") }/>
-				Cancer Pathway
-			</label>
-			<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !components.IsChecked(ctx,"cancer-pathway","on")) }>
-				@components.RadioGroupWithTextbox("cancer-pathway-options", []components.LabelOpts{
-					components.DefaultLabel("First Suspicion of Cancer"), 
-					components.DefaultLabel("Patient to remain on USC pathway"), 
-					components.DefaultLabel("Other")}, 
-					map[string]string{"Other": "Specify"},
-				)
-			</div>
-		</div>
+		@OutcomesOptionsCancer()
 		<hr/>
 		<div class="flex flex-col gap-6 px-4">
 			<div class="grid grid-cols-2">
