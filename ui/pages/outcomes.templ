@@ -262,7 +262,6 @@ templ OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio
 	<fieldset name={ groupName }>
 		for _, option := range options {
 			<label>
-				// _={ "on input toggle .hidden on next <div/>" }
 				<input
 					type="radio"
 					name={ groupName }
@@ -272,8 +271,7 @@ templ OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio
 				{ option.label }
 			</label>
 			<div class="">
-				if option.followUp != nil {
-					//   && components.IsChecked(ctx, groupName, option.label) {
+				if option.followUp != nil && components.IsChecked(ctx, groupName, option.label) {
 					<div class="ml-4 my-1">
 						@option.followUp
 					</div>
