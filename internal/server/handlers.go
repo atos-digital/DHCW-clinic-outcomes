@@ -8,6 +8,7 @@ import (
 
 	"github.com/a-h/templ"
 
+	"github.com/atos-digital/DHCW-clinic-outcomes/ui"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/pages"
 )
 
@@ -27,8 +28,20 @@ func (s *Server) handlePageIndex() http.Handler {
 	return templ.Handler(pages.DefaultHome, templ.WithContentType("text/html"))
 }
 
-func (s *Server) handlePageOutcomes() http.Handler {
-	return templ.Handler(pages.DefaultOutcomes, templ.WithContentType("text/html"))
+func (s *Server) handlePageOutcomes() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		session, err := s.sess.Get(r, s.conf.CookieName)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html")
+		if session.Values["outcomes-form-data"] != nil {
+			ui.Index(pages.Outcomes(session.Values["outcomes-form-data"].(map[string]string))).Render(r.Context(), w)
+		} else {
+			ui.Index(pages.Outcomes(map[string]string{})).Render(r.Context(), w)
+		}
+	}
 }
 
 func (s *Server) handleOutcomesForm() http.HandlerFunc {
