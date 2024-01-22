@@ -9,7 +9,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/gorilla/sessions"
 
-	"github.com/atos-digital/10.10.0-template/internal/config"
+	"github.com/atos-digital/DHCW-clinic-outcomes/internal/config"
 )
 
 type Server struct {

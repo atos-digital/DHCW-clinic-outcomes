@@ -4,7 +4,7 @@ import (
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
 
-	m "github.com/atos-digital/10.10.0-template/internal/middleware"
+	m "github.com/atos-digital/DHCW-clinic-outcomes/internal/middleware"
 )
 
 func (s *Server) middleware() {

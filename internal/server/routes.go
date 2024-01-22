@@ -4,6 +4,8 @@ import (
 	"embed"
 	"io/fs"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
 )
 
 //go:embed assets
@@ -20,6 +22,13 @@ func (s *Server) Routes() error {
 
 	s.r.Method(http.MethodGet, "/", s.handlePageIndex())
 	s.r.Method(http.MethodGet, "/outcomes", s.handlePageOutcomes())
+
+	s.r.Route("/hx", func(r chi.Router) {
+		r.Method(http.MethodGet, "/outcomes-options-radio", s.handleOutcomesOptionsRadio())
+		// r.Method(http.MethodGet, "/radio", s.handleRadio())
+		r.Method(http.MethodGet, "/add-followup-test", s.handleAddFollowupTest())
+		r.Method(http.MethodPost, "/outcomes-form", s.handleOutcomesForm())
+	})
 
 	return nil
 }

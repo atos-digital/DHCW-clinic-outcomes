@@ -1,0 +1,9 @@
+package components
+
+templ Dropdown(options []string) {
+	<select class="border-gray-300 border rounded p-1">
+		for _, option := range options {
+			<option>{ option }</option>
+		}
+	</select>
+}

@@ -1,12 +1,302 @@
 package pages
 
-import "github.com/atos-digital/10.10.0-template/ui"
+import (
+	"github.com/atos-digital/DHCW-clinic-outcomes/ui"
+	"github.com/atos-digital/DHCW-clinic-outcomes/ui/components"
+)
 
-var DefaultOutcomes = ui.Index(Outcomes())
+var DefaultOutcomes = ui.Index(Outcomes(OutcomesData{}))
 
-templ Outcomes() {
-	<div>
-		<h1>Outcomes</h1>
-		<p>Outcomes page</p>
+type OutcomesData struct {
+	ConsultationDate string `json:"consultation_date"`
+	ConsultationTime string `json:"consultation_time"`
+	ConsultationType string `json:"consultation_type"`
+	Specialties      string `json:"specialties"`
+	Clinicians       string `json:"clinicians"`
+	OutcomesOption   string `json:"outcomes_option"`
+	FollowUp         string `json:"follow_up"`
+}
+
+templ Outcomes(data OutcomesData) {
+	// hx-post="/hx/outcomes-form"
+	// hx-trigger="change delay:400ms"
+	// hx-swap="none"
+	<form
+		class="flex flex-col gap-4"
+	>
+		@OutcomesEventDetails(data)
+		@OutcomesOptions()
+		@OutcomesFollowUp()
+		<div class="px-4">
+			@components.LabelWrapper(
+				components.DefaultLabel("Other information"), 
+				components.TextArea("Add any other relevant information such as any outpatient procedures taken, or details of any tests required before next appointment."),
+			)
+		</div>
+	</form>
+}
+
+var (
+	consultationTypes = []string{
+		"Telephone Consultation",
+		"Video Consultation",
+		"Face to face",
+		"Office-based Decision",
+	}
+	specialties = []string{
+		"Cardiology",
+		"Dermatology",
+		"Endocrinology",
+		"Gastroenterology",
+		"Geriatrics",
+		"Hematology",
+		"Infectious Disease",
+		"Nephrology",
+		"Neurology",
+		"Oncology",
+		"Pulmonology",
+		"Rheumatology",
+		"Urology",
+	}
+	clinicians = []string{"A", "B", "C"}
+)
+
+templ OutcomesEventDetailsSelect(name, label string, options []string) {
+	<label class="flex flex-col">
+		{ label }
+		<select name={ name } class="border-gray-300 border rounded p-1">
+			for _, option := range options {
+				<option>{ option }</option>
+			}
+		</select>
+	</label>
+}
+
+templ OutcomesEventDetails(data OutcomesData) {
+	@components.SectionTitle("Enter Event Details")
+	<div class="flex justify-between px-4">
+		<label class="flex flex-col">
+			Date
+			<input type="date" name="consultation_date" class="border-gray-300 border rounded"/>
+		</label>
+		<label class="flex flex-col">
+			Time
+			<input type="time" name="consultation_time" class="border-gray-300 border rounded" value={ data.ConsultationTime }/>
+		</label>
+		@OutcomesEventDetailsSelect("consultation_type", "Consultation Type", consultationTypes)
+		@OutcomesEventDetailsSelect("specialties", "Specialty", specialties)
+		@OutcomesEventDetailsSelect("clinicians", "Senior Responsible Clinician", clinicians)
 	</div>
+}
+
+templ OutcomesOptions() {
+	<div
+		id="outcomes_options"
+		hx-get="/hx/outcomes-options-radio"
+		hx-trigger="change from:input[name='outcomes_option']"
+		hx-include="#outcomes_options"
+		hx-swap="outerHTML"
+		class="flex flex-col gap-3"
+	>
+		@components.SectionTitle("Outcomes")
+		<div class="flex flex-col px-4">
+			@components.CheckboxGroup("cancer-pathway",[]components.LabelOpts{components.DefaultLabel("Cancer Pathway")})
+			<div class="flex flex-col ml-4 my-1">
+				@components.RadioGroupWithTextbox("cancer-pathway", []components.LabelOpts{components.DefaultLabel("First Suspicion of Cancer"), components.DefaultLabel("Patient to remain on USC pathway"), components.DefaultLabel("Other")}, map[string]string{"Other": "Specify"})
+			</div>
+		</div>
+		<hr/>
+		<div class="flex flex-col gap-6 px-4">
+			<div class="grid grid-cols-2">
+				<div class="flex flex-col">
+					@OutcomesOptionsRadioGroup("outcomes_option", []OutcomesOptionsRadio{
+				{"Patient Discharged",nil},
+				{"See on Symptom",components.Dropdown([]string{"6 months", "12 months"})},
+				{"Patient Initiated Follow Up",nil}})
+				</div>
+				<div class="flex flex-col">
+					@OutcomesOptionsRadioGroup("outcomes_option", []OutcomesOptionsRadio{
+						{
+							"Did Not Answer",components.RadioGroup("did-not-answer", []components.LabelOpts{
+								components.DefaultLabel("Send for again"),
+								components.DefaultLabel("Discharge"),
+							}),
+						},
+						{
+							"Did Not Attend",components.RadioGroup("did-not-attend", []components.LabelOpts{
+								components.DefaultLabel("Send for again"), 
+								components.DefaultLabel("Discharge"),
+							}),
+						},
+						{
+							"Could Not Attend",components.RadioGroup("could-not-attend", []components.LabelOpts{
+								components.DefaultLabel("Send for again"),
+								components.DefaultLabel("Discharge"),
+							}),
+						},
+					},
+				)
+				</div>
+			</div>
+			<div class="flex flex-col">
+				@OutcomesOptionsRadioGroup("outcomes_option", []OutcomesOptionsRadio{
+						{"Refer to Diagnostics",components.TextInput("Enter Diagnostic Test(s)")},
+						{"Refer to another consultant / specialty",components.TextInput("Type in which consultant or specialty")},
+						{"Refer to Therapies",components.TextInput("Type who to refer to")},
+						{"Refer to Treatment",components.CheckboxGroup("refer-to-treatment",[]components.LabelOpts{components.DefaultLabel("SACT"),components.DefaultLabel("Radiotherapy"),components.DefaultLabel("Other")})},
+					},
+				)
+			</div>
+			<div class="flex flex-col">
+				@OutcomesOptionsRadioGroup("outcomes_option", []OutcomesOptionsRadio{
+						{"Add to Daycare List",nil},
+						{"Add to Inpatient List",nil},
+						{"Awaiting Clinical Decision (i.e. MDT, test results)",nil},
+						{"Discuss at MDT",components.TextInput("Which MDT (if known)?")},
+						{"Listed for Outpatient Procedure",components.TextInput("Type in which procedure")},
+					},
+				)
+			</div>
+			<div class="flex flex-col">
+				@OutcomesOptionsRadioGroup("outcomes_option", []OutcomesOptionsRadio{
+						{"Admit from Clinic / Consultation",nil},
+					},
+				)
+			</div>
+		</div>
+	</div>
+}
+
+templ OutcomesFollowUp() {
+	<div class="flex flex-col px-4 gap-3">
+		<div _="on change toggle between .hidden and .flex on #followup-form">
+			@components.CheckboxGroup("follow_up", []components.LabelOpts{{Label:"Follow Up", Required: true, Tooltip: "hi", Bold: true}})
+		</div>
+		<div class="flex-col border border-black p-4 hidden gap-6" id="followup-form">
+			@components.LabelWrapper(
+				components.RequiredLabel("Pathway"),
+				components.RadioGroup("pathway", []components.LabelOpts{components.BoldLabel("Definitive Treatment given today (Clock stop)"), components.BoldLabel("Ongoing review")}),
+			)
+			<div class="grid grid-cols-2">
+				<div class="flex flex-col gap-3">
+					@components.LabelWrapper(
+						components.RequiredLabel("To be seen under the same senior responsible clinician?"),
+						components.RadioGroupWithTextbox(
+							"same-clinician", 
+							[]components.LabelOpts{
+								components.DefaultLabel("Yes"), 
+								components.DefaultLabel("No")}, 
+							map[string]string{"No": "Specify"},
+						),
+					)
+					<div>
+						@components.Label(components.RequiredLabel("See in?"))
+						<div class="flex gap-3">
+							<input type="number" min="1" class="border-gray-300 border rounded shadow-inner px-2 py-0.5 w-16"/>
+							@components.Dropdown([]string{"Weeks", "Months", "Years"})
+						</div>
+					</div>
+					@components.LabelWrapper(
+						components.LabelOpts{Label: "Appointment Directive / Priority", Required: true, Tooltip: "Appointment Directive / Priority"},
+						components.TextInput("Specify"),
+					)
+				</div>
+				<div class="flex flex-col gap-3">
+					@components.LabelWrapper(
+						components.DefaultLabel("See in this clinic?"),
+						components.RadioGroupWithTextbox(
+							"same-clinician", 
+							[]components.LabelOpts{
+								components.DefaultLabel("Yes"), 
+								components.DefaultLabel("No")}, 
+							map[string]string{"No": "Specify"},
+						),
+					)
+					@components.LabelWrapper(
+						components.DefaultLabel("In which hospital?"),
+						components.TextInput("Specify"),
+					)
+					@components.LabelWrapper(
+						components.TooltipLabel("Clinical Condition","Clinical Condition"),
+						components.TextInput("Enter if applicable"),
+					)
+				</div>
+			</div>
+			<hr class="border-black -mx-4 my-px"/>
+			<div class="flex flex-col gap-3">
+				@components.LabelWrapper(
+					components.RequiredLabel("Patient's preferred consultation method"),
+					components.RadioGroup("preferred-consultation-method", []components.LabelOpts{
+						components.DefaultLabel("Face to face"), 
+						components.DefaultLabel("Telephone"),
+						components.DefaultLabel("Video"), 
+						components.DefaultLabel("Clinical review (patient not required to attend)"),
+					}),
+				)
+				@components.LabelWrapper(
+					components.DefaultLabel("Does the patient require any tests before their FUP appointment?"),
+					components.RadioGroup("preferred-consultation-method", []components.LabelOpts{
+						components.DefaultLabel("Yes"), 
+						components.DefaultLabel("No"),
+					}),
+				)
+				<p class="font-semibold italic text-blue-600">
+					This information is to help administrative colleagues with planning for clinic. It does not automatically generate a test request. The patient should not defer their appointment if the test cannot take place at the specified time.
+				</p>
+				<div class="flex flex-col items-center">
+					@FollowupTest()
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+type OutcomesOptionsRadio struct {
+	label    string
+	followUp templ.Component
+}
+
+templ OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio) {
+	<div>
+		for _, option := range options {
+			<label>
+				<input
+					_={ "on input toggle .hidden on next <div/>" }
+					type="radio"
+					name={ groupName }
+					value={ option.label }
+					if components.IsChecked(ctx, groupName, option.label) {
+						checked
+					}
+				/>
+				{ option.label }
+			</label>
+			<div class="">
+				if option.followUp != nil && components.IsChecked(ctx, groupName, option.label) {
+					<div class="ml-4 my-1">
+						@option.followUp
+					</div>
+				}
+			</div>
+		}
+	</div>
+}
+
+templ FollowupTest() {
+	<div class="grid grid-cols-3 gap-4 w-full mb-2">
+		@components.LabelWrapper(components.RequiredLabel("Test(s) required"), components.TextInput(""))
+		@components.LabelWrapper(components.RequiredLabel("Undertaken by"), components.TextInput(""))
+		@components.LabelWrapper(components.RequiredLabel("Undertaken by"), components.TextInput(""))
+	</div>
+	<div class="w-1/3">
+		@components.LabelWrapper(components.RequiredLabel("Undertaken by"), components.TextInput(""))
+	</div>
+	<div class="w-1/3">
+		@components.LabelWrapper(components.RequiredLabel("Test(s) required by"), 
+			components.Dropdown([]string{"Day Prior to the Clinic", "Day of Clinic", "Other (Please Specify)"}),
+		)
+	</div>
+	<button hx-get="/hx/add-followup-test" hx-swap="outerHTML">
+		<img src="/assets/img/plus.svg" class="w-6 mt-5"/>
+	</button>
 }
