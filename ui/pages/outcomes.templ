@@ -167,10 +167,10 @@ templ OutcomesOptions(data map[string]string) {
 
 templ OutcomesFollowUp() {
 	<div class="flex flex-col px-4 gap-3">
-		<div _="on change toggle between .hidden and .flex on #followup-form">
+		<div>
 			@components.CheckboxGroup("follow_up", []components.LabelOpts{{Label:"Follow Up", Required: true, Tooltip: "hi", Bold: true}})
 		</div>
-		<div class="flex-col border border-black p-4 gap-6" id="followup-form">
+		<div class={ "flex flex-col border border-black p-4 gap-3", templ.KV("hidden", !components.IsChecked(ctx,"follow_up","Follow Up")) } id="followup-form">
 			@components.LabelWrapper(
 				components.RequiredLabel("Pathway"),
 				components.RadioGroup("pathway", []components.LabelOpts{components.BoldLabel("Definitive Treatment given today (Clock stop)"), components.BoldLabel("Ongoing review")}),
@@ -203,7 +203,7 @@ templ OutcomesFollowUp() {
 					@components.LabelWrapper(
 						components.DefaultLabel("See in this clinic?"),
 						components.RadioGroupWithTextbox(
-							"same-clinician", 
+							"same-clinic", 
 							[]components.LabelOpts{
 								components.DefaultLabel("Yes"), 
 								components.DefaultLabel("No")}, 
@@ -220,7 +220,7 @@ templ OutcomesFollowUp() {
 					)
 				</div>
 			</div>
-			<hr class="border-black -mx-4 my-px"/>
+			<hr class="border-black -mx-4 my-2"/>
 			<div class="flex flex-col gap-3">
 				@components.LabelWrapper(
 					components.RequiredLabel("Patient's preferred consultation method"),
