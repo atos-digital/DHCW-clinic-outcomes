@@ -18,10 +18,10 @@ type OutcomesData struct {
 }
 
 templ Outcomes(data OutcomesData) {
-	// hx-post="/hx/outcomes-form"
-	// hx-trigger="change delay:400ms"
-	// hx-swap="none"
 	<form
+		hx-post="/hx/outcomes-form"
+		hx-trigger="change delay:400ms"
+		hx-swap="outerHTML"
 		class="flex flex-col gap-4"
 	>
 		@OutcomesEventDetails(data)
@@ -64,7 +64,7 @@ var (
 templ OutcomesEventDetailsSelect(name, label string, options []string) {
 	<label class="flex flex-col">
 		{ label }
-		<select name={ name } class="border-gray-300 border rounded p-1">
+		<select name={ name } class="dhcw-border p-1">
 			for _, option := range options {
 				<option>{ option }</option>
 			}
@@ -77,11 +77,11 @@ templ OutcomesEventDetails(data OutcomesData) {
 	<div class="flex justify-between px-4">
 		<label class="flex flex-col">
 			Date
-			<input type="date" name="consultation_date" class="border-gray-300 border rounded"/>
+			<input type="date" name="consultation_date" class="dhcw-border" value={ data.ConsultationDate }/>
 		</label>
 		<label class="flex flex-col">
 			Time
-			<input type="time" name="consultation_time" class="border-gray-300 border rounded" value={ data.ConsultationTime }/>
+			<input type="time" name="consultation_time" class="dhcw-border" value={ data.ConsultationTime }/>
 		</label>
 		@OutcomesEventDetailsSelect("consultation_type", "Consultation Type", consultationTypes)
 		@OutcomesEventDetailsSelect("specialties", "Specialty", specialties)
@@ -192,7 +192,7 @@ templ OutcomesFollowUp() {
 					<div>
 						@components.Label(components.RequiredLabel("See in?"))
 						<div class="flex gap-3">
-							<input type="number" min="1" class="border-gray-300 border rounded shadow-inner px-2 py-0.5 w-16"/>
+							<input type="number" min="1" class="dhcw-border shadow-inner px-2 py-0.5 w-16"/>
 							@components.Dropdown([]string{"Weeks", "Months", "Years"})
 						</div>
 					</div>

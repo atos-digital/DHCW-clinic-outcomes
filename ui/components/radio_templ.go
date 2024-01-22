@@ -241,7 +241,7 @@ func RadioGroupWithTextbox(groupName string, options []LabelOpts, withTextbox ma
 				}
 			}
 			if withTextbox[option.Label] != "" {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col\"><input style=\"display:none\" type=\"text\" class=\"border-gray-300 border rounded shadow-inner px-2 py-0.5 w-1/3\" placeholder=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col\"><input style=\"display:none\" type=\"text\" class=\"dhcw-border shadow-inner px-2 py-0.5 w-1/3\" placeholder=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
