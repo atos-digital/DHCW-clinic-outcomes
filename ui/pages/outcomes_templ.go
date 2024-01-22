@@ -15,19 +15,18 @@ import (
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/components"
 )
 
-var DefaultOutcomes = ui.Index(Outcomes(OutcomesData{}))
+var DefaultOutcomes = ui.Index(Outcomes(map[string]string{}))
 
-type OutcomesData struct {
-	ConsultationDate string `json:"consultation_date"`
-	ConsultationTime string `json:"consultation_time"`
-	ConsultationType string `json:"consultation_type"`
-	Specialties      string `json:"specialties"`
-	Clinicians       string `json:"clinicians"`
-	OutcomesOption   string `json:"outcomes_option"`
-	FollowUp         string `json:"follow_up"`
-}
-
-func Outcomes(data OutcomesData) templ.Component {
+//	type OutcomesData struct {
+//		ConsultationDate string `json:"consultation_date"`
+//		ConsultationTime string `json:"consultation_time"`
+//		ConsultationType string `json:"consultation_type"`
+//		Specialties      string `json:"specialties"`
+//		Clinicians       string `json:"clinicians"`
+//		OutcomesOption   string `json:"outcomes_option"`
+//		FollowUp         string `json:"follow_up"`
+//	}
+func Outcomes(data map[string]string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -40,7 +39,7 @@ func Outcomes(data OutcomesData) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form hx-post=\"/hx/outcomes-form\" hx-trigger=\"change delay:400ms\" hx-swap=\"outerHTML\" class=\"flex flex-col gap-4\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form hx-post=\"/hx/outcomes-form\" hx-trigger=\"change\" hx-swap=\"outerHTML\" class=\"flex flex-col gap-4\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -48,7 +47,7 @@ func Outcomes(data OutcomesData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = OutcomesOptions().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = OutcomesOptions(data).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -103,7 +102,7 @@ var (
 	clinicians = []string{"A", "B", "C"}
 )
 
-func OutcomesEventDetailsSelect(name, label string, options []string) templ.Component {
+func OutcomesEventDetailsSelect(name, label string, options []string, selected any) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -123,7 +122,7 @@ func OutcomesEventDetailsSelect(name, label string, options []string) templ.Comp
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(label)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 65, Col: 9}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 64, Col: 9}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -142,14 +141,24 @@ func OutcomesEventDetailsSelect(name, label string, options []string) templ.Comp
 			return templ_7745c5c3_Err
 		}
 		for _, option := range options {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<option>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<option")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			if selected == option {
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" selected")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(option)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 68, Col: 20}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 67, Col: 51}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -171,7 +180,7 @@ func OutcomesEventDetailsSelect(name, label string, options []string) templ.Comp
 	})
 }
 
-func OutcomesEventDetails(data OutcomesData) templ.Component {
+func OutcomesEventDetails(data map[string]string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -201,7 +210,7 @@ func OutcomesEventDetails(data OutcomesData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(data.ConsultationDate))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(data["consultation_date"]))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -218,7 +227,7 @@ func OutcomesEventDetails(data OutcomesData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(data.ConsultationTime))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(data["consultation_time"]))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -226,15 +235,15 @@ func OutcomesEventDetails(data OutcomesData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = OutcomesEventDetailsSelect("consultation_type", "Consultation Type", consultationTypes).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = OutcomesEventDetailsSelect("consultation_type", "Consultation Type", consultationTypes, data["consultation_type"]).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = OutcomesEventDetailsSelect("specialties", "Specialty", specialties).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = OutcomesEventDetailsSelect("specialties", "Specialty", specialties, data["specialties"]).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = OutcomesEventDetailsSelect("clinicians", "Senior Responsible Clinician", clinicians).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = OutcomesEventDetailsSelect("clinicians", "Senior Responsible Clinician", clinicians, data["clinicians"]).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -249,7 +258,7 @@ func OutcomesEventDetails(data OutcomesData) templ.Component {
 	})
 }
 
-func OutcomesOptions() templ.Component {
+func OutcomesOptions(data map[string]string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -262,7 +271,7 @@ func OutcomesOptions() templ.Component {
 			templ_7745c5c3_Var8 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"outcomes_options\" hx-get=\"/hx/outcomes-options-radio\" hx-trigger=\"change from:input[name=&#39;outcomes_option&#39;]\" hx-include=\"#outcomes_options\" hx-swap=\"outerHTML\" class=\"flex flex-col gap-3\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col gap-3\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -278,22 +287,34 @@ func OutcomesOptions() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col ml-4 my-1\">")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
+		if data["cancer-pathway"] != "" {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col ml-4 my-1\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = components.RadioGroupWithTextbox("cancer-pathway", []components.LabelOpts{
+				components.DefaultLabel("First Suspicion of Cancer"),
+				components.DefaultLabel("Patient to remain on USC pathway"),
+				components.DefaultLabel("Other")},
+				map[string]string{"Other": "Specify"},
+			).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
-		templ_7745c5c3_Err = components.RadioGroupWithTextbox("cancer-pathway", []components.LabelOpts{components.DefaultLabel("First Suspicion of Cancer"), components.DefaultLabel("Patient to remain on USC pathway"), components.DefaultLabel("Other")}, map[string]string{"Other": "Specify"}).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><hr><div class=\"flex flex-col gap-6 px-4\"><div class=\"grid grid-cols-2\"><div class=\"flex flex-col\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><hr><div class=\"flex flex-col gap-6 px-4\"><div class=\"grid grid-cols-2\"><div class=\"flex flex-col\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		templ_7745c5c3_Err = OutcomesOptionsRadioGroup("outcomes_option", []OutcomesOptionsRadio{
 			{"Patient Discharged", nil},
 			{"See on Symptom", components.Dropdown([]string{"6 months", "12 months"})},
-			{"Patient Initiated Follow Up", nil}}).Render(ctx, templ_7745c5c3_Buffer)
+			{"Patient Initiated Follow Up", nil}},
+		).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -397,7 +418,7 @@ func OutcomesFollowUp() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex-col border border-black p-4 hidden gap-6\" id=\"followup-form\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex-col border border-black p-4 gap-6\" id=\"followup-form\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -555,20 +576,20 @@ func OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio)
 			templ_7745c5c3_Var11 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<fieldset name=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(groupName))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		for _, option := range options {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<label><input _=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString("on input toggle .hidden on next <div/>"))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" type=\"radio\" name=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<label><input type=\"radio\" name=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -601,7 +622,7 @@ func OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio)
 			var templ_7745c5c3_Var12 string
 			templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(option.label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 271, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 276, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 			if templ_7745c5c3_Err != nil {
@@ -611,8 +632,8 @@ func OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if option.followUp != nil && components.IsChecked(ctx, groupName, option.label) {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"ml-4 my-1\">")
+			if option.followUp != nil {
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <div class=\"ml-4 my-1\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -630,7 +651,7 @@ func OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio)
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</fieldset>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

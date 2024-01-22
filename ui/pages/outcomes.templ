@@ -5,27 +5,26 @@ import (
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/components"
 )
 
-var DefaultOutcomes = ui.Index(Outcomes(OutcomesData{}))
+var DefaultOutcomes = ui.Index(Outcomes(map[string]string{}))
 
-type OutcomesData struct {
-	ConsultationDate string `json:"consultation_date"`
-	ConsultationTime string `json:"consultation_time"`
-	ConsultationType string `json:"consultation_type"`
-	Specialties      string `json:"specialties"`
-	Clinicians       string `json:"clinicians"`
-	OutcomesOption   string `json:"outcomes_option"`
-	FollowUp         string `json:"follow_up"`
-}
-
-templ Outcomes(data OutcomesData) {
+// type OutcomesData struct {
+// 	ConsultationDate string `json:"consultation_date"`
+// 	ConsultationTime string `json:"consultation_time"`
+// 	ConsultationType string `json:"consultation_type"`
+// 	Specialties      string `json:"specialties"`
+// 	Clinicians       string `json:"clinicians"`
+// 	OutcomesOption   string `json:"outcomes_option"`
+// 	FollowUp         string `json:"follow_up"`
+// }
+templ Outcomes(data map[string]string) {
 	<form
 		hx-post="/hx/outcomes-form"
-		hx-trigger="change delay:400ms"
+		hx-trigger="change"
 		hx-swap="outerHTML"
 		class="flex flex-col gap-4"
 	>
 		@OutcomesEventDetails(data)
-		@OutcomesOptions()
+		@OutcomesOptions(data)
 		@OutcomesFollowUp()
 		<div class="px-4">
 			@components.LabelWrapper(
@@ -61,58 +60,64 @@ var (
 	clinicians = []string{"A", "B", "C"}
 )
 
-templ OutcomesEventDetailsSelect(name, label string, options []string) {
+templ OutcomesEventDetailsSelect(name, label string, options []string, selected any) {
 	<label class="flex flex-col">
 		{ label }
 		<select name={ name } class="dhcw-border p-1">
 			for _, option := range options {
-				<option>{ option }</option>
+				<option selected?={ selected==option }>{ option }</option>
 			}
 		</select>
 	</label>
 }
 
-templ OutcomesEventDetails(data OutcomesData) {
+templ OutcomesEventDetails(data map[string]string) {
 	@components.SectionTitle("Enter Event Details")
 	<div class="flex justify-between px-4">
 		<label class="flex flex-col">
 			Date
-			<input type="date" name="consultation_date" class="dhcw-border" value={ data.ConsultationDate }/>
+			<input type="date" name="consultation_date" class="dhcw-border" value={ data["consultation_date"] }/>
 		</label>
 		<label class="flex flex-col">
 			Time
-			<input type="time" name="consultation_time" class="dhcw-border" value={ data.ConsultationTime }/>
+			<input type="time" name="consultation_time" class="dhcw-border" value={ data["consultation_time"] }/>
 		</label>
-		@OutcomesEventDetailsSelect("consultation_type", "Consultation Type", consultationTypes)
-		@OutcomesEventDetailsSelect("specialties", "Specialty", specialties)
-		@OutcomesEventDetailsSelect("clinicians", "Senior Responsible Clinician", clinicians)
+		@OutcomesEventDetailsSelect("consultation_type", "Consultation Type", consultationTypes, data["consultation_type"])
+		@OutcomesEventDetailsSelect("specialties", "Specialty", specialties, data["specialties"])
+		@OutcomesEventDetailsSelect("clinicians", "Senior Responsible Clinician", clinicians, data["clinicians"])
 	</div>
 }
 
-templ OutcomesOptions() {
-	<div
-		id="outcomes_options"
-		hx-get="/hx/outcomes-options-radio"
-		hx-trigger="change from:input[name='outcomes_option']"
-		hx-include="#outcomes_options"
-		hx-swap="outerHTML"
-		class="flex flex-col gap-3"
-	>
+templ OutcomesOptions(data map[string]string) {
+	// id="outcomes_options"
+	// hx-get="/hx/outcomes-options-radio"
+	// hx-trigger="change from:input[name='outcomes_option']"
+	// hx-include="#outcomes_options"
+	// hx-swap="outerHTML"
+	<div class="flex flex-col gap-3">
 		@components.SectionTitle("Outcomes")
 		<div class="flex flex-col px-4">
 			@components.CheckboxGroup("cancer-pathway",[]components.LabelOpts{components.DefaultLabel("Cancer Pathway")})
-			<div class="flex flex-col ml-4 my-1">
-				@components.RadioGroupWithTextbox("cancer-pathway", []components.LabelOpts{components.DefaultLabel("First Suspicion of Cancer"), components.DefaultLabel("Patient to remain on USC pathway"), components.DefaultLabel("Other")}, map[string]string{"Other": "Specify"})
-			</div>
+			if data["cancer-pathway"] != "" {
+				<div class="flex flex-col ml-4 my-1">
+					@components.RadioGroupWithTextbox("cancer-pathway", []components.LabelOpts{
+					components.DefaultLabel("First Suspicion of Cancer"), 
+					components.DefaultLabel("Patient to remain on USC pathway"), 
+					components.DefaultLabel("Other")}, 
+					map[string]string{"Other": "Specify"},
+				)
+				</div>
+			}
 		</div>
 		<hr/>
 		<div class="flex flex-col gap-6 px-4">
 			<div class="grid grid-cols-2">
 				<div class="flex flex-col">
 					@OutcomesOptionsRadioGroup("outcomes_option", []OutcomesOptionsRadio{
-				{"Patient Discharged",nil},
-				{"See on Symptom",components.Dropdown([]string{"6 months", "12 months"})},
-				{"Patient Initiated Follow Up",nil}})
+						{"Patient Discharged",nil},
+						{"See on Symptom",components.Dropdown([]string{"6 months", "12 months"})},
+						{"Patient Initiated Follow Up",nil}},
+					)
 				</div>
 				<div class="flex flex-col">
 					@OutcomesOptionsRadioGroup("outcomes_option", []OutcomesOptionsRadio{
@@ -172,7 +177,7 @@ templ OutcomesFollowUp() {
 		<div _="on change toggle between .hidden and .flex on #followup-form">
 			@components.CheckboxGroup("follow_up", []components.LabelOpts{{Label:"Follow Up", Required: true, Tooltip: "hi", Bold: true}})
 		</div>
-		<div class="flex-col border border-black p-4 hidden gap-6" id="followup-form">
+		<div class="flex-col border border-black p-4 gap-6" id="followup-form">
 			@components.LabelWrapper(
 				components.RequiredLabel("Pathway"),
 				components.RadioGroup("pathway", []components.LabelOpts{components.BoldLabel("Definitive Treatment given today (Clock stop)"), components.BoldLabel("Ongoing review")}),
@@ -257,11 +262,11 @@ type OutcomesOptionsRadio struct {
 }
 
 templ OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio) {
-	<div>
+	<fieldset name={ groupName }>
 		for _, option := range options {
 			<label>
+				// _={ "on input toggle .hidden on next <div/>" }
 				<input
-					_={ "on input toggle .hidden on next <div/>" }
 					type="radio"
 					name={ groupName }
 					value={ option.label }
@@ -272,14 +277,15 @@ templ OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio
 				{ option.label }
 			</label>
 			<div class="">
-				if option.followUp != nil && components.IsChecked(ctx, groupName, option.label) {
+				if option.followUp != nil {
+					//   && components.IsChecked(ctx, groupName, option.label) {
 					<div class="ml-4 my-1">
 						@option.followUp
 					</div>
 				}
 			</div>
 		}
-	</div>
+	</fieldset>
 }
 
 templ FollowupTest() {

@@ -14,9 +14,7 @@ templ RadioGroup(groupName string, options []LabelOpts) {
 					type="radio"
 					name={ groupName }
 					value={ option.Label }
-					if IsChecked(ctx, groupName, option.Label) {
-						checked
-					}
+					checked?={ IsChecked(ctx, groupName, option.Label) }
 				/>
 				if option.Required {
 					{ option.Label }<span class="text-red-500">*</span>

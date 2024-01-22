@@ -10,16 +10,11 @@ func CreateFollowupName(name string) string {
 	return name + "-followup"
 }
 
-func IsChecked(ctx context.Context, groupName, label string) bool {
+func IsChecked(ctx context.Context, key, value string) bool {
 	session := middleware.SessionFromContext(ctx)
-	checked, ok := session.Values[groupName].([]string)
+	data, ok := session.Values["outcomes-form-data"].(map[string]string)
 	if !ok {
-		return session.Values[groupName] == label
+		return false
 	}
-	for _, v := range checked {
-		if v == label {
-			return true
-		}
-	}
-	return false
+	return data[key] == value
 }

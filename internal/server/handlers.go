@@ -33,7 +33,7 @@ func (s *Server) handlePageOutcomes() http.Handler {
 
 func (s *Server) handleOutcomesForm() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var outcomesForm pages.OutcomesData
+		var outcomesForm map[string]string
 		err := json.NewDecoder(r.Body).Decode(&outcomesForm)
 		if err != nil {
 			http.Error(w, "Error parsing form data", http.StatusInternalServerError)
@@ -70,7 +70,7 @@ func (s *Server) handleOutcomesOptionsRadio() http.HandlerFunc {
 		session.Save(r, w)
 
 		w.Header().Set("Content-Type", "text/html")
-		pages.OutcomesOptions().Render(r.Context(), w)
+		pages.OutcomesOptions(nil).Render(r.Context(), w)
 	}
 }
 
