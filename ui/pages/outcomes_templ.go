@@ -351,7 +351,13 @@ func OutcomesFollowUp() templ.Component {
 		}
 		templ_7745c5c3_Err = components.LabelWrapper(
 			components.RequiredLabel("To be seen under the same senior responsible clinician?"),
-			components.RadioGroup("same-clinician", []components.LabelOpts{components.DefaultLabel("Yes"), components.DefaultLabel("No")}),
+			components.RadioGroupWithTextbox(
+				"same-clinician",
+				[]components.LabelOpts{
+					components.DefaultLabel("Yes"),
+					components.DefaultLabel("No")},
+				map[string]string{"No": "Specify"},
+			),
 		).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -389,10 +395,13 @@ func OutcomesFollowUp() templ.Component {
 		}
 		templ_7745c5c3_Err = components.LabelWrapper(
 			components.DefaultLabel("See in this clinic?"),
-			components.RadioGroup("same-clinic", []components.LabelOpts{
-				components.DefaultLabel("Yes"),
-				components.DefaultLabel("No"),
-			}),
+			components.RadioGroupWithTextbox(
+				"same-clinician",
+				[]components.LabelOpts{
+					components.DefaultLabel("Yes"),
+					components.DefaultLabel("No")},
+				map[string]string{"No": "Specify"},
+			),
 		).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -529,7 +538,7 @@ func OutcomesOptionsRadioGroup(groupName string, options []OutcomesOptionsRadio)
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(option.label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 234, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 243, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {

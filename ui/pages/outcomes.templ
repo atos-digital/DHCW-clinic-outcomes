@@ -155,7 +155,13 @@ templ OutcomesFollowUp() {
 				<div class="flex flex-col gap-3">
 					@components.LabelWrapper(
 						components.RequiredLabel("To be seen under the same senior responsible clinician?"),
-						components.RadioGroup("same-clinician", []components.LabelOpts{components.DefaultLabel("Yes"), components.DefaultLabel("No")}),
+						components.RadioGroupWithTextbox(
+							"same-clinician", 
+							[]components.LabelOpts{
+								components.DefaultLabel("Yes"), 
+								components.DefaultLabel("No")}, 
+							map[string]string{"No": "Specify"},
+						),
 					)
 					<div>
 						@components.Label(components.RequiredLabel("See in?"))
@@ -172,10 +178,13 @@ templ OutcomesFollowUp() {
 				<div class="flex flex-col gap-3">
 					@components.LabelWrapper(
 						components.DefaultLabel("See in this clinic?"),
-						components.RadioGroup("same-clinic", []components.LabelOpts{
-							components.DefaultLabel("Yes"), 
-							components.DefaultLabel("No"),
-						}),
+						components.RadioGroupWithTextbox(
+							"same-clinician", 
+							[]components.LabelOpts{
+								components.DefaultLabel("Yes"), 
+								components.DefaultLabel("No")}, 
+							map[string]string{"No": "Specify"},
+						),
 					)
 					@components.LabelWrapper(
 						components.DefaultLabel("In which hospital?"),

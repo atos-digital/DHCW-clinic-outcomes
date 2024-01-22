@@ -1,7 +1,9 @@
 package components
 
 templ RadioGroup(groupName string, options []LabelOpts) {
-	<div class="flex flex-col">
+	<div
+		class="flex flex-col"
+	>
 		for _, option := range options {
 			<label
 				if option.Bold {
@@ -38,6 +40,9 @@ templ RadioGroupWithTextbox(groupName string, options []LabelOpts, withTextbox m
 	>
 		for _, option := range options {
 			<label
+				_="on click 
+					hide <input[type='text']/> in my parentElement
+					show <input[type='text']/> in me"
 				if option.Bold {
 					class="font-bold"
 				}
@@ -63,7 +68,7 @@ templ RadioGroupWithTextbox(groupName string, options []LabelOpts, withTextbox m
 				}
 				if  withTextbox[option.Label] != "" {
 					<div class="flex flex-col">
-						<input class="border-gray-300 border rounded shadow-inner px-2 py-0.5 w-1/3" placeholder={ withTextbox[option.Label] }/>
+						<input style="display:none" type="text" class="border-gray-300 border rounded shadow-inner px-2 py-0.5 w-1/3" placeholder={ withTextbox[option.Label] }/>
 					</div>
 				}
 			</label>

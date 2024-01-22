@@ -72,7 +72,7 @@ func RadioGroup(groupName string, options []LabelOpts) templ.Component {
 				var templ_7745c5c3_Var2 string
 				templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(option.Label)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/radio.templ`, Line: 19, Col: 19}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/radio.templ`, Line: 21, Col: 19}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 				if templ_7745c5c3_Err != nil {
@@ -95,7 +95,7 @@ func RadioGroup(groupName string, options []LabelOpts) templ.Component {
 				var templ_7745c5c3_Var4 string
 				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(option.Label)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/radio.templ`, Line: 21, Col: 19}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/radio.templ`, Line: 23, Col: 19}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 				if templ_7745c5c3_Err != nil {
@@ -151,7 +151,7 @@ func RadioGroupWithTextbox(groupName string, options []LabelOpts, withTextbox ma
 			return templ_7745c5c3_Err
 		}
 		for _, option := range options {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<label")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<label _=\"on click \n					hide &lt;input[type=&#39;text&#39;]/&gt; in my parentElement\n					show &lt;input[type=&#39;text&#39;]/&gt; in me\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -195,7 +195,7 @@ func RadioGroupWithTextbox(groupName string, options []LabelOpts, withTextbox ma
 				var templ_7745c5c3_Var7 string
 				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(option.Label)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/radio.templ`, Line: 53, Col: 19}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/radio.templ`, Line: 58, Col: 19}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 				if templ_7745c5c3_Err != nil {
@@ -218,7 +218,7 @@ func RadioGroupWithTextbox(groupName string, options []LabelOpts, withTextbox ma
 				var templ_7745c5c3_Var9 string
 				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(option.Label)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/radio.templ`, Line: 55, Col: 19}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/components/radio.templ`, Line: 60, Col: 19}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 				if templ_7745c5c3_Err != nil {
@@ -241,7 +241,7 @@ func RadioGroupWithTextbox(groupName string, options []LabelOpts, withTextbox ma
 				}
 			}
 			if withTextbox[option.Label] != "" {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col\"><input class=\"border-gray-300 border rounded shadow-inner px-2 py-0.5 w-1/3\" placeholder=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col\"><input style=\"display:none\" type=\"text\" class=\"border-gray-300 border rounded shadow-inner px-2 py-0.5 w-1/3\" placeholder=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
