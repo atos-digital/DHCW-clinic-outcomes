@@ -10,6 +10,7 @@ import (
 	"github.com/a-h/templ"
 
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui"
+	"github.com/atos-digital/DHCW-clinic-outcomes/ui/forms"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/pages"
 )
 
@@ -76,6 +77,6 @@ func (s *Server) handleOutcomesForm() http.HandlerFunc {
 func (s *Server) handleAddFollowupTest() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
-		pages.FollowupTest().Render(r.Context(), w)
+		forms.FollowupTest().Render(r.Context(), w)
 	}
 }
