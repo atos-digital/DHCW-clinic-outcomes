@@ -1,7 +1,7 @@
 package pages
 
 import (
-	"github.com/atos-digital/DHCW-clinic-outcomes/ui/components"
+	. "github.com/atos-digital/DHCW-clinic-outcomes/ui/components"
 )
 
 // type OutcomesData struct {
@@ -24,10 +24,9 @@ templ Outcomes(data map[string]string) {
 		@OutcomesOptions(data)
 		@OutcomesFollowUp()
 		<div class="px-4">
-			@components.LabelWrapper(
-				components.DefaultLabel("Other information"), 
-				components.TextArea("Add any other relevant information such as any outpatient procedures taken, or details of any tests required before next appointment."),
-			)
+			@Label("Other information") {
+				@TextArea("Add any other relevant information such as any outpatient procedures taken, or details of any tests required before next appointment.")
+			}
 		</div>
 	</form>
 }
@@ -69,7 +68,7 @@ templ OutcomesEventDetailsSelect(name, label string, options []string, selected 
 }
 
 templ OutcomesEventDetails(data map[string]string) {
-	@components.SectionTitle("Enter Event Details")
+	@SectionTitle("Enter Event Details")
 	<div class="flex justify-between px-4">
 		<label class="flex flex-col">
 			Date
@@ -88,20 +87,17 @@ templ OutcomesEventDetails(data map[string]string) {
 templ OutcomesOptionsCancer() {
 	<div class="flex flex-col px-4">
 		<label>
-			<input type="checkbox" name="cancer-pathway" checked?={ components.IsChecked(ctx,"cancer-pathway","on") }/>
+			<input type="checkbox" name="cancer-pathway" checked?={ IsChecked(ctx,"cancer-pathway","on") }/>
 			Cancer Pathway
 		</label>
-		<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !components.IsChecked(ctx,"cancer-pathway","on")) }>
+		<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !IsChecked(ctx,"cancer-pathway","on")) }>
 			for _, v := range []string {"First Suspicion of Cancer", "Patient to remain on USC pathway", "Other"} {
-				<label>
-					<input type="radio" name="cancer-pathway-options" value={ v } checked?={ components.IsChecked(ctx,"cancer-pathway-options",v) }/>
-					{ v }
-				</label>
+				@Radio(v, "cancer-pathway-options")
 			}
 			<div class="flex flex-col">
 				<input
 					type="text"
-					class={ "dhcw-border shadow-inner px-2 py-0.5 w-1/3", templ.KV("hidden", !components.IsChecked(ctx,"cancer-pathway-options","Other")) }
+					class={ "dhcw-border shadow-inner px-2 py-0.5 w-1/3", templ.KV("hidden", !IsChecked(ctx,"cancer-pathway-options","Other")) }
 					placeholder="Specify"
 				/>
 			</div>
@@ -110,37 +106,25 @@ templ OutcomesOptionsCancer() {
 }
 
 templ OutcomesOptionsPatientRadioGroup(name, option, subname string, suboptions []string) {
-	<label>
-		<input type="radio" name={ name } value={ option } checked?={ components.IsChecked(ctx,name,option) }/>
-		{ option }
-	</label>
-	<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !components.IsChecked(ctx,name,option)) }>
+	@Radio(option, name)
+	<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !IsChecked(ctx,name,option)) }>
 		for _, v := range suboptions {
-			<label>
-				<input type="radio" name={ subname } value={ v } checked?={ components.IsChecked(ctx,subname,v) }/>
-				{ v }
-			</label>
+			@Radio(v, subname)
 		}
 	</div>
 }
 
 templ OutcomesOptionsPatientText(name, option, placeholder string) {
-	<label>
-		<input type="radio" name={ name } value={ option } checked?={ components.IsChecked(ctx,name,option) }/>
-		{ option }
-	</label>
-	<input class={ "dhcw-border shadow-inner px-2 py-0.5 w-2/3", templ.KV("hidden", !components.IsChecked(ctx,name,option)) } placeholder={ placeholder }/>
+	@Radio(option, name)
+	<input class={ "dhcw-border shadow-inner px-2 py-0.5 w-2/3", templ.KV("hidden", !IsChecked(ctx,name,option)) } placeholder={ placeholder }/>
 }
 
 templ OutcomesOptionsPatientCheckbox(name, option, subname string, suboptions []string) {
-	<label>
-		<input type="radio" name={ name } value={ option } checked?={ components.IsChecked(ctx,name,option) }/>
-		{ option }
-	</label>
-	<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !components.IsChecked(ctx,name,option)) }>
+	@Radio(option, name)
+	<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !IsChecked(ctx,name,option)) }>
 		for _, v := range suboptions {
 			<label>
-				<input type="checkbox" name={ subname } value={ v } checked?={ components.IsChecked(ctx,subname,v) }/>
+				<input type="checkbox" name={ subname } value={ v } checked?={ IsChecked(ctx,subname,v) }/>
 				{ v }
 			</label>
 		}
@@ -151,19 +135,17 @@ templ OutcomesOptionsPatient(name string) {
 	<div class="flex flex-col gap-6 px-4">
 		<div class="grid grid-cols-2">
 			<div class="flex flex-col">
-				for _, v := range []string {"Patient Discharged", "See on Symptom", "Patient Initiated Follow Up"} {
-					<label>
-						<input type="radio" name={ name } value={ v } checked?={ components.IsChecked(ctx,name,v) }/>
-						{ v }
-					</label>
-					if v == "See on Symptom" {
-						<select class={ "dhcw-border p-1", templ.KV("hidden",!components.IsChecked(ctx,name,"See on Symptom") ) }>
+				@Radio("Patient Discharged", name)
+				@Radio("See on Symptom", name) {
+					<div class="max-w-10">
+						<select name="see_on_symptom_months" class={ "dhcw-border p-1", templ.KV("hidden",!IsChecked(ctx,name,"See on Symptom") ) }>
 							for _, option := range []string{"6 months", "12 months"} {
 								<option>{ option }</option>
 							}
 						</select>
-					}
+					</div>
 				}
+				@Radio("Patient Initiated Follow Up", name)
 			</div>
 			<div class="flex flex-col">
 				@OutcomesOptionsPatientRadioGroup(name, "Did Not Answer", "did-not-answer", []string{ "Send for again", "Discharge" })
@@ -179,24 +161,18 @@ templ OutcomesOptionsPatient(name string) {
 		</div>
 		<div class="flex flex-col">
 			for _, v := range []string{"Add to Daycare List", "Add to Inpatient List", "Awaiting Clinical Decision (i.e. MDT, test results)"} {
-				<label>
-					<input type="radio" name={ name } value={ v } checked?={ components.IsChecked(ctx,name,v) }/>
-					{ v }
-				</label>
+				@Radio(v, name)
 			}
 			@OutcomesOptionsPatientText(name,"Discuss at MDT","Which MDT (if known)?")
 			@OutcomesOptionsPatientText(name,"Listed for Outpatient Procedure","Type in which procedure")
 		</div>
-		<label>
-			<input type="radio" name={ name } value="Admit from Clinic / Consultation" checked?={ components.IsChecked(ctx,name,"Admit from Clinic / Consultation") }/>
-			Admit from Clinic / Consultation
-		</label>
+		@Radio("Admit from Clinic / Consultation", name)
 	</div>
 }
 
 templ OutcomesOptions(data map[string]string) {
 	<div class="flex flex-col gap-3">
-		@components.SectionTitle("Outcomes")
+		@SectionTitle("Outcomes")
 		@OutcomesOptionsCancer()
 		<hr/>
 		@OutcomesOptionsPatient("outcomes_option")
@@ -205,77 +181,76 @@ templ OutcomesOptions(data map[string]string) {
 
 templ OutcomesFollowUp() {
 	<div class="flex flex-col px-4 gap-3">
-		<div>
-			@components.CheckboxGroup("follow_up", []components.LabelOpts{{Label:"Follow Up", Required: true, Tooltip: "hi", Bold: true}})
-		</div>
-		<div class={ "flex flex-col border border-black p-4 gap-3", templ.KV("hidden", !components.IsChecked(ctx,"follow_up","Follow Up")) } id="followup-form">
-			@components.LabelWrapper(
-				components.RequiredLabel("Pathway"),
-				components.RadioGroup("pathway", []components.LabelOpts{components.BoldLabel("Definitive Treatment given today (Clock stop)"), components.BoldLabel("Ongoing review")}),
-			)
+		<label class="font-bold">
+			<input type="checkbox" name="follow_up" checked?={ IsChecked(ctx,"follow_up","on") }/>
+			Follow Up<span class="text-red-500">*</span>
+			<span class="relative group">
+				<span class="invisible group-hover:visible absolute rounded shadow-lg px-2 py-1 bg-gray-100 text-black font-normal ml-1 w-52 transform -translate-y-full">Follow Up</span>
+				<img src="/assets/img/tooltip.svg" class="w-4 inline-block"/>
+			</span>
+		</label>
+		<div class={ "flex flex-col border border-black p-4 gap-3", templ.KV("hidden", !IsChecked(ctx,"follow_up","on")) }>
+			@RequiredLabel("Pathway") {
+				<div class="flex flex-col font-bold">
+					@Radio("Definitive Treatment given today (Clock stop)", "pathway")
+					@Radio("Ongoing review", "pathway")
+				</div>
+			}
 			<div class="grid grid-cols-2">
 				<div class="flex flex-col gap-3">
-					@components.LabelWrapper(
-						components.RequiredLabel("To be seen under the same senior responsible clinician?"),
-						components.RadioGroupWithTextbox(
-							"same-clinician", 
-							[]components.LabelOpts{
-								components.DefaultLabel("Yes"), 
-								components.DefaultLabel("No")}, 
-							map[string]string{"No": "Specify"},
-						),
-					)
+					@RequiredLabel("To be seen under the same senior responsible clinician?") {
+						<div class="flex flex-col">
+							@Radio("Yes", "same-clinician")
+							@Radio("No", "same-clinician") {
+								<input name="same-clinician-answer" class={ "dhcw-border shadow-inner px-2 py-0.5 w-2/3", templ.KV("hidden", !IsChecked(ctx,"same-clinician","No")) } placeholder="Specify"/>
+							}
+						</div>
+					}
 					<div>
-						@components.Label(components.RequiredLabel("See in?"))
+						@RequiredLabel("See in?")
 						<div class="flex gap-3">
 							<input type="number" min="1" class="dhcw-border shadow-inner px-2 py-0.5 w-16"/>
-							@components.Dropdown([]string{"Weeks", "Months", "Years"})
+							@Dropdown([]string{"Weeks", "Months", "Years"})
 						</div>
 					</div>
-					@components.LabelWrapper(
-						components.LabelOpts{Label: "Appointment Directive / Priority", Required: true, Tooltip: "Appointment Directive / Priority"},
-						components.TextInput("Specify"),
-					)
+					@Label("Appointment Directive / Priority") {
+						@Tooltip("Appointment Directive / Priority")
+						@TextInput("Specify")
+					}
 				</div>
 				<div class="flex flex-col gap-3">
-					@components.LabelWrapper(
-						components.DefaultLabel("See in this clinic?"),
-						components.RadioGroupWithTextbox(
-							"same-clinic", 
-							[]components.LabelOpts{
-								components.DefaultLabel("Yes"), 
-								components.DefaultLabel("No")}, 
-							map[string]string{"No": "Specify"},
-						),
-					)
-					@components.LabelWrapper(
-						components.DefaultLabel("In which hospital?"),
-						components.TextInput("Specify"),
-					)
-					@components.LabelWrapper(
-						components.TooltipLabel("Clinical Condition","Clinical Condition"),
-						components.TextInput("Enter if applicable"),
-					)
+					@Label("See in this clinic?") {
+						<div class="flex flex-col">
+							@Radio("Yes", "same-clinic")
+							@Radio("No", "same-clinic") {
+								<input name="same-clinic-answer" class={ "dhcw-border shadow-inner px-2 py-0.5 w-2/3", templ.KV("hidden", !IsChecked(ctx,"same-clinic","No")) } placeholder="Specify"/>
+							}
+						</div>
+					}
+					@Label("In which hospital?") {
+						@TextInput("Specify")
+					}
+					@Label("Clinical Condition") {
+						@Tooltip("Clinical Condition")
+						@TextInput("Enter if applicable")
+					}
 				</div>
 			</div>
 			<hr class="border-black -mx-4 my-2"/>
 			<div class="flex flex-col gap-3">
-				@components.LabelWrapper(
-					components.RequiredLabel("Patient's preferred consultation method"),
-					components.RadioGroup("preferred-consultation-method", []components.LabelOpts{
-						components.DefaultLabel("Face to face"), 
-						components.DefaultLabel("Telephone"),
-						components.DefaultLabel("Video"), 
-						components.DefaultLabel("Clinical review (patient not required to attend)"),
-					}),
-				)
-				@components.LabelWrapper(
-					components.DefaultLabel("Does the patient require any tests before their FUP appointment?"),
-					components.RadioGroup("preferred-consultation-method", []components.LabelOpts{
-						components.DefaultLabel("Yes"), 
-						components.DefaultLabel("No"),
-					}),
-				)
+				@RequiredLabel("Patient's preferred consultation method") {
+					<div class="flex flex-col">
+						for _, v := range []string{"Face to face", "Telephone", "Video", "Clinical review (patient not required to attend)"} {
+							@Radio(v, "preferred-consultation-method")
+						}
+					</div>
+				}
+				@Label("Does the patient require any tests before their FUP appointment?") {
+					<div class="flex flex-col">
+						@Radio("Yes", "preferred-consultation-method")
+						@Radio("No", "preferred-consultation-method")
+					</div>
+				}
 				<p class="font-semibold italic text-blue-600">
 					This information is to help administrative colleagues with planning for clinic. It does not automatically generate a test request. The patient should not defer their appointment if the test cannot take place at the specified time.
 				</p>
@@ -289,11 +264,15 @@ templ OutcomesFollowUp() {
 
 templ FollowupTest() {
 	<div class="grid grid-cols-3 gap-4 w-full mb-2">
-		@components.LabelWrapper(components.RequiredLabel("Test(s) required"), components.TextInput(""))
-		@components.LabelWrapper(components.RequiredLabel("Undertaken by"), components.TextInput(""))
-		@components.LabelWrapper(components.RequiredLabel("Test(s) required by"), 
-			components.Dropdown([]string{"Day Prior to the Clinic", "Day of Clinic", "Other (Please Specify)"}),
-		)
+		@RequiredLabel("Test(s) required") {
+			@TextInput("")
+		}
+		@RequiredLabel("Undertaken by") {
+			@TextInput("")
+		}
+		@RequiredLabel("Test(s) required by") {
+			@Dropdown([]string{"Day Prior to the Clinic", "Day of Clinic", "Other (Please Specify)"})
+		}
 	</div>
 	<button type="button" hx-get="/hx/add-followup-test" hx-swap="outerHTML">
 		<img src="/assets/img/plus.svg" class="w-6 mt-5"/>

@@ -1,62 +1,9 @@
 package components
 
-templ RadioGroup(groupName string, options []LabelOpts) {
-	<div
-		class="flex flex-col"
-	>
-		for _, option := range options {
-			<label class={ templ.KV("font-bold", option.Bold) }>
-				<input
-					type="radio"
-					name={ groupName }
-					value={ option.Label }
-					checked?={ IsChecked(ctx, groupName, option.Label) }
-				/>
-				if option.Required {
-					{ option.Label }<span class="text-red-500">*</span>
-				} else {
-					{ option.Label }
-				}
-				if option.Tooltip != "" {
-					<span class="relative group">
-						<span id="tooltip" class="invisible group-hover:visible absolute rounded shadow-lg px-2 py-1 bg-gray-100 text-black font-normal ml-1 w-52 transform -translate-y-full">Tooltip</span>
-						<img src="/assets/img/tooltip.svg" class="w-4 inline-block"/>
-					</span>
-				}
-			</label>
-		}
-	</div>
-}
-
-templ RadioGroupWithTextbox(groupName string, options []LabelOpts, withTextbox map[string]string) {
-	<div class="flex flex-col">
-		for _, option := range options {
-			<label class={ templ.KV("font-bold", option.Bold) }>
-				<input
-					type="radio"
-					name={ groupName }
-					value={ option.Label }
-					checked?={ IsChecked(ctx, groupName, option.Label) }
-				/>
-				if option.Required {
-					{ option.Label }<span class="text-red-500">*</span>
-				} else {
-					{ option.Label }
-				}
-				if option.Tooltip != "" {
-					<span class="relative group">
-						<span id="tooltip" class="invisible group-hover:visible absolute rounded shadow-lg px-2 py-1 bg-gray-100 text-black font-normal ml-1 w-52 transform -translate-y-full">Tooltip</span>
-						<img src="/assets/img/tooltip.svg" class="w-4 inline-block"/>
-					</span>
-				}
-				if  withTextbox[option.Label] != "" {
-					<div
-						class={ "flex","flex-col", templ.KV("hidden",!IsChecked(ctx, groupName, option.Label)) }
-					>
-						<input type="text" class="dhcw-border shadow-inner px-2 py-0.5 w-1/3" placeholder={ withTextbox[option.Label] }/>
-					</div>
-				}
-			</label>
-		}
-	</div>
+templ Radio(text, name string) {
+	<label>
+		<input type="radio" name={ name } value={ text } checked?={ IsChecked(ctx, name, text) }/>
+		{ text }
+	</label>
+	{ children... }
 }

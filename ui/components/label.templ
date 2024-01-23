@@ -1,76 +1,22 @@
 package components
 
-type LabelOpts struct {
-	Label    string
-	Required bool
-	Tooltip  string
-	Bold     bool
-}
-
-func DefaultLabel(label string) LabelOpts {
-	return LabelOpts{
-		Label: label,
-	}
-}
-
-func BoldLabel(label string) LabelOpts {
-	return LabelOpts{
-		Label: label,
-		Bold:  true,
-	}
-}
-
-func RequiredLabel(label string) LabelOpts {
-	return LabelOpts{
-		Label:    label,
-		Required: true,
-	}
-}
-
-func TooltipLabel(label, tooltip string) LabelOpts {
-	return LabelOpts{
-		Label:   label,
-		Tooltip: tooltip,
-	}
-}
-
-templ LabelWrapper(label LabelOpts, formControl templ.Component) {
-	<label
-		class={ "flex flex-col", templ.KV("font-bold",label.Bold) }
-	>
-		<div>
-			if label.Required {
-				{ label.Label }<span class="text-red-500">*</span>
-			} else {
-				{ label.Label }
-			}
-			if label.Tooltip != "" {
-				<span class="relative group">
-					<span id="tooltip" class="invisible group-hover:visible absolute rounded shadow-lg px-2 py-1 bg-gray-100 text-black font-normal ml-1 w-52 transform -translate-y-full">{ label.Tooltip }</span>
-					<img src="/assets/img/tooltip.svg" class="w-4 inline-block"/>
-				</span>
-			}
-		</div>
-		@formControl
+templ Label(text string) {
+	<label>
+		{ text }
+		{ children... }
 	</label>
 }
 
-templ Label(label LabelOpts) {
-	<label
-		class={ "flex flex-col", templ.KV("font-bold",label.Bold) }
-	>
-		<div>
-			if label.Required {
-				{ label.Label }<span class="text-red-500">*</span>
-			} else {
-				{ label.Label }
-			}
-			if label.Tooltip != "" {
-				<span class="relative group">
-					<span id="tooltip" class="invisible group-hover:visible absolute rounded shadow-lg px-2 py-1 bg-gray-100 text-black font-normal ml-1 w-52 transform -translate-y-full">{ label.Tooltip }</span>
-					<img src="/assets/img/tooltip.svg" class="w-4 inline-block"/>
-				</span>
-			}
-		</div>
+templ RequiredLabel(text string) {
+	<label>
+		{ text }<span class="text-red-500">*</span>
+		{ children... }
 	</label>
+}
+
+templ Tooltip(text string) {
+	<span class="relative group">
+		<span class="invisible group-hover:visible absolute rounded shadow-lg px-2 py-1 bg-gray-100 text-black font-normal ml-1 w-52 transform -translate-y-full">{ text }</span>
+		<img src="/assets/img/tooltip.svg" class="w-4 inline-block"/>
+	</span>
 }
