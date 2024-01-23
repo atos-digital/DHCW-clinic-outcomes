@@ -23,9 +23,12 @@ templ Outcomes(data map[string]string) {
 		@OutcomesEventDetails(data)
 		@OutcomesOptions(data)
 		@OutcomesFollowUp()
-		<div class="px-4">
+		<div class="flex flex-col px-4">
 			@Label("Other information") {
-				@TextArea("Add any other relevant information such as any outpatient procedures taken, or details of any tests required before next appointment.")
+				<textarea
+					class="dhcw-border shadow-inner px-2 py-0.5 w-full"
+					placeholder="Add any other relevant information such as any outpatient procedures taken, or details of any tests required before next appointment."
+				></textarea>
 			}
 		</div>
 	</form>
