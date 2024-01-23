@@ -109,12 +109,13 @@ templ OutcomesOptionsCancer() {
 }
 
 templ OutcomesOptionsPatientRadioGroup(name, option, subname string, suboptions []string) {
-	@Radio(option, name)
-	<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !IsChecked(ctx,name,option)) }>
-		for _, v := range suboptions {
-			@Radio(v, subname)
-		}
-	</div>
+	@Radio(option, name) {
+		<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !IsChecked(ctx,name,option)) }>
+			for _, v := range suboptions {
+				@Radio(v, subname)
+			}
+		</div>
+	}
 }
 
 templ OutcomesOptionsPatientText(name, option, placeholder string) {
@@ -212,8 +213,12 @@ templ OutcomesFollowUp() {
 					<div>
 						@RequiredLabel("See in?")
 						<div class="flex gap-3">
-							<input type="number" min="1" class="dhcw-border shadow-inner px-2 py-0.5 w-16"/>
-							@Dropdown([]string{"Weeks", "Months", "Years"})
+							<input type="number" min="1" name="see_in_num" class="dhcw-border shadow-inner px-2 py-0.5 w-16"/>
+							<select name="see_in_unit" class="dhcw-border p-1">
+								for _, option := range []string{"Weeks", "Months", "Years"} {
+									<option>{ option }</option>
+								}
+							</select>
 						</div>
 					</div>
 					@Label("Appointment Directive / Priority") {
@@ -274,7 +279,11 @@ templ FollowupTest() {
 			@TextInput("")
 		}
 		@RequiredLabel("Test(s) required by") {
-			@Dropdown([]string{"Day Prior to the Clinic", "Day of Clinic", "Other (Please Specify)"})
+			<select name="tests_required_by" class="dhcw-border p-1">
+				for _, option := range []string{"Day Prior to the Clinic", "Day of Clinic", "Other (Please Specify)"} {
+					<option>{ option }</option>
+				}
+			</select>
 		}
 	</div>
 	<button type="button" hx-get="/hx/add-followup-test" hx-swap="outerHTML">
