@@ -24,7 +24,7 @@ templ Outcomes(data map[string]string) {
 		@OutcomesOptions(data)
 		@OutcomesFollowUp()
 		<div class="px-4">
-			@Label("Other information", nil) {
+			@Label("Other information") {
 				@TextArea("Add any other relevant information such as any outpatient procedures taken, or details of any tests required before next appointment.")
 			}
 		</div>
@@ -190,15 +190,15 @@ templ OutcomesFollowUp() {
 			</span>
 		</label>
 		<div class={ "flex flex-col border border-black p-4 gap-3", templ.KV("hidden", !IsChecked(ctx,"follow_up","on")) }>
-			@RequiredLabel("Pathway", nil) {
-				<div class="flex flex-col">
+			@RequiredLabel("Pathway") {
+				<div class="flex flex-col font-bold">
 					@Radio("Definitive Treatment given today (Clock stop)", "pathway")
 					@Radio("Ongoing review", "pathway")
 				</div>
 			}
 			<div class="grid grid-cols-2">
 				<div class="flex flex-col gap-3">
-					@RequiredLabel("To be seen under the same senior responsible clinician?", nil) {
+					@RequiredLabel("To be seen under the same senior responsible clinician?") {
 						<div class="flex flex-col">
 							@Radio("Yes", "same-clinician")
 							@Radio("No", "same-clinician") {
@@ -207,19 +207,19 @@ templ OutcomesFollowUp() {
 						</div>
 					}
 					<div>
-						@RequiredLabel("See in?", nil)
+						@RequiredLabel("See in?")
 						<div class="flex gap-3">
 							<input type="number" min="1" class="dhcw-border shadow-inner px-2 py-0.5 w-16"/>
 							@Dropdown([]string{"Weeks", "Months", "Years"})
 						</div>
 					</div>
-					@Label("Appointment Directive / Priority", nil) {
+					@Label("Appointment Directive / Priority") {
 						@Tooltip("Appointment Directive / Priority")
 						@TextInput("Specify")
 					}
 				</div>
 				<div class="flex flex-col gap-3">
-					@Label("See in this clinic?", nil) {
+					@Label("See in this clinic?") {
 						<div class="flex flex-col">
 							@Radio("Yes", "same-clinic")
 							@Radio("No", "same-clinic") {
@@ -227,10 +227,10 @@ templ OutcomesFollowUp() {
 							}
 						</div>
 					}
-					@Label("In which hospital?", nil) {
+					@Label("In which hospital?") {
 						@TextInput("Specify")
 					}
-					@Label("Clinical Condition", nil) {
+					@Label("Clinical Condition") {
 						@Tooltip("Clinical Condition")
 						@TextInput("Enter if applicable")
 					}
@@ -238,14 +238,14 @@ templ OutcomesFollowUp() {
 			</div>
 			<hr class="border-black -mx-4 my-2"/>
 			<div class="flex flex-col gap-3">
-				@RequiredLabel("Patient's preferred consultation method", nil) {
+				@RequiredLabel("Patient's preferred consultation method") {
 					<div class="flex flex-col">
 						for _, v := range []string{"Face to face", "Telephone", "Video", "Clinical review (patient not required to attend)"} {
 							@Radio(v, "preferred-consultation-method")
 						}
 					</div>
 				}
-				@Label("Does the patient require any tests before their FUP appointment?", nil) {
+				@Label("Does the patient require any tests before their FUP appointment?") {
 					<div class="flex flex-col">
 						@Radio("Yes", "preferred-consultation-method")
 						@Radio("No", "preferred-consultation-method")
@@ -264,13 +264,13 @@ templ OutcomesFollowUp() {
 
 templ FollowupTest() {
 	<div class="grid grid-cols-3 gap-4 w-full mb-2">
-		@RequiredLabel("Test(s) required", nil) {
+		@RequiredLabel("Test(s) required") {
 			@TextInput("")
 		}
-		@RequiredLabel("Undertaken by", nil) {
+		@RequiredLabel("Undertaken by") {
 			@TextInput("")
 		}
-		@RequiredLabel("Test(s) required by", nil) {
+		@RequiredLabel("Test(s) required by") {
 			@Dropdown([]string{"Day Prior to the Clinic", "Day of Clinic", "Other (Please Specify)"})
 		}
 	</div>
