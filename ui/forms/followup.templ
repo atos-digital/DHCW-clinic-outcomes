@@ -29,8 +29,7 @@ templ OutcomesFollowUp() {
 							}
 						</div>
 					}
-					<div>
-						@RequiredLabel("See in?")
+					@RequiredLabel("See in?") {
 						<div class="flex gap-3">
 							<input type="number" min="1" name="see_in_num" class="dhcw-border shadow-inner px-2 py-0.5 w-16"/>
 							<select name="see_in_unit" class="dhcw-border p-1">
@@ -39,7 +38,7 @@ templ OutcomesFollowUp() {
 								}
 							</select>
 						</div>
-					</div>
+					}
 					@Label("Appointment Directive / Priority") {
 						@Tooltip("Appointment Directive / Priority")
 						@TextInput("Specify")
