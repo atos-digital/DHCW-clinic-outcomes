@@ -6,12 +6,13 @@ import (
 
 templ OutcomesFollowUp() {
 	<div class="flex flex-col px-4 gap-3">
-		<label class="font-bold">
-			<input type="checkbox" name="follow_up" checked?={ IsChecked(ctx,"follow_up","on") }/>
-			Follow Up<span class="text-red-500">*</span>
-			@Tooltip("Follow Up")
-		</label>
-		<div class={ "flex flex-col border border-black p-4 gap-3", templ.KV("hidden", !IsChecked(ctx,"follow_up","on")) }>
+		<div class="font-bold">
+			@Checkbox("Follow Up", "follow_up") {
+				<span class="text-red-500">*</span>
+				@Tooltip("Follow Up")
+			}
+		</div>
+		<div class={ "flex flex-col border border-black p-4 gap-3", templ.KV("hidden", !IsChecked(ctx,"follow_up","Follow Up")) }>
 			@RequiredLabel("Pathway") {
 				<div class="flex flex-col font-bold">
 					@Radio("Definitive Treatment given today (Clock stop)", "pathway")

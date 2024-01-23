@@ -90,11 +90,8 @@ templ OutcomesEventDetails(data map[string]string) {
 
 templ OutcomesOptionsCancer() {
 	<div class="flex flex-col px-4">
-		<label>
-			<input type="checkbox" name="cancer-pathway" checked?={ IsChecked(ctx,"cancer-pathway","on") }/>
-			Cancer Pathway
-		</label>
-		<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !IsChecked(ctx,"cancer-pathway","on")) }>
+		@Checkbox("Cancer Pathway", "cancer-pathway")
+		<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !IsChecked(ctx,"cancer-pathway","Cancer Pathway")) }>
 			for _, v := range []string {"First Suspicion of Cancer", "Patient to remain on USC pathway", "Other"} {
 				@Radio(v, "cancer-pathway-options")
 			}
@@ -142,7 +139,7 @@ templ OutcomesOptionsPatient(name string) {
 			<div class="flex flex-col">
 				@Radio("Patient Discharged", name)
 				@Radio("See on Symptom", name) {
-					<div class="max-w-10">
+					<div class="ml-4 max-w-10">
 						<select name="see_on_symptom_months" class={ "dhcw-border p-1", templ.KV("hidden",!IsChecked(ctx,name,"See on Symptom") ) }>
 							for _, option := range []string{"6 months", "12 months"} {
 								<option>{ option }</option>

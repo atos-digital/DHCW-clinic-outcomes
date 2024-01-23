@@ -1,0 +1,17 @@
+package components
+
+templ Radio(text , name string) {
+	<label>
+		<input type="radio" name={ name } value={ text } checked?={ IsChecked(ctx, name, text) }/>
+		{ text }
+		{ children... }
+	</label>
+}
+
+templ Checkbox(text, name string) {
+	<label>
+		<input type="checkbox" name={ name } value={ text } checked?={ IsChecked(ctx, name, text) }/>
+		{ text }
+		{ children... }
+	</label>
+}
