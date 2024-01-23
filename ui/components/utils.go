@@ -7,10 +7,6 @@ import (
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/middleware"
 )
 
-func CreateFollowupName(name string) string {
-	return name + "-followup"
-}
-
 func IsChecked(ctx context.Context, key, value string) bool {
 	session := middleware.SessionFromContext(ctx)
 	var data map[string]string
