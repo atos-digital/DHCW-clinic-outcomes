@@ -17,13 +17,13 @@ import (
 templ Outcomes(data map[string]string) {
 	<form
 		hx-post="/hx/outcomes-form"
-		hx-trigger="change"
+		hx-trigger="change, click from:button"
 		hx-swap="outerHTML"
 		class="flex flex-col gap-4"
 	>
 		@OutcomesEventDetails(data)
 		@OutcomesOptions(data)
-		@forms.OutcomesFollowUp()
+		@forms.OutcomesFollowUp(data)
 		<div class="flex flex-col px-4">
 			@Label("Other information") {
 				<textarea
@@ -133,7 +133,7 @@ templ OutcomesOptionsPatientCheckbox(name, option, subname string, suboptions []
 	</div>
 }
 
-templ OutcomesOptionsPatient(name string) {
+templ OutcomesOptionsPatient(name string, data map[string]string) {
 	<div class="flex flex-col gap-6 px-4">
 		<div class="grid grid-cols-2">
 			<div class="flex flex-col">
@@ -142,7 +142,7 @@ templ OutcomesOptionsPatient(name string) {
 					<div class="ml-4 max-w-10">
 						<select name="see_on_symptom_months" class={ "dhcw-border p-1", templ.KV("hidden",!IsChecked(ctx,name,"See on Symptom") ) }>
 							for _, option := range []string{"6 months", "12 months"} {
-								<option>{ option }</option>
+								<option selected?={ option == data["see_on_symptom_months"] }>{ option }</option>
 							}
 						</select>
 					</div>
@@ -177,6 +177,6 @@ templ OutcomesOptions(data map[string]string) {
 		@SectionTitle("Outcomes")
 		@OutcomesOptionsCancer()
 		<hr/>
-		@OutcomesOptionsPatient("outcomes_option")
+		@OutcomesOptionsPatient("outcomes_option", data)
 	</div>
 }

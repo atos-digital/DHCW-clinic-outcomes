@@ -2,7 +2,6 @@ package server
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -38,7 +37,7 @@ func (s *Server) handlePageOutcomes() http.HandlerFunc {
 			return
 		}
 		b := session.Values["outcomes-form-data"]
-		fmt.Println(session.Values["outcomes-form-data"])
+
 		w.Header().Set("Content-Type", "text/html")
 		var data map[string]string
 		if b != nil {
@@ -60,7 +59,6 @@ func (s *Server) handleOutcomesForm() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		fmt.Println(session.Values["outcomes-form-data"])
 		session.Values["outcomes-form-data"] = string(b)
 		err = session.Save(r, w)
 		if err != nil {
@@ -77,6 +75,6 @@ func (s *Server) handleOutcomesForm() http.HandlerFunc {
 func (s *Server) handleAddFollowupTest() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "text/html")
-		forms.FollowupTest().Render(r.Context(), w)
+		forms.FollowupTest(nil).Render(r.Context(), w)
 	}
 }
