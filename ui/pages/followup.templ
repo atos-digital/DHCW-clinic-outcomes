@@ -1,10 +1,10 @@
-package forms
+package pages
 
 import (
 	. "github.com/atos-digital/DHCW-clinic-outcomes/ui/components"
 )
 
-templ OutcomesFollowUp(data map[string]string) {
+templ OutcomesFollowUp(data OutcomesState) {
 	<div class="flex flex-col px-4 gap-3">
 		<div class="font-bold">
 			@Checkbox("Follow Up", "follow_up") {
@@ -12,7 +12,7 @@ templ OutcomesFollowUp(data map[string]string) {
 				@Tooltip("Follow Up")
 			}
 		</div>
-		<div class={ "flex flex-col border border-black p-4 gap-3", templ.KV("hidden", !IsChecked(ctx,"follow_up","Follow Up")) }>
+		<div class={ "flex flex-col border border-black p-4 gap-3", templ.KV("hidden", !IsChecked(ctx,"follow_up","on")) }>
 			@RequiredLabel("Pathway") {
 				<div class="flex flex-col font-bold">
 					@Radio("Definitive Treatment given today (Clock stop)", "pathway")
@@ -31,10 +31,10 @@ templ OutcomesFollowUp(data map[string]string) {
 					}
 					@RequiredLabel("See in?") {
 						<div class="flex gap-3">
-							<input type="number" min="1" name="see_in_num" class="dhcw-border shadow-inner px-2 py-0.5 w-16" value={ data["see_in_num"] }/>
+							<input type="number" min="1" name="see_in_num" class="dhcw-border shadow-inner px-2 py-0.5 w-16" value={ data.SeeInNum }/>
 							<select name="see_in_unit" class="dhcw-border p-1">
 								for _, option := range []string{"Weeks", "Months", "Years"} {
-									<option selected?={ option==data["see_in_unit"] }>{ option }</option>
+									<option selected?={ option==data.SeeInUnit }>{ option }</option>
 								}
 							</select>
 						</div>
@@ -80,15 +80,15 @@ templ OutcomesFollowUp(data map[string]string) {
 				<p class="font-semibold italic text-blue-600">
 					This information is to help administrative colleagues with planning for clinic. It does not automatically generate a test request. The patient should not defer their appointment if the test cannot take place at the specified time.
 				</p>
-				@FollowupTest(data)
+				@FollowupTest(data, 4)
 			</div>
 		</div>
 	</div>
 }
 
-templ FollowupTest(data map[string]string) {
+templ FollowupTest(data OutcomesState, tests int) {
 	<div class="flex flex-col items-center">
-		for _, _ = range data["tests"] {
+		for i:=0;i<tests;i++ {
 			<div class="grid grid-cols-3 gap-4 w-full mb-2">
 				@RequiredLabel("Test(s) required") {
 					@TextInput("")

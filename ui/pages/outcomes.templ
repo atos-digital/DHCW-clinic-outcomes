@@ -2,19 +2,36 @@ package pages
 
 import (
 	. "github.com/atos-digital/DHCW-clinic-outcomes/ui/components"
-	"github.com/atos-digital/DHCW-clinic-outcomes/ui/forms"
 )
 
-// type OutcomesData struct {
-// 	ConsultationDate string `json:"consultation_date"`
-// 	ConsultationTime string `json:"consultation_time"`
-// 	ConsultationType string `json:"consultation_type"`
-// 	Specialties      string `json:"specialties"`
-// 	Clinicians       string `json:"clinicians"`
-// 	OutcomesOption   string `json:"outcomes_option"`
-// 	FollowUp         string `json:"follow_up"`
-// }
-templ Outcomes(data map[string]string) {
+type OutcomesState struct {
+	CancerPathway      CancerPathway
+	ConsultationDate   string
+	ConsultationTime   string
+	ConsultationType   string
+	Specialties        string
+	Clinicians         string
+	OutcomesOption     string
+	SeeInUnit          string
+	SeeInNum           string
+	SeeOnSymptomMonths string
+
+	FollowUp string
+	Tests    []Test
+}
+
+type CancerPathway struct {
+	Checked bool
+	Option  string
+}
+
+type Test struct {
+	TestsRequired   string
+	UndertakenBy    string
+	TestsRequiredBy string
+}
+
+templ Outcomes(data OutcomesState) {
 	<form
 		hx-post="/hx/outcomes-form"
 		hx-trigger="change, click from:button"
@@ -23,7 +40,7 @@ templ Outcomes(data map[string]string) {
 	>
 		@OutcomesEventDetails(data)
 		@OutcomesOptions(data)
-		@forms.OutcomesFollowUp(data)
+		@OutcomesFollowUp(data)
 		<div class="flex flex-col px-4">
 			@Label("Other information") {
 				<textarea
@@ -71,29 +88,29 @@ templ OutcomesEventDetailsSelect(name, label string, options []string, selected 
 	</label>
 }
 
-templ OutcomesEventDetails(data map[string]string) {
+templ OutcomesEventDetails(data OutcomesState) {
 	@SectionTitle("Enter Event Details")
 	<div class="flex justify-between px-4">
 		<label class="flex flex-col">
 			Date
-			<input type="date" name="consultation_date" class="dhcw-border" value={ data["consultation_date"] }/>
+			<input type="date" name="consultation_date" class="dhcw-border" value={ data.ConsultationDate }/>
 		</label>
 		<label class="flex flex-col">
 			Time
-			<input type="time" name="consultation_time" class="dhcw-border" value={ data["consultation_time"] }/>
+			<input type="time" name="consultation_time" class="dhcw-border" value={ data.ConsultationTime }/>
 		</label>
-		@OutcomesEventDetailsSelect("consultation_type", "Consultation Type", consultationTypes, data["consultation_type"])
-		@OutcomesEventDetailsSelect("specialties", "Specialty", specialties, data["specialties"])
-		@OutcomesEventDetailsSelect("clinicians", "Senior Responsible Clinician", clinicians, data["clinicians"])
+		@OutcomesEventDetailsSelect("consultation_type", "Consultation Type", consultationTypes, data.ConsultationType)
+		@OutcomesEventDetailsSelect("specialties", "Specialty", specialties, data.Specialties)
+		@OutcomesEventDetailsSelect("clinicians", "Senior Responsible Clinician", clinicians, data.Clinicians)
 	</div>
 }
 
 templ OutcomesOptionsCancer() {
 	<div class="flex flex-col px-4">
-		@Checkbox("Cancer Pathway", "cancer-pathway")
-		<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !IsChecked(ctx,"cancer-pathway","Cancer Pathway")) }>
+		@Checkbox("Cancer Pathway", "cancer_pathway")
+		<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !IsChecked(ctx,"cancer_pathway","on")) }>
 			for _, v := range []string {"First Suspicion of Cancer", "Patient to remain on USC pathway", "Other"} {
-				@Radio(v, "cancer-pathway-options")
+				@Radio(v, "cancer_pathway_options")
 			}
 			<div class="flex flex-col">
 				<input
@@ -133,7 +150,7 @@ templ OutcomesOptionsPatientCheckbox(name, option, subname string, suboptions []
 	</div>
 }
 
-templ OutcomesOptionsPatient(name string, data map[string]string) {
+templ OutcomesOptionsPatient(name string, data OutcomesState) {
 	<div class="flex flex-col gap-6 px-4">
 		<div class="grid grid-cols-2">
 			<div class="flex flex-col">
@@ -142,7 +159,7 @@ templ OutcomesOptionsPatient(name string, data map[string]string) {
 					<div class="ml-4 max-w-10">
 						<select name="see_on_symptom_months" class={ "dhcw-border p-1", templ.KV("hidden",!IsChecked(ctx,name,"See on Symptom") ) }>
 							for _, option := range []string{"6 months", "12 months"} {
-								<option selected?={ option == data["see_on_symptom_months"] }>{ option }</option>
+								<option selected?={ option == data.SeeOnSymptomMonths }>{ option }</option>
 							}
 						</select>
 					</div>
@@ -172,7 +189,7 @@ templ OutcomesOptionsPatient(name string, data map[string]string) {
 	</div>
 }
 
-templ OutcomesOptions(data map[string]string) {
+templ OutcomesOptions(data OutcomesState) {
 	<div class="flex flex-col gap-3">
 		@SectionTitle("Outcomes")
 		@OutcomesOptionsCancer()
