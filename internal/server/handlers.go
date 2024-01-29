@@ -2,7 +2,6 @@ package server
 
 import (
 	"encoding/json"
-	"io"
 	"log"
 	"net/http"
 
@@ -40,7 +39,7 @@ func (s *Server) handlePageOutcomes() http.HandlerFunc {
 		w.Header().Set("Content-Type", "text/html")
 		var data models.OutcomesForm
 		if b != nil {
-			json.Unmarshal([]byte(b.(string)), &data)
+			json.Unmarshal(b.([]byte), &data)
 		}
 		ui.Index(pages.Outcomes(data.State())).Render(r.Context(), w)
 	}
@@ -48,25 +47,39 @@ func (s *Server) handlePageOutcomes() http.HandlerFunc {
 
 func (s *Server) handleOutcomesForm() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		b, err := io.ReadAll(r.Body)
+		// Read the body to get the latest form data.
+		var data models.OutcomesForm
+		err := json.NewDecoder(r.Body).Decode(&data)
 		if err != nil {
-			http.Error(w, "Error parsing form data", http.StatusInternalServerError)
+			log.Println(err)
+			http.Error(w, "Error parsing form data", http.StatusBadRequest)
 			return
 		}
+		if data.AddTest != nil {
+			data.FollowUpTestsRequired = append(data.FollowUpTestsRequired, "")
+			data.FollowUpTestsUndertaken = append(data.FollowUpTestsRequired, "")
+			data.FollowUpTestsBy = append(data.FollowUpTestsRequired, "")
+		}
+		// Back into bytes
+		b, err := json.Marshal(data)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		// Get the session store
 		session, err := s.sess.Get(r, s.conf.CookieName)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		session.Values["outcomes-form-data"] = string(b)
+		// Update and save
+		session.Values["outcomes-form-data"] = b
 		err = session.Save(r, w)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		var data models.OutcomesForm
-		json.Unmarshal(b, &data)
 		pages.Outcomes(data.State()).Render(r.Context(), w)
 	}
 }

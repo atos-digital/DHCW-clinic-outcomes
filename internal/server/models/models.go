@@ -1,11 +1,17 @@
 package models
 
+import (
+	"encoding/json"
+	"log"
+)
+
 type OutcomesForm struct {
-	ConsultationDate string `json:"consultation_date"`
-	ConsultationTime string `json:"consultation_time"`
-	ConsultationType string `json:"consultation_type"`
-	Specialties      string `json:"specialties"`
-	Clinicians       string `json:"clinicians"`
+	AddTest          *string `json:"add_test"`
+	ConsultationDate string  `json:"consultation_date"`
+	ConsultationTime string  `json:"consultation_time"`
+	ConsultationType string  `json:"consultation_type"`
+	Specialties      string  `json:"specialties"`
+	Clinicians       string  `json:"clinicians"`
 
 	CancerPathway       string `json:"cancer_pathway"`
 	CancerPathwayOption string `json:"cancer_pathway_options"`
@@ -49,6 +55,27 @@ type OutcomesForm struct {
 	PreferredConsultationMethod string `json:"preferred_consultation_method"`
 	TestsRequired               string `json:"tests_required"`
 	OtherInformation            string `json:"other_information"`
+
+	FollowUpTestsRequired   ArrayString `json:"tests.required"`
+	FollowUpTestsUndertaken ArrayString `json:"tests.undertaken"`
+	FollowUpTestsBy         ArrayString `json:"tests.by"`
+}
+
+type ArrayString []string
+
+func (a *ArrayString) UnmarshalJSON(b []byte) error {
+	log.Println(string(b))
+	if len(b) == 0 || string(b) == `""` {
+		log.Println(string(b), "is nil or empty")
+		*a = []string{}
+		return nil
+	}
+	if json.Valid(b) {
+		log.Println(string(b), "is valid json")
+		return json.Unmarshal(b, (*[]string)(a))
+	}
+	*a = []string{string(b)}
+	return nil
 }
 
 type OutcomesState struct {
@@ -112,6 +139,19 @@ type Test struct {
 }
 
 func (o OutcomesForm) State() OutcomesState {
+	num := len(o.FollowUpTestsRequired)
+	if num == 0 {
+		num = 1
+	}
+	tests := make([]Test, num)
+	for i, v := range o.FollowUpTestsRequired {
+		tests[i] = Test{
+			TestsRequired:   v,
+			UndertakenBy:    o.FollowUpTestsUndertaken[i],
+			TestsRequiredBy: o.FollowUpTestsBy[i],
+		}
+	}
+
 	return OutcomesState{
 		ConsultationDate: o.ConsultationDate,
 		ConsultationTime: o.ConsultationTime,
@@ -162,5 +202,6 @@ func (o OutcomesForm) State() OutcomesState {
 		PreferredConsultationMethod: o.PreferredConsultationMethod,
 		TestsRequired:               o.TestsRequired,
 		OtherInformation:            o.OtherInformation,
+		Tests:                       tests,
 	}
 }

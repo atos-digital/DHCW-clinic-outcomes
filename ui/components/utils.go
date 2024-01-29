@@ -14,6 +14,6 @@ func Checked(ctx context.Context, key, value string) bool {
 	if !ok {
 		return false
 	}
-	json.Unmarshal([]byte(b.(string)), &data)
+	json.Unmarshal(b.([]byte), &data)
 	return data[key] == value
 }
