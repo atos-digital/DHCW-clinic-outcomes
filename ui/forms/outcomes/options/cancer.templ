@@ -1,4 +1,4 @@
-package outcomes
+package options
 
 import (
 	. "github.com/atos-digital/DHCW-clinic-outcomes/ui/components"
@@ -18,7 +18,7 @@ templ Cacner(data models.CancerPathway) {
 			@Radio("First Suspicion of Cancer", NameCancerPathwayOptions)
 			@Radio("Patient to remain on USC pathway", NameCancerPathwayOptions)
 			@Radio("Other", NameCancerPathwayOptions) {
-				<div class={ templ.KV("hidden", !Checked(ctx, NameCancerPathwayOptions, "Other")) }>
+				<div class={ "ml-4 my-1", templ.KV("hidden", !Checked(ctx, NameCancerPathwayOptions, "Other")) }>
 					@TextInput(NameCancerPathwayOther, data.Other, "Specify")
 				</div>
 			}
