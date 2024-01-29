@@ -68,7 +68,7 @@ func OutcomesFollowUp(data models.OutcomesState) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var4 = []any{"flex flex-col border border-black p-4 gap-3", templ.KV("hidden", !IsChecked(ctx, "follow_up", "on"))}
+		var templ_7745c5c3_Var4 = []any{"flex flex-col border border-black p-4 gap-3", templ.KV("hidden", !Checked(ctx, "follow_up", "on"))}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var4...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -140,7 +140,7 @@ func OutcomesFollowUp(data models.OutcomesState) templ.Component {
 					templ_7745c5c3_Buffer = templ.GetBuffer()
 					defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 				}
-				var templ_7745c5c3_Var8 = []any{templ.KV("hidden", !IsChecked(ctx, "same_clinician", "No"))}
+				var templ_7745c5c3_Var8 = []any{templ.KV("hidden", !Checked(ctx, "same_clinician", "No"))}
 				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var8...)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -298,7 +298,7 @@ func OutcomesFollowUp(data models.OutcomesState) templ.Component {
 					templ_7745c5c3_Buffer = templ.GetBuffer()
 					defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 				}
-				var templ_7745c5c3_Var14 = []any{templ.KV("hidden", !IsChecked(ctx, "same_clinic", "No"))}
+				var templ_7745c5c3_Var14 = []any{templ.KV("hidden", !Checked(ctx, "same_clinic", "No"))}
 				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var14...)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
