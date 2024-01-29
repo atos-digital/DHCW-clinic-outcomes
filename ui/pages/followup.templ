@@ -26,12 +26,9 @@ templ OutcomesFollowUp(data models.OutcomesState) {
 						<div class="flex flex-col">
 							@Radio("Yes", "same_clinician")
 							@Radio("No", "same_clinician") {
-								<input
-									class={ "dhcw-border shadow-inner px-2 py-0.5 w-2/3 ml-2", templ.KV("hidden", !IsChecked(ctx,"same_clinician","No")) }
-									placeholder="Specify"
-									value={ data.SameClinicianAnswer }
-									name="same_clinician_answer"
-								/>
+								<div class={ templ.KV("hidden", !IsChecked(ctx, "same_clinician", "No")) }>
+									@TextInput("same_clinician_answer",data.SameClinicianAnswer,"Specify")
+								</div>
 							}
 						</div>
 					}
