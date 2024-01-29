@@ -14,107 +14,16 @@ templ Outcomes(data models.OutcomesState) {
 		class="flex flex-col gap-4"
 	>
 		@outcomes.Details(data)
-		@OutcomesOptions(data)
+		@outcomes.Options(data)
 		@OutcomesFollowUp(data)
 		<div class="flex flex-col px-4">
 			@Label("Other information") {
 				<textarea
 					class="dhcw-border shadow-inner px-2 py-0.5 w-full"
+					name="other_information"
 					placeholder="Add any other relevant information such as any outpatient procedures taken, or details of any tests required before next appointment."
-				></textarea>
+				>{ data.OtherInformation }</textarea>
 			}
 		</div>
 	</form>
-}
-
-templ OutcomesOptionsPatient(name string, data models.OutcomesState) {
-	<div class="flex flex-col gap-6 px-4">
-		<div class="grid grid-cols-2">
-			<div class="flex flex-col">
-				@Radio("Patient Discharged", name)
-				@Radio("See on Symptom", name) {
-					<div class="ml-4 max-w-10">
-						<select name="see_on_symptom_months" class={ "dhcw-border p-1", templ.KV("hidden",!Checked(ctx,name,"See on Symptom") ) }>
-							for _, option := range []string{"6 months", "12 months"} {
-								<option selected?={ option == data.SeeOnSymptomMonths }>{ option }</option>
-							}
-						</select>
-					</div>
-				}
-				@Radio("Patient Initiated Follow Up", name)
-			</div>
-			<div class="flex flex-col">
-				@Radio("Did Not Answer", name) {
-					<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !Checked(ctx,name,"Did Not Answer")) }>
-						@Radio("Send for again", "did_not_answer")
-						@Radio("Discharge", "did_not_answer")
-					</div>
-				}
-				@Radio("Did Not Attend", name) {
-					<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !Checked(ctx,name,"Did Not Attend")) }>
-						@Radio("Send for again", "did_not_attend")
-						@Radio("Discharge", "did_not_attend")
-					</div>
-				}
-				@Radio("Could Not Attend", name) {
-					<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !Checked(ctx,name,"Could Not Attend")) }>
-						@Radio("Send for again", "could_not_attend")
-						@Radio("Discharge", "could_not_attend")
-					</div>
-				}
-			</div>
-		</div>
-		<div class="flex flex-col">
-			@Radio("Refer to Diagnostics", name) {
-				<div class={ templ.KV("hidden", !Checked(ctx, name, "Refer to Diagnostics")) }>
-					@TextInput("refer_to_diagnostics_data",data.ReferToDiagnosticsData,"Enter Diagnostic Test(s)")
-				</div>
-			}
-			@Radio("Refer to another consultant / specialty", name) {
-				<div class={ templ.KV("hidden", !Checked(ctx, name, "Refer to another consultant / specialty")) }>
-					@TextInput("refer_to_another_data",data.ReferToAnotherData,"Type in which consultant or specialty")
-				</div>
-			}
-			@Radio("Refer to Therapies", name) {
-				<div class={ templ.KV("hidden", !Checked(ctx, name, "Refer to Therapies")) }>
-					@TextInput("refer_to_therapy_data",data.ReferToTherapyData,"Type who to refer to")
-				</div>
-			}
-			@Radio("Refer to Treatment", name) {
-				<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !Checked(ctx,name,"Refer to Treatment")) }>
-					for _, v := range []string{"SACT","Radiotherapy","Other"} {
-						<label>
-							<input type="checkbox" name="refer_to_treatment" value={ v } checked?={ Checked(ctx,"refer_to_treatment",v) }/>
-							{ v }
-						</label>
-					}
-				</div>
-			}
-		</div>
-		<div class="flex flex-col">
-			for _, v := range []string{"Add to Daycare List", "Add to Inpatient List", "Awaiting Clinical Decision (i.e. MDT, test results)"} {
-				@Radio(v, name)
-			}
-			@Radio("Discuss at MDT", name) {
-				<div class={ templ.KV("hidden", !Checked(ctx, name, "Discuss at MDT")) }>
-					@TextInput("discuss_at_mdt_data",data.DiscussAtMdtData,"Which MDT (if known)?")
-				</div>
-			}
-			@Radio("Listed for Outpatient Procedure", name) {
-				<div class={ templ.KV("hidden", !Checked(ctx, name, "Listed for Outpatient Procedure")) }>
-					@TextInput("outpatient_procedure_data",data.OutpatientProcedureData,"Type in which procedure")
-				</div>
-			}
-		</div>
-		@Radio("Admit from Clinic / Consultation", name)
-	</div>
-}
-
-templ OutcomesOptions(data models.OutcomesState) {
-	<div class="flex flex-col gap-3">
-		@SectionTitle("Outcomes")
-		@outcomes.Cacner(data.CancerPathway)
-		<hr/>
-		@OutcomesOptionsPatient("outcomes_option", data)
-	</div>
 }

@@ -11,7 +11,7 @@ type OutcomesForm struct {
 	CancerPathwayOption string `json:"cancer_pathway_options"`
 	CancerPathwayOther  string `json:"cancer_pathway_other"`
 
-	OutcomesOption     string `json:"outcomes_option"`
+	PatientOption      string `json:"patient_option"`
 	SeeOnSymptomMonths string `json:"see_on_symptom_months"`
 
 	DidNotAnswer   string `json:"did_not_answer"`
@@ -43,6 +43,7 @@ type OutcomesForm struct {
 	AppointmentDP               string `json:"appointment_dp"`
 	PreferredConsultationMethod string `json:"preferred_consultation_method"`
 	TestsRequired               string `json:"tests_required"`
+	OtherInformation            string `json:"other_information"`
 }
 
 type OutcomesState struct {
@@ -54,7 +55,7 @@ type OutcomesState struct {
 
 	CancerPathway CancerPathway
 
-	OutcomesOption     string
+	PatientOption      string
 	SeeOnSymptomMonths string
 
 	DidNotAnswer   string
@@ -86,6 +87,7 @@ type OutcomesState struct {
 	PreferredConsultationMethod string
 	TestsRequired               string
 	Tests                       []Test
+	OtherInformation            string
 }
 
 type CancerPathway struct {
@@ -114,7 +116,7 @@ func (o OutcomesForm) State() OutcomesState {
 			Other:   o.CancerPathwayOther,
 		},
 
-		OutcomesOption:     o.OutcomesOption,
+		PatientOption:      o.PatientOption,
 		SeeOnSymptomMonths: o.SeeOnSymptomMonths,
 
 		DidNotAnswer:   o.DidNotAnswer,
@@ -145,5 +147,6 @@ func (o OutcomesForm) State() OutcomesState {
 
 		PreferredConsultationMethod: o.PreferredConsultationMethod,
 		TestsRequired:               o.TestsRequired,
+		OtherInformation:            o.OtherInformation,
 	}
 }
