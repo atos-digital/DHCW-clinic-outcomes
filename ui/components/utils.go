@@ -7,7 +7,7 @@ import (
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/middleware"
 )
 
-func IsChecked(ctx context.Context, key, value string) bool {
+func Checked(ctx context.Context, key, value string) bool {
 	session := middleware.SessionFromContext(ctx)
 	var data map[string]string
 	b, ok := session.Values["outcomes-form-data"]

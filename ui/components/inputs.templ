@@ -6,7 +6,7 @@ templ TextInput(name, value, placeholder string) {
 
 templ Radio(text , name string) {
 	<label>
-		<input type="radio" name={ name } value={ text } checked?={ IsChecked(ctx, name, text) }/>
+		<input type="radio" name={ name } value={ text } checked?={ Checked(ctx, name, text) }/>
 		{ text }
 		{ children... }
 	</label>
@@ -14,8 +14,16 @@ templ Radio(text , name string) {
 
 templ Checkbox(text, name string) {
 	<label>
-		<input type="checkbox" name={ name } checked?={ IsChecked(ctx, name, "on") }/>
+		<input type="checkbox" name={ name } checked?={ Checked(ctx, name, "on") }/>
 		{ text }
 		{ children... }
 	</label>
+}
+
+templ Select(options []string, selected, name string) {
+	<select name={ name } class="block dhcw-border p-1 w-full">
+		for _, option := range options {
+			<option selected?={ selected==option }>{ option }</option>
+		}
+	</select>
 }

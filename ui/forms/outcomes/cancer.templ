@@ -1,0 +1,27 @@
+package outcomes
+
+import (
+	. "github.com/atos-digital/DHCW-clinic-outcomes/ui/components"
+	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
+)
+
+var (
+	NameCancerPathway        = "cancer_pathway"
+	NameCancerPathwayOptions = "cancer_pathway_options"
+	NameCancerPathwayOther   = "cancer_pathway_other"
+)
+
+templ Cacner(data models.CancerPathway) {
+	<div class="flex flex-col px-4">
+		@Checkbox("Cancer Pathway", NameCancerPathway)
+		<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !Checked(ctx,NameCancerPathway,"on")) }>
+			@Radio("First Suspicion of Cancer", NameCancerPathwayOptions)
+			@Radio("Patient to remain on USC pathway", NameCancerPathwayOptions)
+			@Radio("Other", NameCancerPathwayOptions) {
+				<div class={ templ.KV("hidden", !Checked(ctx, NameCancerPathwayOptions, "Other")) }>
+					@TextInput(NameCancerPathwayOther, data.Other, "Specify")
+				</div>
+			}
+		</div>
+	</div>
+}

@@ -13,7 +13,7 @@ templ OutcomesFollowUp(data models.OutcomesState) {
 				@Tooltip("Follow Up")
 			}
 		</div>
-		<div class={ "flex flex-col border border-black p-4 gap-3", templ.KV("hidden", !IsChecked(ctx,"follow_up","on")) }>
+		<div class={ "flex flex-col border border-black p-4 gap-3", templ.KV("hidden", !Checked(ctx,"follow_up","on")) }>
 			@RequiredLabel("Pathway") {
 				<div class="flex flex-col font-bold">
 					@Radio("Definitive Treatment given today (Clock stop)", "pathway")
@@ -26,7 +26,7 @@ templ OutcomesFollowUp(data models.OutcomesState) {
 						<div class="flex flex-col">
 							@Radio("Yes", "same_clinician")
 							@Radio("No", "same_clinician") {
-								<div class={ templ.KV("hidden", !IsChecked(ctx, "same_clinician", "No")) }>
+								<div class={ templ.KV("hidden", !Checked(ctx, "same_clinician", "No")) }>
 									@TextInput("same_clinician_answer",data.SameClinicianAnswer,"Specify")
 								</div>
 							}
@@ -52,7 +52,7 @@ templ OutcomesFollowUp(data models.OutcomesState) {
 						<div class="flex flex-col">
 							@Radio("Yes", "same_clinic")
 							@Radio("No", "same_clinic") {
-								<div class={ templ.KV("hidden", !IsChecked(ctx, "same_clinic", "No")) }>
+								<div class={ templ.KV("hidden", !Checked(ctx, "same_clinic", "No")) }>
 									@TextInput("same_clinic_answer",data.SameClinicAnswer,"Specify")
 								</div>
 							}

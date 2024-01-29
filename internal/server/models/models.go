@@ -9,6 +9,7 @@ type OutcomesForm struct {
 
 	CancerPathway       string `json:"cancer_pathway"`
 	CancerPathwayOption string `json:"cancer_pathway_options"`
+	CancerPathwayOther  string `json:"cancer_pathway_other"`
 
 	OutcomesOption     string `json:"outcomes_option"`
 	SeeOnSymptomMonths string `json:"see_on_symptom_months"`
@@ -90,6 +91,7 @@ type OutcomesState struct {
 type CancerPathway struct {
 	Checked bool
 	Option  string
+	Other   string
 }
 
 type Test struct {
@@ -109,6 +111,7 @@ func (o OutcomesForm) State() OutcomesState {
 		CancerPathway: CancerPathway{
 			Checked: o.CancerPathway == "on",
 			Option:  o.CancerPathwayOption,
+			Other:   o.CancerPathwayOther,
 		},
 
 		OutcomesOption:     o.OutcomesOption,
