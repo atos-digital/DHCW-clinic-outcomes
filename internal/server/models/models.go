@@ -17,7 +17,14 @@ type OutcomesForm struct {
 	DidNotAttend   string `json:"did_not_attend"`
 	CouldNotAttend string `json:"could_not_attend"`
 
-	ReferToTreatment string `json:"refer_to_treatment"`
+	ReferToDiagnosticsData string `json:"refer_to_diagnostics_data"`
+	ReferToAnotherData     string `json:"refer_to_another_data"`
+
+	ReferToTreatment   string `json:"refer_to_treatment"`
+	ReferToTherapyData string `json:"refer_to_therapy_data"`
+
+	DiscussAtMdtData        string `json:"discuss_at_mdt_data"`
+	OutpatientProcedureData string `json:"outpatient_procedure_data"`
 
 	FollowUp            string `json:"follow_up"`
 	Pathway             string `json:"pathway"`
@@ -30,6 +37,9 @@ type OutcomesForm struct {
 	SameClinic       string `json:"same_clinic"`
 	SameClinicAnswer string `json:"same_clinic_answer"`
 
+	Hospital                    string `json:"hospital"`
+	Condition                   string `json:"condition"`
+	AppointmentDP               string `json:"appointment_dp"`
 	PreferredConsultationMethod string `json:"preferred_consultation_method"`
 	TestsRequired               string `json:"tests_required"`
 }
@@ -50,15 +60,24 @@ type OutcomesState struct {
 	DidNotAttend   string
 	CouldNotAttend string
 
-	ReferToTreatment string
+	ReferToDiagnosticsData string
+	ReferToAnotherData     string
+	ReferToTherapyData     string
+
+	DiscussAtMdtData        string
+	ReferToTreatment        string
+	OutpatientProcedureData string
 
 	FollowUp            string
 	Pathway             string
 	SameClinician       string
 	SameClinicianAnswer string
 
-	SeeInUnit string
-	SeeInNum  string
+	SeeInUnit     string
+	SeeInNum      string
+	Hospital      string
+	Condition     string
+	AppointmentDP string
 
 	SameClinic       string
 	SameClinicAnswer string
@@ -99,15 +118,24 @@ func (o OutcomesForm) State() OutcomesState {
 		DidNotAttend:   o.DidNotAttend,
 		CouldNotAttend: o.CouldNotAttend,
 
-		ReferToTreatment: o.ReferToTreatment,
+		ReferToDiagnosticsData: o.ReferToDiagnosticsData,
+		ReferToAnotherData:     o.ReferToAnotherData,
+		ReferToTreatment:       o.ReferToTreatment,
+		ReferToTherapyData:     o.ReferToTherapyData,
+
+		DiscussAtMdtData:        o.DiscussAtMdtData,
+		OutpatientProcedureData: o.OutpatientProcedureData,
 
 		FollowUp:            o.FollowUp,
 		Pathway:             o.Pathway,
 		SameClinician:       o.SameClinician,
 		SameClinicianAnswer: o.SameClinicianAnswer,
 
-		SeeInUnit: o.SeeInUnit,
-		SeeInNum:  o.SeeInNum,
+		SeeInUnit:     o.SeeInUnit,
+		SeeInNum:      o.SeeInNum,
+		Hospital:      o.Hospital,
+		Condition:     o.Condition,
+		AppointmentDP: o.AppointmentDP,
 
 		SameClinic:       o.SameClinic,
 		SameClinicAnswer: o.SameClinicAnswer,

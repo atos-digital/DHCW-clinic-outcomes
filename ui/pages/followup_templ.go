@@ -261,7 +261,7 @@ func OutcomesFollowUp(data models.OutcomesState) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = TextInput("Specify").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = TextInput("appointment_dp", data.AppointmentDP, "Specify").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -351,7 +351,7 @@ func OutcomesFollowUp(data models.OutcomesState) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			templ_7745c5c3_Err = TextInput("Specify").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = TextInput("hospital", data.Hospital, "Specify").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -378,7 +378,7 @@ func OutcomesFollowUp(data models.OutcomesState) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = TextInput("Enter if applicable").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = TextInput("condition", data.Condition, "Enter if applicable").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -511,7 +511,7 @@ func FollowupTest(data models.OutcomesState, tests int) templ.Component {
 					templ_7745c5c3_Buffer = templ.GetBuffer()
 					defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 				}
-				templ_7745c5c3_Err = TextInput("").Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = TextInput("", "", "").Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -530,7 +530,7 @@ func FollowupTest(data models.OutcomesState, tests int) templ.Component {
 					templ_7745c5c3_Buffer = templ.GetBuffer()
 					defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 				}
-				templ_7745c5c3_Err = TextInput("").Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = TextInput("", "", "").Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

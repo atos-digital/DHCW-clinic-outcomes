@@ -47,7 +47,7 @@ templ OutcomesFollowUp(data models.OutcomesState) {
 					}
 					@Label("Appointment Directive / Priority") {
 						@Tooltip("Appointment Directive / Priority")
-						@TextInput("Specify")
+						@TextInput("appointment_dp", data.AppointmentDP ,"Specify")
 					}
 				</div>
 				<div class="flex flex-col gap-3">
@@ -65,11 +65,11 @@ templ OutcomesFollowUp(data models.OutcomesState) {
 						</div>
 					}
 					@Label("In which hospital?") {
-						@TextInput("Specify")
+						@TextInput("hospital",data.Hospital, "Specify")
 					}
 					@Label("Clinical Condition") {
 						@Tooltip("Clinical Condition")
-						@TextInput("Enter if applicable")
+						@TextInput("condition",data.Condition, "Enter if applicable")
 					}
 				</div>
 			</div>
@@ -102,10 +102,10 @@ templ FollowupTest(data models.OutcomesState, tests int) {
 		for i:=0;i<tests;i++ {
 			<div class="grid grid-cols-3 gap-4 w-full mb-2">
 				@RequiredLabel("Test(s) required") {
-					@TextInput("")
+					@TextInput("","","")
 				}
 				@RequiredLabel("Undertaken by") {
-					@TextInput("")
+					@TextInput("","","")
 				}
 				@RequiredLabel("Test(s) required by") {
 					<select name="tests_required_by" class="dhcw-border p-1">
