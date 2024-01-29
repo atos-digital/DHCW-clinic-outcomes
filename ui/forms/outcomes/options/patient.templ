@@ -73,6 +73,9 @@ templ Patient(data models.OutcomesState) {
 					}
 				</div>
 			}
+			<div class={ "ml-4", templ.KV("hidden", !(Checked(ctx,"refer_to_treatment_sact","on") || Checked(ctx,"refer_to_treatment_radiotherapy","on") || Checked(ctx,"refer_to_treatment_other","on"))) }>
+				@TextInput("refer_to_treatment_data",data.ReferRoTreatmentData,"Enter Treatment")
+			</div>
 		</div>
 		<div class="flex flex-col">
 			for _, v := range []string{"Add to Daycare List", "Add to Inpatient List", "Awaiting Clinical Decision (i.e. MDT, test results)"} {

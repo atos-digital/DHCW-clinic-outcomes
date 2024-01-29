@@ -26,8 +26,8 @@ type OutcomesForm struct {
 	ReferRoTreatmentSact         string `json:"refer_to_treatment_sact"`
 	ReferRoTreatmentRadiotherapy string `json:"refer_to_treatment_radiotherapy"`
 	ReferRoTreatmentOther        string `json:"refer_to_treatment_other"`
-
-	ReferToTherapyData string `json:"refer_to_therapy_data"`
+	ReferRoTreatmentData         string `json:"refer_to_treatment_data"`
+	ReferToTherapyData           string `json:"refer_to_therapy_data"`
 
 	DiscussAtMdtData        string `json:"discuss_at_mdt_data"`
 	OutpatientProcedureData string `json:"outpatient_procedure_data"`
@@ -76,6 +76,7 @@ type OutcomesState struct {
 	ReferRoTreatmentSact         string
 	ReferRoTreatmentRadiotherapy string
 	ReferRoTreatmentOther        string
+	ReferRoTreatmentData         string
 	OutpatientProcedureData      string
 
 	FollowUp            string
@@ -138,6 +139,7 @@ func (o OutcomesForm) State() OutcomesState {
 		ReferRoTreatmentSact:         o.ReferRoTreatmentSact,
 		ReferRoTreatmentRadiotherapy: o.ReferRoTreatmentRadiotherapy,
 		ReferRoTreatmentOther:        o.ReferRoTreatmentOther,
+		ReferRoTreatmentData:         o.ReferRoTreatmentData,
 		ReferToTherapyData:           o.ReferToTherapyData,
 
 		DiscussAtMdtData:        o.DiscussAtMdtData,
