@@ -2,15 +2,14 @@ package server
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
 
 	"github.com/a-h/templ"
 
+	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui"
-	"github.com/atos-digital/DHCW-clinic-outcomes/ui/forms"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/pages"
 )
 
@@ -38,13 +37,12 @@ func (s *Server) handlePageOutcomes() http.HandlerFunc {
 			return
 		}
 		b := session.Values["outcomes-form-data"]
-		fmt.Println(session.Values["outcomes-form-data"])
 		w.Header().Set("Content-Type", "text/html")
-		var data map[string]string
+		var data models.OutcomesForm
 		if b != nil {
 			json.Unmarshal([]byte(b.(string)), &data)
 		}
-		ui.Index(pages.Outcomes(data)).Render(r.Context(), w)
+		ui.Index(pages.Outcomes(data.State())).Render(r.Context(), w)
 	}
 }
 
@@ -60,7 +58,6 @@ func (s *Server) handleOutcomesForm() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		fmt.Println(session.Values["outcomes-form-data"])
 		session.Values["outcomes-form-data"] = string(b)
 		err = session.Save(r, w)
 		if err != nil {
@@ -68,15 +65,8 @@ func (s *Server) handleOutcomesForm() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		var outcomesForm map[string]string
-		json.Unmarshal(b, &outcomesForm)
-		pages.Outcomes(outcomesForm).Render(r.Context(), w)
-	}
-}
-
-func (s *Server) handleAddFollowupTest() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "text/html")
-		forms.FollowupTest().Render(r.Context(), w)
+		var data models.OutcomesForm
+		json.Unmarshal(b, &data)
+		pages.Outcomes(data.State()).Render(r.Context(), w)
 	}
 }

@@ -1,7 +1,7 @@
 package components
 
-templ TextInput(placeholder string) {
-	<input type="text" class="dhcw-border shadow-inner px-2 py-0.5 w-2/3 block" placeholder={ placeholder }/>
+templ TextInput(name, value, placeholder string) {
+	<input name={ name } value={ value } type="text" class="dhcw-border shadow-inner px-2 py-0.5 w-2/3 block" placeholder={ placeholder }/>
 }
 
 templ Radio(text , name string) {
@@ -14,7 +14,7 @@ templ Radio(text , name string) {
 
 templ Checkbox(text, name string) {
 	<label>
-		<input type="checkbox" name={ name } value={ text } checked?={ IsChecked(ctx, name, text) }/>
+		<input type="checkbox" name={ name } checked?={ IsChecked(ctx, name, "on") }/>
 		{ text }
 		{ children... }
 	</label>
