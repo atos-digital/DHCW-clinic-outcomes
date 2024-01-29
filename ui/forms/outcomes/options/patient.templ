@@ -62,11 +62,14 @@ templ Patient(data models.OutcomesState) {
 			}
 			@Radio("Refer to Treatment", NamePatientOption) {
 				<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !Checked(ctx,NamePatientOption,"Refer to Treatment")) }>
-					for _, v := range []string{"SACT","Radiotherapy","Other"} {
-						<label>
-							<input type="checkbox" name="refer_to_treatment" value={ v } checked?={ Checked(ctx,"refer_to_treatment",v) }/>
-							{ v }
-						</label>
+					@RevLabel("SACT") {
+						<input type="checkbox" name="refer_to_treatment_sact" checked?={ Checked(ctx,"refer_to_treatment_sact","on") } class="mr-1"/>
+					}
+					@RevLabel("Radiotherapy") {
+						<input type="checkbox" name="refer_to_treatment_radiotherapy" checked?={ Checked(ctx,"refer_to_treatment_radiotherapy","on") } class="mr-1"/>
+					}
+					@RevLabel("Other") {
+						<input type="checkbox" name="refer_to_treatment_other" checked?={ Checked(ctx,"refer_to_treatment_other","on") } class="mr-1"/>
 					}
 				</div>
 			}

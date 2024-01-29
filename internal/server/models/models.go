@@ -21,7 +21,12 @@ type OutcomesForm struct {
 	ReferToDiagnosticsData string `json:"refer_to_diagnostics_data"`
 	ReferToAnotherData     string `json:"refer_to_another_data"`
 
-	ReferToTreatment   string `json:"refer_to_treatment"`
+	ReferToTreatment string `json:"refer_to_treatment"`
+
+	ReferRoTreatmentSact         string `json:"refer_to_treatment_sact"`
+	ReferRoTreatmentRadiotherapy string `json:"refer_to_treatment_radiotherapy"`
+	ReferRoTreatmentOther        string `json:"refer_to_treatment_other"`
+
 	ReferToTherapyData string `json:"refer_to_therapy_data"`
 
 	DiscussAtMdtData        string `json:"discuss_at_mdt_data"`
@@ -66,9 +71,12 @@ type OutcomesState struct {
 	ReferToAnotherData     string
 	ReferToTherapyData     string
 
-	DiscussAtMdtData        string
-	ReferToTreatment        string
-	OutpatientProcedureData string
+	DiscussAtMdtData             string
+	ReferToTreatment             string
+	ReferRoTreatmentSact         string
+	ReferRoTreatmentRadiotherapy string
+	ReferRoTreatmentOther        string
+	OutpatientProcedureData      string
 
 	FollowUp            string
 	Pathway             string
@@ -126,7 +134,11 @@ func (o OutcomesForm) State() OutcomesState {
 		ReferToDiagnosticsData: o.ReferToDiagnosticsData,
 		ReferToAnotherData:     o.ReferToAnotherData,
 		ReferToTreatment:       o.ReferToTreatment,
-		ReferToTherapyData:     o.ReferToTherapyData,
+
+		ReferRoTreatmentSact:         o.ReferRoTreatmentSact,
+		ReferRoTreatmentRadiotherapy: o.ReferRoTreatmentRadiotherapy,
+		ReferRoTreatmentOther:        o.ReferRoTreatmentOther,
+		ReferToTherapyData:           o.ReferToTherapyData,
 
 		DiscussAtMdtData:        o.DiscussAtMdtData,
 		OutpatientProcedureData: o.OutpatientProcedureData,
