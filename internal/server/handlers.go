@@ -2,13 +2,13 @@ package server
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
 
 	"github.com/a-h/templ"
 
+	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/pages"
 )
@@ -37,9 +37,8 @@ func (s *Server) handlePageOutcomes() http.HandlerFunc {
 			return
 		}
 		b := session.Values["outcomes-form-data"]
-		log.Printf("Exisitng Session data: %+v\n\n\n", session.Values["outcomes-form-data"])
 		w.Header().Set("Content-Type", "text/html")
-		var data OutcomesForm
+		var data models.OutcomesForm
 		if b != nil {
 			json.Unmarshal([]byte(b.(string)), &data)
 		}
@@ -59,18 +58,15 @@ func (s *Server) handleOutcomesForm() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		log.Printf("Exisitng Session data: %+v\n\n\n", session.Values["outcomes-form-data"])
 		session.Values["outcomes-form-data"] = string(b)
-		log.Printf("New Session data: %+v\n\n\n", string(b))
 		err = session.Save(r, w)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		var data OutcomesForm
+		var data models.OutcomesForm
 		json.Unmarshal(b, &data)
-		fmt.Printf("%+v\n", data)
 		pages.Outcomes(data.State()).Render(r.Context(), w)
 	}
 }

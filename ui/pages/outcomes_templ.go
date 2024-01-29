@@ -11,37 +11,11 @@ import "io"
 import "bytes"
 
 import (
+	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
 	. "github.com/atos-digital/DHCW-clinic-outcomes/ui/components"
 )
 
-type OutcomesState struct {
-	CancerPathway      CancerPathway
-	ConsultationDate   string
-	ConsultationTime   string
-	ConsultationType   string
-	Specialties        string
-	Clinicians         string
-	OutcomesOption     string
-	SeeInUnit          string
-	SeeInNum           string
-	SeeOnSymptomMonths string
-
-	FollowUp string
-	Tests    []Test
-}
-
-type CancerPathway struct {
-	Checked bool
-	Option  string
-}
-
-type Test struct {
-	TestsRequired   string
-	UndertakenBy    string
-	TestsRequiredBy string
-}
-
-func Outcomes(data OutcomesState) templ.Component {
+func Outcomes(data models.OutcomesState) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -149,7 +123,7 @@ func OutcomesEventDetailsSelect(name, label string, options []string, selected a
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(label)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 81, Col: 9}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 55, Col: 9}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -185,7 +159,7 @@ func OutcomesEventDetailsSelect(name, label string, options []string, selected a
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(option)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 84, Col: 51}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 58, Col: 51}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -207,7 +181,7 @@ func OutcomesEventDetailsSelect(name, label string, options []string, selected a
 	})
 }
 
-func OutcomesEventDetails(data OutcomesState) templ.Component {
+func OutcomesEventDetails(data models.OutcomesState) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -333,7 +307,7 @@ func OutcomesOptionsCancer() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var11 = []any{"dhcw-border shadow-inner px-2 py-0.5 w-1/3", templ.KV("hidden", !IsChecked(ctx, "cancer-pathway-options", "Other"))}
+		var templ_7745c5c3_Var11 = []any{"dhcw-border shadow-inner px-2 py-0.5 w-1/3", templ.KV("hidden", !IsChecked(ctx, "cancer_pathway_options", "Other"))}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var11...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -536,7 +510,7 @@ func OutcomesOptionsPatientCheckbox(name, option, subname string, suboptions []s
 			var templ_7745c5c3_Var19 string
 			templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(v)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 146, Col: 7}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 120, Col: 7}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 			if templ_7745c5c3_Err != nil {
@@ -558,7 +532,7 @@ func OutcomesOptionsPatientCheckbox(name, option, subname string, suboptions []s
 	})
 }
 
-func OutcomesOptionsPatient(name string, data OutcomesState) templ.Component {
+func OutcomesOptionsPatient(name string, data models.OutcomesState) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -624,7 +598,7 @@ func OutcomesOptionsPatient(name string, data OutcomesState) templ.Component {
 				var templ_7745c5c3_Var23 string
 				templ_7745c5c3_Var23, templ_7745c5c3_Err = templ.JoinStringErrs(option)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 161, Col: 72}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/outcomes.templ`, Line: 135, Col: 72}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var23))
 				if templ_7745c5c3_Err != nil {
@@ -656,15 +630,15 @@ func OutcomesOptionsPatient(name string, data OutcomesState) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = OutcomesOptionsPatientRadioGroup(name, "Did Not Answer", "did-not-answer", []string{"Send for again", "Discharge"}).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = OutcomesOptionsPatientRadioGroup(name, "Did Not Answer", "did_not_answer", []string{"Send for again", "Discharge"}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = OutcomesOptionsPatientRadioGroup(name, "Did Not Attend", "did-not-attend", []string{"Send for again", "Discharge"}).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = OutcomesOptionsPatientRadioGroup(name, "Did Not Attend", "did_not_attend", []string{"Send for again", "Discharge"}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = OutcomesOptionsPatientRadioGroup(name, "Could Not Attend", "could-not-attend", []string{"Send for again", "Discharge"}).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = OutcomesOptionsPatientRadioGroup(name, "Could Not Attend", "could_not_attend", []string{"Send for again", "Discharge"}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -684,7 +658,7 @@ func OutcomesOptionsPatient(name string, data OutcomesState) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = OutcomesOptionsPatientCheckbox(name, "Refer to Treatment", "refer-to-treatment", []string{"SACT", "Radiotherapy", "Other"}).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = OutcomesOptionsPatientCheckbox(name, "Refer to Treatment", "refer_to_treatment", []string{"SACT", "Radiotherapy", "Other"}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -725,7 +699,7 @@ func OutcomesOptionsPatient(name string, data OutcomesState) templ.Component {
 	})
 }
 
-func OutcomesOptions(data OutcomesState) templ.Component {
+func OutcomesOptions(data models.OutcomesState) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {

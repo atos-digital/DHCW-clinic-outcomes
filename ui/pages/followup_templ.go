@@ -11,10 +11,11 @@ import "io"
 import "bytes"
 
 import (
+	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
 	. "github.com/atos-digital/DHCW-clinic-outcomes/ui/components"
 )
 
-func OutcomesFollowUp(data OutcomesState) templ.Component {
+func OutcomesFollowUp(data models.OutcomesState) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -129,7 +130,7 @@ func OutcomesFollowUp(data OutcomesState) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Yes", "same-clinician").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Yes", "same_clinician").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -139,12 +140,12 @@ func OutcomesFollowUp(data OutcomesState) templ.Component {
 					templ_7745c5c3_Buffer = templ.GetBuffer()
 					defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 				}
-				var templ_7745c5c3_Var8 = []any{"dhcw-border shadow-inner px-2 py-0.5 w-2/3 ml-2", templ.KV("hidden", !IsChecked(ctx, "same-clinician", "No"))}
+				var templ_7745c5c3_Var8 = []any{"dhcw-border shadow-inner px-2 py-0.5 w-2/3 ml-2", templ.KV("hidden", !IsChecked(ctx, "same_clinician", "No"))}
 				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var8...)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input name=\"same-clinician-answer\" class=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input class=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -152,7 +153,15 @@ func OutcomesFollowUp(data OutcomesState) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" placeholder=\"Specify\">")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" placeholder=\"Specify\" value=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(data.SameClinicianAnswer))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" name=\"same_clinician_answer\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -161,7 +170,7 @@ func OutcomesFollowUp(data OutcomesState) templ.Component {
 				}
 				return templ_7745c5c3_Err
 			})
-			templ_7745c5c3_Err = Radio("No", "same-clinician").Render(templ.WithChildren(ctx, templ_7745c5c3_Var7), templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("No", "same_clinician").Render(templ.WithChildren(ctx, templ_7745c5c3_Var7), templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -214,7 +223,7 @@ func OutcomesFollowUp(data OutcomesState) templ.Component {
 				var templ_7745c5c3_Var10 string
 				templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(option)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/followup.templ`, Line: 36, Col: 62}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/followup.templ`, Line: 42, Col: 62}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 				if templ_7745c5c3_Err != nil {
@@ -279,7 +288,7 @@ func OutcomesFollowUp(data OutcomesState) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Yes", "same-clinic").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Yes", "same_clinic").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -289,12 +298,12 @@ func OutcomesFollowUp(data OutcomesState) templ.Component {
 					templ_7745c5c3_Buffer = templ.GetBuffer()
 					defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 				}
-				var templ_7745c5c3_Var14 = []any{"dhcw-border shadow-inner px-2 py-0.5 w-2/3 ml-2", templ.KV("hidden", !IsChecked(ctx, "same-clinic", "No"))}
+				var templ_7745c5c3_Var14 = []any{"dhcw-border shadow-inner px-2 py-0.5 w-2/3 ml-2", templ.KV("hidden", !IsChecked(ctx, "same_clinic", "No"))}
 				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var14...)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input name=\"same-clinic-answer\" class=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input class=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -302,7 +311,15 @@ func OutcomesFollowUp(data OutcomesState) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" placeholder=\"Specify\">")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" name=\"same_clinic_answer\" placeholder=\"Specify\" value=\"")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(data.SameClinicAnswer))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -311,7 +328,7 @@ func OutcomesFollowUp(data OutcomesState) templ.Component {
 				}
 				return templ_7745c5c3_Err
 			})
-			templ_7745c5c3_Err = Radio("No", "same-clinic").Render(templ.WithChildren(ctx, templ_7745c5c3_Var13), templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("No", "same_clinic").Render(templ.WithChildren(ctx, templ_7745c5c3_Var13), templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -389,7 +406,7 @@ func OutcomesFollowUp(data OutcomesState) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			for _, v := range []string{"Face to face", "Telephone", "Video", "Clinical review (patient not required to attend)"} {
-				templ_7745c5c3_Err = Radio(v, "preferred-consultation-method").Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = Radio(v, "preferred_consultation_method").Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -417,11 +434,11 @@ func OutcomesFollowUp(data OutcomesState) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Yes", "preferred-consultation-method").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Yes", "tests_required").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("No", "preferred-consultation-method").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("No", "tests_required").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -466,7 +483,7 @@ func OutcomesFollowUp(data OutcomesState) templ.Component {
 	})
 }
 
-func FollowupTest(data OutcomesState, tests int) templ.Component {
+func FollowupTest(data models.OutcomesState, tests int) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -544,7 +561,7 @@ func FollowupTest(data OutcomesState, tests int) templ.Component {
 					var templ_7745c5c3_Var24 string
 					templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(option)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/followup.templ`, Line: 101, Col: 23}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/pages/followup.templ`, Line: 112, Col: 23}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
 					if templ_7745c5c3_Err != nil {

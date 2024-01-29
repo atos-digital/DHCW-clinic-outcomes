@@ -2,9 +2,10 @@ package pages
 
 import (
 	. "github.com/atos-digital/DHCW-clinic-outcomes/ui/components"
+	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
 )
 
-templ OutcomesFollowUp(data OutcomesState) {
+templ OutcomesFollowUp(data models.OutcomesState) {
 	<div class="flex flex-col px-4 gap-3">
 		<div class="font-bold">
 			@Checkbox("Follow Up", "follow_up") {
@@ -23,9 +24,14 @@ templ OutcomesFollowUp(data OutcomesState) {
 				<div class="flex flex-col gap-3">
 					@RequiredLabel("To be seen under the same senior responsible clinician?") {
 						<div class="flex flex-col">
-							@Radio("Yes", "same-clinician")
-							@Radio("No", "same-clinician") {
-								<input name="same-clinician-answer" class={ "dhcw-border shadow-inner px-2 py-0.5 w-2/3 ml-2", templ.KV("hidden", !IsChecked(ctx,"same-clinician","No")) } placeholder="Specify"/>
+							@Radio("Yes", "same_clinician")
+							@Radio("No", "same_clinician") {
+								<input
+									class={ "dhcw-border shadow-inner px-2 py-0.5 w-2/3 ml-2", templ.KV("hidden", !IsChecked(ctx,"same_clinician","No")) }
+									placeholder="Specify"
+									value={ data.SameClinicianAnswer }
+									name="same_clinician_answer"
+								/>
 							}
 						</div>
 					}
@@ -47,9 +53,14 @@ templ OutcomesFollowUp(data OutcomesState) {
 				<div class="flex flex-col gap-3">
 					@Label("See in this clinic?") {
 						<div class="flex flex-col">
-							@Radio("Yes", "same-clinic")
-							@Radio("No", "same-clinic") {
-								<input name="same-clinic-answer" class={ "dhcw-border shadow-inner px-2 py-0.5 w-2/3 ml-2", templ.KV("hidden", !IsChecked(ctx,"same-clinic","No")) } placeholder="Specify"/>
+							@Radio("Yes", "same_clinic")
+							@Radio("No", "same_clinic") {
+								<input
+									class={ "dhcw-border shadow-inner px-2 py-0.5 w-2/3 ml-2", templ.KV("hidden", !IsChecked(ctx,"same_clinic","No")) }
+									name="same_clinic_answer"
+									placeholder="Specify"
+									value={ data.SameClinicAnswer }
+								/>
 							}
 						</div>
 					}
@@ -67,14 +78,14 @@ templ OutcomesFollowUp(data OutcomesState) {
 				@RequiredLabel("Patient's preferred consultation method") {
 					<div class="flex flex-col">
 						for _, v := range []string{"Face to face", "Telephone", "Video", "Clinical review (patient not required to attend)"} {
-							@Radio(v, "preferred-consultation-method")
+							@Radio(v, "preferred_consultation_method")
 						}
 					</div>
 				}
 				@Label("Does the patient require any tests before their FUP appointment?") {
 					<div class="flex flex-col">
-						@Radio("Yes", "preferred-consultation-method")
-						@Radio("No", "preferred-consultation-method")
+						@Radio("Yes", "tests_required")
+						@Radio("No", "tests_required")
 					</div>
 				}
 				<p class="font-semibold italic text-blue-600">
@@ -86,7 +97,7 @@ templ OutcomesFollowUp(data OutcomesState) {
 	</div>
 }
 
-templ FollowupTest(data OutcomesState, tests int) {
+templ FollowupTest(data models.OutcomesState, tests int) {
 	<div class="flex flex-col items-center">
 		for i:=0;i<tests;i++ {
 			<div class="grid grid-cols-3 gap-4 w-full mb-2">
