@@ -72,9 +72,9 @@ templ Patient(data models.OutcomesState) {
 			}
 		</div>
 		<div class="flex flex-col">
-			for _, v := range []string{"Add to Daycare List", "Add to Inpatient List", "Awaiting Clinical Decision (i.e. MDT, test results)"} {
-				@Radio(v, NamePatientOption)
-			}
+			@Radio("Add to Daycare List", NamePatientOption)
+			@Radio("Add to Inpatient List", NamePatientOption)
+			@Radio("Awaiting Clinical Decision (i.e. MDT, test results)", NamePatientOption)
 			@Radio("Discuss at MDT", NamePatientOption) {
 				<div class={ "ml-4 my-1", templ.KV("hidden", !Checked(ctx, NamePatientOption, "Discuss at MDT")) }>
 					@TextInput("discuss_at_mdt_data",data.DiscussAtMdtData,"Which MDT (if known)?")
