@@ -35,11 +35,9 @@ templ FollowUp(data models.OutcomesState) {
 					@RequiredLabel("See in?") {
 						<div class="flex gap-3">
 							<input type="number" min="1" name="see_in_num" class="dhcw-border shadow-inner px-2 py-0.5 w-16" value={ data.SeeInNum }/>
-							<select name="see_in_unit" class="dhcw-border p-1">
-								for _, option := range []string{"Weeks", "Months", "Years"} {
-									<option selected?={ option==data.SeeInUnit }>{ option }</option>
-								}
-							</select>
+							<div class="w-[85px]">
+								@Select([]string{"Weeks", "Months", "Years"},data.SeeInUnit,"see_in_unit")
+							</div>
 						</div>
 					}
 					@Label("Appointment Directive / Priority") {
@@ -104,11 +102,7 @@ templ FollowupTest(data []models.Test) {
 					@TextInput("tests.undertaken",data[i].UndertakenBy,"")
 				}
 				@RequiredLabel("Test(s) required by") {
-					<select name="tests.by" class="dhcw-border p-1">
-						for _, option := range []string{"Day Prior to the Clinic", "Day of Clinic", "Other (Please Specify)"} {
-							<option selected?={ data[i].TestsRequiredBy == option }>{ option }</option>
-						}
-					</select>
+					@Select([]string{"Day Prior to the Clinic", "Day of Clinic", "Other (Please Specify)"},data[i].TestsRequiredBy,"tests.by")
 				}
 			</div>
 		}
