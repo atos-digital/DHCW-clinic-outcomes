@@ -5,7 +5,7 @@ import (
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
 )
 
-templ FollowUp(data models.OutcomesState) {
+templ FollowUp(data models.FollowUp) {
 	<div class="flex flex-col px-4 gap-3">
 		<div class="font-bold">
 			@Checkbox("Follow Up", "follow_up") {

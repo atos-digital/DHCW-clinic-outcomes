@@ -14,6 +14,7 @@ type Config struct {
 	AllowedOrigins []string
 	CookieName     string
 	CookieSecret   []byte
+	SqlitePath     string
 }
 
 func New() Config {
@@ -27,6 +28,7 @@ func New() Config {
 		),
 		CookieName:   getEnvDefault("COOKIE_NAME", "session"),
 		CookieSecret: getCookieSecret("COOKIE_SECRET"),
+		SqlitePath:   getEnvDefault("SQLITE_PATH", "sqlite.db"),
 	}
 }
 

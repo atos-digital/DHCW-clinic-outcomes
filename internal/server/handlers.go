@@ -80,6 +80,45 @@ func (s *Server) handleOutcomesForm() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		w.Header().Set("Content-Type", "text/html")
 		pages.Outcomes(data.State()).Render(r.Context(), w)
+	}
+}
+
+func (s *Server) handleSubmitOutcomes() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// Read the body to get the latest form data.
+		var data models.OutcomesForm
+		err := json.NewDecoder(r.Body).Decode(&data)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Error parsing form data", http.StatusBadRequest)
+			return
+		}
+
+		// Store the data in the database.
+		err = s.db.StoreState(data.State())
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Error storing form data", http.StatusInternalServerError)
+			return
+		}
+
+		// Get the session store
+		session, err := s.sess.Get(r, s.conf.CookieName)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		// Update and save
+		session.Values["outcomes-form-data"] = []byte{}
+		err = session.Save(r, w)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html")
+		pages.Home().Render(r.Context(), w)
 	}
 }
