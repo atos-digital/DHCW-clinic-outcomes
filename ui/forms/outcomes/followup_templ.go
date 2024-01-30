@@ -468,7 +468,7 @@ func FollowUp(data models.OutcomesState) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = FollowupTest(data).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = FollowupTest(data.Tests).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -483,7 +483,7 @@ func FollowUp(data models.OutcomesState) templ.Component {
 	})
 }
 
-func FollowupTest(data models.OutcomesState) templ.Component {
+func FollowupTest(data []models.Test) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -500,7 +500,7 @@ func FollowupTest(data models.OutcomesState) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		for i := 0; i < len(data.Tests); i++ {
+		for i := 0; i < len(data); i++ {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"grid grid-cols-3 gap-4 w-full mb-2\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -511,7 +511,7 @@ func FollowupTest(data models.OutcomesState) templ.Component {
 					templ_7745c5c3_Buffer = templ.GetBuffer()
 					defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 				}
-				templ_7745c5c3_Err = TextInput("tests.required", data.Tests[i].TestsRequired, "").Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = TextInput("tests.required", data[i].TestsRequired, "").Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -530,7 +530,7 @@ func FollowupTest(data models.OutcomesState) templ.Component {
 					templ_7745c5c3_Buffer = templ.GetBuffer()
 					defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 				}
-				templ_7745c5c3_Err = TextInput("tests.undertaken", data.Tests[i].UndertakenBy, "").Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = TextInput("tests.undertaken", data[i].UndertakenBy, "").Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -558,7 +558,7 @@ func FollowupTest(data models.OutcomesState) templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					if data.Tests[i].TestsRequiredBy == option {
+					if data[i].TestsRequiredBy == option {
 						_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" selected")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
@@ -571,7 +571,7 @@ func FollowupTest(data models.OutcomesState) templ.Component {
 					var templ_7745c5c3_Var24 string
 					templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(option)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/forms/outcomes/followup.templ`, Line: 106, Col: 77}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/forms/outcomes/followup.templ`, Line: 106, Col: 71}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
 					if templ_7745c5c3_Err != nil {
