@@ -40,7 +40,7 @@ var (
 	clinicians = []string{"A", "B", "C"}
 )
 
-func Details(data models.OutcomesState) templ.Component {
+func Details(data models.OutcomeDetails) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {

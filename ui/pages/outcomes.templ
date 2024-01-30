@@ -13,9 +13,9 @@ templ Outcomes(data models.OutcomesState) {
 		hx-swap="outerHTML"
 		class="flex flex-col gap-4"
 	>
-		@outcomes.Details(data)
+		@outcomes.Details(data.OutcomeDetails)
 		@outcomes.Options(data)
-		@outcomes.FollowUp(data)
+		@outcomes.FollowUp(data.FollowUp)
 		<div class="flex flex-col px-4">
 			@Label("Other information") {
 				<textarea
@@ -25,5 +25,6 @@ templ Outcomes(data models.OutcomesState) {
 				>{ data.OtherInformation }</textarea>
 			}
 		</div>
+		<button hx-post="/hx/submit-outcomes-form">Submit</button>
 	</form>
 }
