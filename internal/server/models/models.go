@@ -2,7 +2,6 @@ package models
 
 import (
 	"encoding/json"
-	"log"
 )
 
 type OutcomesForm struct {
@@ -64,17 +63,14 @@ type OutcomesForm struct {
 type ArrayString []string
 
 func (a *ArrayString) UnmarshalJSON(b []byte) error {
-	log.Println(string(b))
-	if len(b) == 0 || string(b) == `""` {
-		log.Println(string(b), "is nil or empty")
-		*a = []string{}
-		return nil
-	}
-	if json.Valid(b) {
-		log.Println(string(b), "is valid json")
+	var v interface{}
+	json.Unmarshal(b, &v)
+	switch res := v.(type) {
+	case string:
+		*a = []string{res}
+	default:
 		return json.Unmarshal(b, (*[]string)(a))
 	}
-	*a = []string{string(b)}
 	return nil
 }
 

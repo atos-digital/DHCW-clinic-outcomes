@@ -58,7 +58,7 @@ func (s *Server) handleOutcomesForm() http.HandlerFunc {
 		if data.AddTest != nil {
 			data.FollowUpTestsRequired = append(data.FollowUpTestsRequired, "")
 			data.FollowUpTestsUndertaken = append(data.FollowUpTestsRequired, "")
-			data.FollowUpTestsBy = append(data.FollowUpTestsRequired, "")
+			data.FollowUpTestsBy = append(data.FollowUpTestsRequired, "Day Prior to the Clinic")
 		}
 		// Back into bytes
 		b, err := json.Marshal(data)
