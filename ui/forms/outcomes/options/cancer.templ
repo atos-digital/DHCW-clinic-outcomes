@@ -11,7 +11,7 @@ var (
 	NameCancerPathwayOther   = "cancer_pathway_other"
 )
 
-templ Cacner(data models.CancerPathway) {
+templ Cancer(data models.CancerPathway) {
 	<div class="flex flex-col px-4">
 		@Checkbox("Cancer Pathway", NameCancerPathway)
 		<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !Checked(ctx,NameCancerPathway,"on")) }>
