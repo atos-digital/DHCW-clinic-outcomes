@@ -35,7 +35,7 @@ templ FollowUp(data models.OutcomesState) {
 					@RequiredLabel("See in?") {
 						<div class="flex gap-3">
 							<input type="number" min="1" name="see_in_num" class="dhcw-border shadow-inner px-2 py-0.5 w-16" value={ data.SeeInNum }/>
-							<div class="w-20">
+							<div class="w-24">
 								@Select([]string{"Weeks", "Months", "Years"},data.SeeInUnit,"see_in_unit")
 							</div>
 						</div>
