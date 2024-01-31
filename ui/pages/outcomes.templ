@@ -9,7 +9,7 @@ import (
 templ Outcomes(data models.OutcomesState) {
 	<form
 		hx-post="/hx/outcomes-form"
-		hx-trigger="change, click from:button"
+		hx-trigger="change, click from:button[type=button]"
 		hx-swap="outerHTML"
 		class="flex flex-col gap-4"
 	>
@@ -25,6 +25,9 @@ templ Outcomes(data models.OutcomesState) {
 				>{ data.OtherInformation }</textarea>
 			}
 		</div>
-		<button hx-post="/hx/submit-outcomes-form">Submit</button>
+		<div class="flex justify-end px-4 gap-2">
+			<button hx-post="/hx/save-outcomes-form" hx-target="closest body" hx-push-url="/" class="dhcw-border w-20 p-1 text-white bg-sky-600">Save</button>
+			<button hx-post="/hx/submit-outcomes-form" hx-target="closest body" hx-push-url="/" class="dhcw-border w-20 p-1 text-white bg-emerald-600">Submit</button>
+		</div>
 	</form>
 }

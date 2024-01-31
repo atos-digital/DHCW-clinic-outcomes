@@ -27,9 +27,14 @@ func (db *DB) Close() error {
 
 func (db *DB) Migrate() error {
 	const createTables = `
-	CREATE TABLE IF NOT EXISTS outcomes (
+	CREATE TABLE IF NOT EXISTS state (
 		id INTEGER PRIMARY KEY,
-		state JSON
+		data JSON
+	);
+
+	CREATE TABLE IF NOT EXISTS submissions (
+		id INTEGER PRIMARY KEY,
+		data JSON
 	);
 	`
 	_, err := db.db.Exec(createTables)
@@ -41,17 +46,37 @@ func (db *DB) StoreState(state models.OutcomesState) error {
 	if err != nil {
 		return err
 	}
-	_, err = db.db.Exec("INSERT INTO outcomes (state) VALUES (?)", string(b))
+	_, err = db.db.Exec("INSERT INTO state (data) VALUES (?)", string(b))
 	return err
 }
 
 func (db *DB) GetState(id string) (models.OutcomesState, error) {
 	var state models.OutcomesState
 	var b []byte
-	err := db.db.QueryRow("SELECT state FROM outcomes WHERE id = ?").Scan(&b)
+	err := db.db.QueryRow("SELECT data FROM state WHERE id = ?").Scan(&b)
 	if err != nil {
 		return state, err
 	}
 	err = json.Unmarshal(b, &state)
 	return state, err
+}
+
+func (db *DB) StoreSubmission(submission models.OutcomesSubmit) error {
+	b, err := json.Marshal(submission)
+	if err != nil {
+		return err
+	}
+	_, err = db.db.Exec("INSERT INTO submissions (data) VALUES (?)", string(b))
+	return err
+}
+
+func (db *DB) GetSubmission(id string) (models.OutcomesSubmit, error) {
+	var submission models.OutcomesSubmit
+	var b []byte
+	err := db.db.QueryRow("SELECT data FROM submissions WHERE id = ?").Scan(&b)
+	if err != nil {
+		return submission, err
+	}
+	err = json.Unmarshal(b, &submission)
+	return submission, err
 }
