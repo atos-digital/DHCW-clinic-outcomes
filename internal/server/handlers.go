@@ -119,10 +119,7 @@ func (s *Server) handleSaveOutcomes() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-
-		w.Header().Set("Content-Type", "text/html")
-		pages.DefaultHome.Render(r.Context(), w)
-		// TODO(viv): fix nav
+		w.Header().Set("HX-Location", "/")
 	}
 }
 
@@ -167,8 +164,6 @@ func (s *Server) handleSubmitOutcomes() http.HandlerFunc {
 			return
 		}
 
-		w.Header().Set("Content-Type", "text/html")
-		pages.DefaultHome.Render(r.Context(), w)
-		// TODO(viv): fix nav
+		w.Header().Set("HX-Location", "/")
 	}
 }
