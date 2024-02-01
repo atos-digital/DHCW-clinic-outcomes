@@ -119,6 +119,7 @@ func (s *Server) handleSaveOutcomes() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
 		w.Header().Set("HX-Location", "/")
 	}
 }

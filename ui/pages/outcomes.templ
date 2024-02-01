@@ -18,11 +18,7 @@ templ Outcomes(data models.OutcomesState) {
 		@outcomes.FollowUp(data.FollowUp)
 		<div class="flex flex-col px-4">
 			@Label("Other information") {
-				<textarea
-					class="dhcw-border shadow-inner px-2 py-0.5 w-full"
-					name="other_information"
-					placeholder="Add any other relevant information such as any outpatient procedures taken, or details of any tests required before next appointment."
-				>{ data.OtherInformation }</textarea>
+				@TextArea("other_information",data.OtherInformation,"Add any other relevant information such as any outpatient procedures taken, or details of any tests required before next appointment.")
 			}
 		</div>
 		<div class="flex justify-end px-4 gap-2">
