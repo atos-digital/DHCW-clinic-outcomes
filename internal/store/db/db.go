@@ -32,7 +32,7 @@ func (db *DB) Migrate() error {
 		data JSON
 	);
 
-	CREATE TABLE IF NOT EXISTS submissions (
+	CREATE TABLE IF NOT EXISTS submission (
 		id INTEGER PRIMARY KEY,
 		data JSON
 	);
@@ -66,14 +66,14 @@ func (db *DB) StoreSubmission(submission models.OutcomesSubmit) error {
 	if err != nil {
 		return err
 	}
-	_, err = db.db.Exec("INSERT INTO submissions (data) VALUES (?)", string(b))
+	_, err = db.db.Exec("INSERT INTO submission (data) VALUES (?)", string(b))
 	return err
 }
 
 func (db *DB) GetSubmission(id string) (models.OutcomesSubmit, error) {
 	var submission models.OutcomesSubmit
 	var b []byte
-	err := db.db.QueryRow("SELECT data FROM submissions WHERE id = ?").Scan(&b)
+	err := db.db.QueryRow("SELECT data FROM submission WHERE id = ?").Scan(&b)
 	if err != nil {
 		return submission, err
 	}
