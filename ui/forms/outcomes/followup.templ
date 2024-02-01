@@ -1,6 +1,8 @@
 package outcomes
 
 import (
+	"fmt"
+
 	. "github.com/atos-digital/DHCW-clinic-outcomes/ui/components"
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
 )
@@ -96,10 +98,10 @@ templ FollowupTest(data []models.Test) {
 		for i:=0;i<len(data);i++ {
 			<div class="grid grid-cols-3 gap-4 w-full mb-2">
 				@RequiredLabel("Test(s) required") {
-					@TextInput("tests.required",data[i].TestsRequired,"")
+					<input id={ fmt.Sprintf("tests.required.%d", i) } name="tests.required" value={ data[i].TestsRequired } class="dhcw-border shadow-inner px-2 py-0.5 w-2/3 block"/>
 				}
 				@RequiredLabel("Undertaken by") {
-					@TextInput("tests.undertaken",data[i].UndertakenBy,"")
+					<input id={ fmt.Sprintf("tests.undertaken.%d", i) } name="tests.undertaken" value={ data[i].UndertakenBy } class="dhcw-border shadow-inner px-2 py-0.5 w-2/3 block"/>
 				}
 				@RequiredLabel("Test(s) required by") {
 					@Select([]string{"Day Prior to the Clinic", "Day of Clinic", "Other (Please Specify)"},data[i].TestsRequiredBy,"tests.by")
