@@ -1,7 +1,11 @@
 package components
 
 templ TextInput(name, value, placeholder string) {
-	<input name={ name } value={ value } type="text" class="dhcw-border shadow-inner px-2 py-0.5 w-2/3 block" placeholder={ placeholder }/>
+	<input id={ name } name={ name } value={ value } type="text" class="dhcw-border shadow-inner px-2 py-0.5 w-2/3 block" placeholder={ placeholder }/>
+}
+
+templ TextArea(name, value, placeholder string) {
+	<textarea id={ name } name={ name } class="dhcw-border shadow-inner px-2 py-0.5 w-full" placeholder={ placeholder }>{ value }</textarea>
 }
 
 templ Radio(text , name string) {
