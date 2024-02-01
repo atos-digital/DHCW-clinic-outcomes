@@ -21,7 +21,6 @@ type OutcomesForm struct {
 	CouldNotAttend               string      `json:"could_not_attend"`
 	ReferToDiagnosticsData       string      `json:"refer_to_diagnostics_data"`
 	ReferToAnotherData           string      `json:"refer_to_another_data"`
-	ReferToTreatment             string      `json:"refer_to_treatment"`
 	ReferRoTreatmentSact         string      `json:"refer_to_treatment_sact"`
 	ReferRoTreatmentRadiotherapy string      `json:"refer_to_treatment_radiotherapy"`
 	ReferRoTreatmentOther        string      `json:"refer_to_treatment_other"`
@@ -42,10 +41,10 @@ type OutcomesForm struct {
 	AppointmentDP                string      `json:"appointment_dp"`
 	PreferredConsultationMethod  string      `json:"preferred_consultation_method"`
 	TestsRequired                string      `json:"tests_required"`
-	OtherInformation             string      `json:"other_information"`
 	FollowUpTestsRequired        ArrayString `json:"tests.required"`
 	FollowUpTestsUndertaken      ArrayString `json:"tests.undertaken"`
 	FollowUpTestsBy              ArrayString `json:"tests.by"`
+	OtherInformation             string      `json:"other_information"`
 }
 
 type ArrayString []string
@@ -99,13 +98,12 @@ func (o OutcomesForm) State() OutcomesState {
 
 			ReferToDiagnosticsData: o.ReferToDiagnosticsData,
 			ReferToAnotherData:     o.ReferToAnotherData,
-			ReferToTreatment:       o.ReferToTreatment,
+			ReferToTherapyData:     o.ReferToTherapyData,
 
 			ReferRoTreatmentSact:         o.ReferRoTreatmentSact,
 			ReferRoTreatmentRadiotherapy: o.ReferRoTreatmentRadiotherapy,
 			ReferRoTreatmentOther:        o.ReferRoTreatmentOther,
 			ReferRoTreatmentData:         o.ReferRoTreatmentData,
-			ReferToTherapyData:           o.ReferToTherapyData,
 
 			DiscussAtMdtData:        o.DiscussAtMdtData,
 			OutpatientProcedureData: o.OutpatientProcedureData,

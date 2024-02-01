@@ -80,12 +80,13 @@ func (s *Server) handleOutcomesForm() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
 		w.Header().Set("Content-Type", "text/html")
 		pages.Outcomes(data.State()).Render(r.Context(), w)
 	}
 }
 
-func (s *Server) handleSubmitOutcomes() http.HandlerFunc {
+func (s *Server) handleSaveOutcomes() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// Read the body to get the latest form data.
 		var data models.OutcomesForm
@@ -118,7 +119,56 @@ func (s *Server) handleSubmitOutcomes() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
 		w.Header().Set("Content-Type", "text/html")
-		pages.Home().Render(r.Context(), w)
+		pages.DefaultHome.Render(r.Context(), w)
+		// TODO(viv): fix nav
+	}
+}
+
+func (s *Server) handleSubmitOutcomes() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// Read the body to get the latest form data.
+		var data models.OutcomesForm
+		err := json.NewDecoder(r.Body).Decode(&data)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Error parsing form data", http.StatusBadRequest)
+			return
+		}
+
+		submission, err := data.State().Submit()
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Error submitting form data", http.StatusInternalServerError)
+			return
+		}
+
+		// Store the data in the database.
+		err = s.db.StoreSubmission(submission)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Error submitting form data", http.StatusInternalServerError)
+			return
+		}
+
+		// Get the session store
+		session, err := s.sess.Get(r, s.conf.CookieName)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		// Update and save
+		session.Values["outcomes-form-data"] = []byte{}
+		err = session.Save(r, w)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "text/html")
+		pages.DefaultHome.Render(r.Context(), w)
+		// TODO(viv): fix nav
 	}
 }
