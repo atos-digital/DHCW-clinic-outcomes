@@ -1,6 +1,9 @@
 package tables
 
-import "github.com/atos-digital/DHCW-clinic-outcomes/internal/store/db"
+import (
+	"fmt"
+	"github.com/atos-digital/DHCW-clinic-outcomes/internal/store/db"
+)
 
 templ SubmittedFormsTable(subs []db.Submission) {
 	<table class="border border-1 border-zinc-500 w-1/2">
@@ -16,9 +19,31 @@ templ SubmittedFormsTable(subs []db.Submission) {
 				<td class="p-2">{ subs.ID }</td>
 				<td class="p-2">{ subs.DateCreated.Format("02 Jan 06 15:04 MST") }</td>
 				<td class="">
-					<button class="bg-sky-700 px-3 py-1 text-white rounded-3xl shadow-sm hover:bg-sky-600">See Answers</button>
+					<button
+						class="bg-sky-700 px-3 py-1 text-white rounded-3xl shadow-sm hover:bg-sky-600"
+						hx-trigger="click"
+						hx-get={ fmt.Sprintf("/hx/view-submission/%s", subs.ID) }
+						hx-target="#answers"
+						hx-swap="innerHTML"
+					>See Answers</button>
 				</td>
 			</tr>
 		}
+	</table>
+	<div id="answers"></div>
+}
+
+templ SubmittedFormAnswers(sub db.Submission) {
+	<table>
+		<th>
+			<tr>
+				<td>Question</td>
+				<td>Answer</td>
+			</tr>
+			<tr>
+				<td>Senior Responsible Clinician</td>
+				<td>{ sub.Data.EventDetails.SeniorResponsibleClinician }</td>
+			</tr>
+		</th>
 	</table>
 }

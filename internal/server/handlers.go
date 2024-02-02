@@ -5,9 +5,12 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/go-chi/chi/v5"
+
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/pages"
+	"github.com/atos-digital/DHCW-clinic-outcomes/ui/tables"
 )
 
 func (s *Server) HandleFavicon() http.Handler {
@@ -31,6 +34,20 @@ func (s *Server) handlePageIndex() http.HandlerFunc {
 		}
 		w.Header().Set("Content-Type", "text/html")
 		ui.Index(pages.Home(subs)).Render(r.Context(), w)
+	}
+}
+
+func (s *Server) handleViewSubmission() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		id := chi.URLParam(r, "id")
+		sub, err := s.db.GetSubmission(id)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html")
+		tables.SubmittedFormAnswers(sub).Render(r.Context(), w)
 	}
 }
 

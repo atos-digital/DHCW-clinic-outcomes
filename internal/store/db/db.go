@@ -83,7 +83,7 @@ func (db *DB) GetSubmission(id string) (Submission, error) {
 	var submission Submission
 	var data []byte
 	var dateCreated time.Time
-	err := db.db.QueryRow("SELECT data,date_created FROM submission WHERE id = ?").Scan(&data, &dateCreated)
+	err := db.db.QueryRow("SELECT data,date_created FROM submission WHERE id = ?", id).Scan(&data, &dateCreated)
 	if err != nil {
 		return submission, err
 	}
