@@ -143,7 +143,7 @@ func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 
 	if submit.FollowUpRequired {
 		switch {
-		case submit.FollowUp.Pathway == "":
+		case state.FollowUp.Pathway == "":
 			errors.Errors = append(errors.Errors, "Select follow up pathway")
 		default:
 			submit.FollowUp.Pathway = state.FollowUp.Pathway
