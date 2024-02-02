@@ -48,13 +48,13 @@ type FollowUp struct {
 	FollowUp                    string
 	Pathway                     string
 	SameClinician               string
-	SameClinicianAnswer         string
+	SameClinicianNo             string
 	SameClinic                  string
-	SameClinicAnswer            string
+	SameClinicNo                string
 	SeeInUnit                   string
 	SeeInNum                    string
 	Hospital                    string
-	AppointmentDP               string
+	AppointmentPriority         string
 	Condition                   string
 	PreferredConsultationMethod string
 	TestsRequired               string
@@ -145,13 +145,13 @@ func (o OutcomesState) Submit() (OutcomesSubmit, error) {
 		submit.FollowUp.Pathway = o.FollowUp.Pathway
 
 		if o.FollowUp.SameClinician == "No" {
-			submit.FollowUp.SameClinician = fmt.Sprintf("No: %s", o.FollowUp.SameClinicianAnswer)
+			submit.FollowUp.SameClinician = fmt.Sprintf("No: %s", o.FollowUp.SameClinicianNo)
 		} else {
 			submit.FollowUp.SameClinician = o.FollowUp.SameClinician
 		}
 
 		if o.FollowUp.SameClinic == "No" {
-			submit.FollowUp.SameClinic = fmt.Sprintf("No: %s", o.FollowUp.SameClinicAnswer)
+			submit.FollowUp.SameClinic = fmt.Sprintf("No: %s", o.FollowUp.SameClinicNo)
 		} else {
 			submit.FollowUp.SameClinic = o.FollowUp.SameClinic
 		}
@@ -172,7 +172,7 @@ func (o OutcomesState) Submit() (OutcomesSubmit, error) {
 		}
 
 		submit.FollowUp.Hospital = o.FollowUp.Hospital
-		submit.FollowUp.AppointmentDP = o.FollowUp.AppointmentDP
+		submit.FollowUp.AppointmentPriority = o.FollowUp.AppointmentPriority
 		submit.FollowUp.ClinicalCondition = o.FollowUp.Condition
 
 		submit.FollowUp.PreferredConsultationMethod = o.FollowUp.PreferredConsultationMethod

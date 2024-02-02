@@ -29,7 +29,7 @@ templ FollowUp(data models.FollowUp) {
 							@Radio("Yes", "same_clinician")
 							@Radio("No", "same_clinician") {
 								<div class={ templ.KV("hidden", !Checked(ctx, "same_clinician", "No")) }>
-									@TextInput("same_clinician_answer",data.SameClinicianAnswer,"Specify")
+									@TextInput("same_clinician_no",data.SameClinicianNo,"Specify")
 								</div>
 							}
 						</div>
@@ -44,7 +44,7 @@ templ FollowUp(data models.FollowUp) {
 					}
 					@Label("Appointment Directive / Priority") {
 						@Tooltip("Appointment Directive / Priority")
-						@TextInput("appointment_dp", data.AppointmentDP ,"Specify")
+						@TextInput("appointment_priority", data.AppointmentPriority ,"Specify")
 					}
 				</div>
 				<div class="flex flex-col gap-3">
@@ -53,7 +53,7 @@ templ FollowUp(data models.FollowUp) {
 							@Radio("Yes", "same_clinic")
 							@Radio("No", "same_clinic") {
 								<div class={ templ.KV("hidden", !Checked(ctx, "same_clinic", "No")) }>
-									@TextInput("same_clinic_answer",data.SameClinicAnswer,"Specify")
+									@TextInput("same_clinic_no",data.SameClinicNo,"Specify")
 								</div>
 							}
 						</div>

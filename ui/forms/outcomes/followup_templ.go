@@ -159,7 +159,7 @@ func FollowUp(data models.FollowUp) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = TextInput("same_clinician_answer", data.SameClinicianAnswer, "Specify").Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = TextInput("same_clinician_no", data.SameClinicianNo, "Specify").Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -238,7 +238,7 @@ func FollowUp(data models.FollowUp) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = TextInput("appointment_dp", data.AppointmentDP, "Specify").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = TextInput("appointment_priority", data.AppointmentPriority, "Specify").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -292,7 +292,7 @@ func FollowUp(data models.FollowUp) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = TextInput("same_clinic_answer", data.SameClinicAnswer, "Specify").Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = TextInput("same_clinic_no", data.SameClinicNo, "Specify").Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

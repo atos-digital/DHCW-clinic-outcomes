@@ -30,7 +30,7 @@ type FollowUpAns struct {
 	SeeIn                       string
 	DateTime                    time.Time
 	Hospital                    string
-	AppointmentDP               string
+	AppointmentPriority         string
 	ClinicalCondition           string
 	PreferredConsultationMethod string
 	Tests                       []Test

@@ -33,14 +33,14 @@ type OutcomesForm struct {
 	FollowUp                    string `json:"follow_up"`
 	Pathway                     string `json:"pathway"`
 	SameClinician               string `json:"same_clinician"`
-	SameClinicianAnswer         string `json:"same_clinician_answer"`
-	SeeInUnit                   string `json:"see_in_unit"`
-	SeeInNum                    string `json:"see_in_num"`
+	SameClinicianNo             string `json:"same_clinician_no"`
 	SameClinic                  string `json:"same_clinic"`
-	SameClinicAnswer            string `json:"same_clinic_answer"`
+	SameClinicNo                string `json:"same_clinic_no"`
+	SeeInNum                    string `json:"see_in_num"`
+	SeeInUnit                   string `json:"see_in_unit"`
 	Hospital                    string `json:"hospital"`
+	AppointmentPriority         string `json:"appointment_priority"`
 	Condition                   string `json:"condition"`
-	AppointmentDP               string `json:"appointment_dp"`
 	PreferredConsultationMethod string `json:"preferred_consultation_method"`
 
 	TestsRequired           string      `json:"tests_required"`
@@ -117,13 +117,13 @@ func (o OutcomesForm) State() OutcomesState {
 			FollowUp:                    o.FollowUp,
 			Pathway:                     o.Pathway,
 			SameClinician:               o.SameClinician,
-			SameClinicianAnswer:         o.SameClinicianAnswer,
+			SameClinicianNo:             o.SameClinicianNo,
 			SameClinic:                  o.SameClinic,
-			SameClinicAnswer:            o.SameClinicAnswer,
+			SameClinicNo:                o.SameClinicNo,
 			SeeInUnit:                   o.SeeInUnit,
 			SeeInNum:                    o.SeeInNum,
 			Hospital:                    o.Hospital,
-			AppointmentDP:               o.AppointmentDP,
+			AppointmentPriority:         o.AppointmentPriority,
 			Condition:                   o.Condition,
 			PreferredConsultationMethod: o.PreferredConsultationMethod,
 			TestsRequired:               o.TestsRequired,
