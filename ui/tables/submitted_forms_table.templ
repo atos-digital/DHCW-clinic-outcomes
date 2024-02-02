@@ -44,6 +44,18 @@ templ SubmittedFormAnswers(sub db.Submission) {
 				<td>Senior Responsible Clinician</td>
 				<td>{ sub.Data.EventDetails.SeniorResponsibleClinician }</td>
 			</tr>
+			<tr>
+				<td>Event Date</td>
+				<td>{ sub.Data.EventDetails.DateTime.Format("02 Jan 06 15:04 MST") }</td>
+			</tr>
+			<tr>
+				<td>Event Type</td>
+				<td>{ sub.Data.EventDetails.Type }</td>
+			</tr>
+			<tr>
+				<td>Speciality</td>
+				<td>{ sub.Data.EventDetails.Specialty }</td>
+			</tr>
 		</th>
 	</table>
 }
