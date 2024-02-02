@@ -45,8 +45,8 @@ type ClinicOutcomesFormPayload struct {
 
 	TestsRequiredBeforeFollowup string      `json:"tests_required_before_followup"`
 	TestsRequired               ArrayString `json:"tests_required"`
-	TestsUndertakenBy           ArrayString `json:"tests.undertaken"`
-	TestsBy                     ArrayString `json:"tests.by"`
+	TestsUndertakenBy           ArrayString `json:"tests_undertaken_by"`
+	TestsBy                     ArrayString `json:"tests_by"`
 	AddTest                     *string     `json:"add_test"`
 
 	OtherInformation string `json:"other_information"`
