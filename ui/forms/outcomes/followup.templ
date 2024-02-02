@@ -101,10 +101,10 @@ templ FollowupTest(data []models.Test) {
 					<input id={ fmt.Sprintf("tests_required.%d", i) } name="tests_required" value={ data[i].TestsRequired } class="dhcw-border shadow-inner px-2 py-0.5 w-2/3 block"/>
 				}
 				@RequiredLabel("Undertaken by") {
-					<input id={ fmt.Sprintf("tests.undertaken.%d", i) } name="tests.undertaken" value={ data[i].TestsUndertakenBy } class="dhcw-border shadow-inner px-2 py-0.5 w-2/3 block"/>
+					<input id={ fmt.Sprintf("tests_undertaken.%d", i) } name="tests_undertaken" value={ data[i].TestsUndertakenBy } class="dhcw-border shadow-inner px-2 py-0.5 w-2/3 block"/>
 				}
 				@RequiredLabel("Test(s) required by") {
-					@Select([]string{"Day Prior to the Clinic", "Day of Clinic", "Other (Please Specify)"},data[i].TestsRequiredBy,"tests.by")
+					@Select([]string{"Day Prior to the Clinic", "Day of Clinic", "Other (Please Specify)"},data[i].TestsRequiredBy,"tests_by")
 				}
 			</div>
 		}

@@ -540,11 +540,11 @@ func FollowupTest(data []models.Test) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(fmt.Sprintf("tests.undertaken.%d", i)))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(fmt.Sprintf("tests_undertaken.%d", i)))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" name=\"tests.undertaken\" value=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" name=\"tests_undertaken\" value=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -571,7 +571,7 @@ func FollowupTest(data []models.Test) templ.Component {
 					templ_7745c5c3_Buffer = templ.GetBuffer()
 					defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 				}
-				templ_7745c5c3_Err = Select([]string{"Day Prior to the Clinic", "Day of Clinic", "Other (Please Specify)"}, data[i].TestsRequiredBy, "tests.by").Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = Select([]string{"Day Prior to the Clinic", "Day of Clinic", "Other (Please Specify)"}, data[i].TestsRequiredBy, "tests_by").Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
