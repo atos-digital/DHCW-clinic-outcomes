@@ -58,11 +58,13 @@ func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 	submit.Details.Clinician = state.Details.EventClinician
 
 	// CancerPathway
-	if !state.CancerPathway.Checked {
+
+	switch {
+	case !state.CancerPathway.Checked:
 		submit.CancerPathway = "NA"
-	} else if state.CancerPathway.Option == "Other" {
+	case state.CancerPathway.Option == "Other":
 		submit.CancerPathway = fmt.Sprintf("Other: %s", state.CancerPathway.Other)
-	} else {
+	default:
 		submit.CancerPathway = state.CancerPathway.Option
 	}
 
@@ -86,13 +88,14 @@ func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 		submit.Outcome.AnswerDetails = state.Outcome.ReferToTherapiesDetails
 	case "Refer to Treatment":
 		ans := ""
-		if state.Outcome.ReferToTreatmentSact == "on" {
+		switch {
+		case state.Outcome.ReferToTreatmentSact == "on":
 			ans += "SACT "
-		}
-		if state.Outcome.ReferToTreatmentRadiotherapy == "on" {
+			fallthrough
+		case state.Outcome.ReferToTreatmentRadiotherapy == "on":
 			ans += "Radiotherapy "
-		}
-		if state.Outcome.ReferToTreatmentOther == "on" {
+			fallthrough
+		case state.Outcome.ReferToTreatmentOther == "on":
 			ans += fmt.Sprintf("Other: %s", state.Outcome.ReferToTreatmentDetails)
 		}
 		submit.Outcome.AnswerDetails = strings.TrimSuffix(ans, " ")
