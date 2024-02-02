@@ -15,7 +15,7 @@ import (
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/tables"
 )
 
-func Home(subs []db.Submission) templ.Component {
+func Home(subs []db.Submission, saves []db.Save) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -28,7 +28,7 @@ func Home(subs []db.Submission) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><h1 class=\"font-semibold text-sky-900 text-2xl py-2x\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><h1 class=\"font-semibold text-sky-900 text-2xl py-2\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -41,7 +41,7 @@ func Home(subs []db.Submission) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = tables.SavedFormsTable().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = tables.SavedFormsTable(saves).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

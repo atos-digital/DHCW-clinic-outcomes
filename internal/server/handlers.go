@@ -32,8 +32,13 @@ func (s *Server) handlePageIndex() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		save, err := s.db.GetAllStates()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 		w.Header().Set("Content-Type", "text/html")
-		ui.Index(pages.Home(subs)).Render(r.Context(), w)
+		ui.Index(pages.Home(subs, save)).Render(r.Context(), w)
 	}
 }
 

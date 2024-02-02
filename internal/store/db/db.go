@@ -31,6 +31,7 @@ func (db *DB) Migrate() error {
 	const createTables = `
 	CREATE TABLE IF NOT EXISTS state (
 		id INTEGER PRIMARY KEY,
+		date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		data JSON
 	);
 
@@ -44,6 +45,12 @@ func (db *DB) Migrate() error {
 	return err
 }
 
+type Save struct {
+	ID          string
+	Data        models.ClinicOutcomesFormState
+	DateCreated time.Time
+}
+
 func (db *DB) StoreState(state models.ClinicOutcomesFormState) error {
 	b, err := json.Marshal(state)
 	if err != nil {
@@ -53,15 +60,52 @@ func (db *DB) StoreState(state models.ClinicOutcomesFormState) error {
 	return err
 }
 
-func (db *DB) GetState(id string) (models.ClinicOutcomesFormState, error) {
-	var state models.ClinicOutcomesFormState
+func (db *DB) GetState(id string) (Save, error) {
+	var save Save
 	var b []byte
-	err := db.db.QueryRow("SELECT data FROM state WHERE id = ?").Scan(&b)
+	var dateCreated time.Time
+	err := db.db.QueryRow("SELECT data, date_created FROM state WHERE id = ?", id).Scan(&b, &dateCreated)
 	if err != nil {
-		return state, err
+		return save, err
 	}
+	var state models.ClinicOutcomesFormState
 	err = json.Unmarshal(b, &state)
-	return state, err
+	if err != nil {
+		return save, err
+	}
+	save.ID = id
+	save.DateCreated = dateCreated
+	save.Data = state
+	return save, nil
+}
+
+func (db *DB) GetAllStates() ([]Save, error) {
+	var saves []Save
+	rows, err := db.db.Query("SELECT id,data,date_created FROM state")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var id int
+		var data []byte
+		var dateCreated time.Time
+		err = rows.Scan(&id, &data, &dateCreated)
+		if err != nil {
+			return nil, err
+		}
+		var save Save
+		var state models.ClinicOutcomesFormState
+		err = json.Unmarshal(data, &state)
+		if err != nil {
+			return nil, err
+		}
+		save.ID = strconv.Itoa(id)
+		save.DateCreated = dateCreated
+		save.Data = state
+		saves = append(saves, save)
+	}
+	return saves, rows.Err()
 }
 
 func (db *DB) StoreSubmission(submission models.ClinicOutcomesFormSubmit) error {
