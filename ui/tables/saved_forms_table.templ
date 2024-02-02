@@ -1,6 +1,7 @@
 package tables
 
 import (
+	"fmt"
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/store/db"
 )
 
@@ -20,7 +21,9 @@ templ SavedFormsTable(saves []db.Save) {
 				<td class="p-2">
 					<button
 						class="bg-sky-700 px-3 py-1 text-white rounded-3xl shadow-sm hover:bg-sky-600"
-						hx-trigger="click"
+						hx-get={ fmt.Sprintf("/hx/load-save/%s", save.ID) }
+						hx-push-url="/outcomes"
+						hx-target="body"
 					>Load Save</button>
 				</td>
 			</tr>

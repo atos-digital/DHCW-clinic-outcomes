@@ -29,6 +29,7 @@ func (s *Server) Routes() error {
 		r.Method(http.MethodPost, "/outcomes-form", s.handleClinicOutcomesForm())
 		r.Method(http.MethodPost, "/save-outcomes-form", s.handleSaveOutcomes())
 		r.Method(http.MethodPost, "/submit-outcomes-form", s.handleSubmitOutcomes())
+		r.Method(http.MethodGet, "/load-save/{id}", s.handleLoadState())
 	})
 
 	return nil

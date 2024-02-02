@@ -2,6 +2,7 @@ package server
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -53,6 +54,21 @@ func (s *Server) handleViewSubmission() http.HandlerFunc {
 		}
 		w.Header().Set("Content-Type", "text/html")
 		tables.SubmittedFormAnswers(sub).Render(r.Context(), w)
+	}
+}
+
+func (s *Server) handleLoadState() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		id := chi.URLParam(r, "id")
+		state, err := s.db.GetState(id)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html")
+		fmt.Print(state.Data)
+		ui.Index(pages.Outcomes(state.Data)).Render(r.Context(), w)
 	}
 }
 
