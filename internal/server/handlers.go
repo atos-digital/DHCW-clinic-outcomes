@@ -65,8 +65,27 @@ func (s *Server) handleLoadState() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
+		b, err := json.Marshal(state.Data)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		session, err := s.sess.Get(r, s.conf.CookieName)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		session.Values["outcomes-form-data"] = b
+		err = session.Save(r, w)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
 		w.Header().Set("Content-Type", "text/html")
-		ui.Index(pages.Outcomes(state.Data)).Render(r.Context(), w)
+		ui.Index(pages.Outcomes(models.State(state.Data))).Render(r.Context(), w)
 	}
 }
 
@@ -140,7 +159,7 @@ func (s *Server) handleSaveOutcomes() http.HandlerFunc {
 		}
 
 		// Store the data in the database.
-		err = s.db.StoreState(models.State(data))
+		err = s.db.StoreState(data)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, "Error storing form data", http.StatusInternalServerError)

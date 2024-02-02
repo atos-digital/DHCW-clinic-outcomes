@@ -47,11 +47,11 @@ func (db *DB) Migrate() error {
 
 type Save struct {
 	ID          string
-	Data        models.ClinicOutcomesFormState
+	Data        models.ClinicOutcomesFormPayload
 	DateCreated time.Time
 }
 
-func (db *DB) StoreState(state models.ClinicOutcomesFormState) error {
+func (db *DB) StoreState(state models.ClinicOutcomesFormPayload) error {
 	b, err := json.Marshal(state)
 	if err != nil {
 		return err
@@ -68,7 +68,7 @@ func (db *DB) GetState(id string) (Save, error) {
 	if err != nil {
 		return save, err
 	}
-	var state models.ClinicOutcomesFormState
+	var state models.ClinicOutcomesFormPayload
 	err = json.Unmarshal(b, &state)
 	if err != nil {
 		return save, err
@@ -95,7 +95,7 @@ func (db *DB) GetAllStates() ([]Save, error) {
 			return nil, err
 		}
 		var save Save
-		var state models.ClinicOutcomesFormState
+		var state models.ClinicOutcomesFormPayload
 		err = json.Unmarshal(data, &state)
 		if err != nil {
 			return nil, err
