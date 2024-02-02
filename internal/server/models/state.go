@@ -1,12 +1,5 @@
 package models
 
-import (
-	"fmt"
-	"strconv"
-	"strings"
-	"time"
-)
-
 type ClinicOutcomesFormState struct {
 	Details          DetailsState
 	CancerPathway    CancerPathwayState
@@ -70,120 +63,69 @@ type FollowUpState struct {
 	Tests                       []Test
 }
 
-func (o ClinicOutcomesFormState) Submit() (ClinicOutcomesFormSubmit, error) {
-	var submit ClinicOutcomesFormSubmit
-
-	// EventDetails
-	dateString := fmt.Sprintf("%s %s", o.Details.EventDate, o.Details.EventTime)
-	dateTime, err := time.Parse("2006-01-02 15:04", dateString)
-	if err != nil {
-		fmt.Println("Error parsing date:", err)
-		return ClinicOutcomesFormSubmit{}, err
+func State(payload ClinicOutcomesFormPayload) ClinicOutcomesFormState {
+	num := len(payload.TestsRequired)
+	if num == 0 {
+		num = 1
 	}
-
-	submit.DetailsSubmit.DateTime = dateTime
-	submit.DetailsSubmit.Type = o.Details.EventType
-	submit.DetailsSubmit.Specialty = o.Details.EventSpecialty
-	submit.DetailsSubmit.Clinician = o.Details.EventClinician
-
-	// CancerPathway
-	if !o.CancerPathway.Checked {
-		submit.CancerPathway = "NA"
-	} else if o.CancerPathway.Option == "Other" {
-		submit.CancerPathway = fmt.Sprintf("Other: %s", o.CancerPathway.Other)
-	} else {
-		submit.CancerPathway = o.CancerPathway.Option
-	}
-
-	// Outcome
-	submit.Outcome.Answer = o.Outcome.OutcomeOption
-
-	switch submit.Outcome.Answer {
-	case "See on Symptom":
-		submit.Outcome.AnswerDetails = o.Outcome.SeeOnSymptomDetails
-	case "Did Not Answer":
-		submit.Outcome.AnswerDetails = o.Outcome.DidNotAnswerDetails
-	case "Did Not Attend":
-		submit.Outcome.AnswerDetails = o.Outcome.DidNotAttendDetails
-	case "Could Not Attend":
-		submit.Outcome.AnswerDetails = o.Outcome.CouldNotAttendDetails
-	case "Refer to Diagnostics":
-		submit.Outcome.AnswerDetails = o.Outcome.ReferToDiagnosticsDetails
-	case "Refer to another consultant / specialty":
-		submit.Outcome.AnswerDetails = o.Outcome.ReferToAnotherDetails
-	case "Refer to Therapies":
-		submit.Outcome.AnswerDetails = o.Outcome.ReferToTherapiesDetails
-	case "Refer to Treatment":
-		ans := ""
-		if o.Outcome.ReferToTreatmentSact == "on" {
-			ans += "SACT "
-		}
-		if o.Outcome.ReferToTreatmentRadiotherapy == "on" {
-			ans += "Radiotherapy "
-		}
-		if o.Outcome.ReferToTreatmentOther == "on" {
-			ans += fmt.Sprintf("Other: %s", o.Outcome.ReferToTreatmentDetails)
-		}
-		submit.Outcome.AnswerDetails = strings.TrimSuffix(ans, " ")
-	case "Refer to treatment - SACT":
-		submit.Outcome.AnswerDetails = o.Outcome.ReferToTreatmentSact
-	case "Refer to treatment - Radiotherapy":
-		submit.Outcome.AnswerDetails = o.Outcome.ReferToTreatmentRadiotherapy
-	case "Refer to treatment - Other":
-		submit.Outcome.AnswerDetails = o.Outcome.ReferToTreatmentOther
-	case "Discuss at MDT":
-		submit.Outcome.AnswerDetails = o.Outcome.DiscussAtMdtDetails
-	case "Listed for Outpatient Procedure":
-		submit.Outcome.AnswerDetails = o.Outcome.OutpatientProcedureDetails
-	default:
-		submit.Outcome.AnswerDetails = "NA"
-	}
-
-	// FollowUp
-	submit.FollowUpRequired = o.FollowUp.FollowUp == "on"
-
-	if submit.FollowUpRequired {
-		submit.FollowUp.Pathway = o.FollowUp.Pathway
-
-		if o.FollowUp.SameClinician == "No" {
-			submit.FollowUp.SameClinician = fmt.Sprintf("No: %s", o.FollowUp.SameClinicianNo)
-		} else {
-			submit.FollowUp.SameClinician = o.FollowUp.SameClinician
-		}
-
-		if o.FollowUp.SameClinic == "No" {
-			submit.FollowUp.SameClinic = fmt.Sprintf("No: %s", o.FollowUp.SameClinicNo)
-		} else {
-			submit.FollowUp.SameClinic = o.FollowUp.SameClinic
-		}
-
-		submit.FollowUp.SeeIn = o.FollowUp.SeeInNum + " " + o.FollowUp.SeeInUnit
-		seeInNum, err := strconv.Atoi(o.FollowUp.SeeInNum)
-		if err != nil {
-			fmt.Println("Error parsing number:", err)
-			return ClinicOutcomesFormSubmit{}, err
-		}
-		switch o.FollowUp.SeeInUnit {
-		case "Weeks":
-			submit.FollowUp.DateTime = time.Now().AddDate(0, 0, seeInNum*7)
-		case "Months":
-			submit.FollowUp.DateTime = time.Now().AddDate(0, seeInNum, 0)
-		case "Years":
-			submit.FollowUp.DateTime = time.Now().AddDate(seeInNum, 0, 0)
-		}
-
-		submit.FollowUp.Hospital = o.FollowUp.Hospital
-		submit.FollowUp.AppointmentPriority = o.FollowUp.AppointmentPriority
-		submit.FollowUp.ClinicalCondition = o.FollowUp.Condition
-
-		submit.FollowUp.PreferredConsultationMethod = o.FollowUp.PreferredConsultationMethod
-		if o.FollowUp.TestsRequiredBeforeFollowup == "Yes" {
-			submit.FollowUp.Tests = o.FollowUp.Tests
-			// TODO(viv): check if all fields populated before adding
+	tests := make([]Test, num)
+	for i, v := range payload.TestsRequired {
+		tests[i] = Test{
+			TestsRequired:     v,
+			TestsUndertakenBy: payload.TestsUndertakenBy[i],
+			TestsRequiredBy:   payload.TestsBy[i],
 		}
 	}
 
-	// OtherInformation
-	submit.OtherInformation = o.OtherInformation
-	return submit, nil
+	return ClinicOutcomesFormState{
+		Details: DetailsState{
+			EventDate:      payload.EventDate,
+			EventTime:      payload.EventTime,
+			EventType:      payload.EventType,
+			EventSpecialty: payload.EventSpecialty,
+			EventClinician: payload.EventClinician,
+		},
+		CancerPathway: CancerPathwayState{
+			Checked: payload.CancerPathway == "on",
+			Option:  payload.CancerPathwayOption,
+			Other:   payload.CancerPathwayOther,
+		},
+		Outcome: OutcomeState{
+			OutcomeOption:       payload.OutcomeOption,
+			SeeOnSymptomDetails: payload.SeeOnSymptomDetails,
+
+			DidNotAnswerDetails:   payload.DidNotAnswerDetails,
+			DidNotAttendDetails:   payload.DidNotAttendDetails,
+			CouldNotAttendDetails: payload.CouldNotAttendDetails,
+
+			ReferToDiagnosticsDetails: payload.ReferToDiagnosticsDetails,
+			ReferToAnotherDetails:     payload.ReferToAnotherDetails,
+			ReferToTherapiesDetails:   payload.ReferToTherapiesDetails,
+
+			ReferToTreatmentSact:         payload.ReferToTreatmentSact,
+			ReferToTreatmentRadiotherapy: payload.ReferToTreatmentRadiotherapy,
+			ReferToTreatmentOther:        payload.ReferToTreatmentOther,
+			ReferToTreatmentDetails:      payload.ReferToTreatmentDetails,
+
+			DiscussAtMdtDetails:        payload.DiscussAtMdtDetails,
+			OutpatientProcedureDetails: payload.OutpatientProcedureDetails,
+		},
+		FollowUp: FollowUpState{
+			FollowUp:                    payload.FollowUp,
+			Pathway:                     payload.Pathway,
+			SameClinician:               payload.SameClinician,
+			SameClinicianNo:             payload.SameClinicianNo,
+			SameClinic:                  payload.SameClinic,
+			SameClinicNo:                payload.SameClinicNo,
+			SeeInUnit:                   payload.SeeInUnit,
+			SeeInNum:                    payload.SeeInNum,
+			Hospital:                    payload.Hospital,
+			AppointmentPriority:         payload.AppointmentPriority,
+			Condition:                   payload.Condition,
+			PreferredConsultationMethod: payload.PreferredConsultationMethod,
+			TestsRequiredBeforeFollowup: payload.TestsRequiredBeforeFollowup,
+			Tests:                       tests,
+		},
+		OtherInformation: payload.OtherInformation,
+	}
 }

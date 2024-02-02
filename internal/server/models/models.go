@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 )
 
-type ClinicOutcomesForm struct {
+type ClinicOutcomesFormPayload struct {
 	EventDate      string `json:"event_date"`
 	EventTime      string `json:"event_time"`
 	EventType      string `json:"event_type"`
@@ -64,71 +64,4 @@ func (a *ArrayString) UnmarshalJSON(b []byte) error {
 		return json.Unmarshal(b, (*[]string)(a))
 	}
 	return nil
-}
-
-func (o ClinicOutcomesForm) State() ClinicOutcomesFormState {
-	num := len(o.TestsRequired)
-	if num == 0 {
-		num = 1
-	}
-	tests := make([]Test, num)
-	for i, v := range o.TestsRequired {
-		tests[i] = Test{
-			TestsRequired:     v,
-			TestsUndertakenBy: o.TestsUndertakenBy[i],
-			TestsRequiredBy:   o.TestsBy[i],
-		}
-	}
-
-	return ClinicOutcomesFormState{
-		Details: DetailsState{
-			EventDate:      o.EventDate,
-			EventTime:      o.EventTime,
-			EventType:      o.EventType,
-			EventSpecialty: o.EventSpecialty,
-			EventClinician: o.EventClinician,
-		},
-		CancerPathway: CancerPathwayState{
-			Checked: o.CancerPathway == "on",
-			Option:  o.CancerPathwayOption,
-			Other:   o.CancerPathwayOther,
-		},
-		Outcome: OutcomeState{
-			OutcomeOption:       o.OutcomeOption,
-			SeeOnSymptomDetails: o.SeeOnSymptomDetails,
-
-			DidNotAnswerDetails:   o.DidNotAnswerDetails,
-			DidNotAttendDetails:   o.DidNotAttendDetails,
-			CouldNotAttendDetails: o.CouldNotAttendDetails,
-
-			ReferToDiagnosticsDetails: o.ReferToDiagnosticsDetails,
-			ReferToAnotherDetails:     o.ReferToAnotherDetails,
-			ReferToTherapiesDetails:   o.ReferToTherapiesDetails,
-
-			ReferToTreatmentSact:         o.ReferToTreatmentSact,
-			ReferToTreatmentRadiotherapy: o.ReferToTreatmentRadiotherapy,
-			ReferToTreatmentOther:        o.ReferToTreatmentOther,
-			ReferToTreatmentDetails:      o.ReferToTreatmentDetails,
-
-			DiscussAtMdtDetails:        o.DiscussAtMdtDetails,
-			OutpatientProcedureDetails: o.OutpatientProcedureDetails,
-		},
-		FollowUp: FollowUpState{
-			FollowUp:                    o.FollowUp,
-			Pathway:                     o.Pathway,
-			SameClinician:               o.SameClinician,
-			SameClinicianNo:             o.SameClinicianNo,
-			SameClinic:                  o.SameClinic,
-			SameClinicNo:                o.SameClinicNo,
-			SeeInUnit:                   o.SeeInUnit,
-			SeeInNum:                    o.SeeInNum,
-			Hospital:                    o.Hospital,
-			AppointmentPriority:         o.AppointmentPriority,
-			Condition:                   o.Condition,
-			PreferredConsultationMethod: o.PreferredConsultationMethod,
-			TestsRequiredBeforeFollowup: o.TestsRequiredBeforeFollowup,
-			Tests:                       tests,
-		},
-		OtherInformation: o.OtherInformation,
-	}
 }
