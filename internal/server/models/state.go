@@ -21,7 +21,7 @@ type CancerPathway struct {
 }
 
 type OutcomeOptions struct {
-	PatientOption                string
+	OutcomeOption                string
 	SeeOnSymptomDetails          string
 	DidNotAnswerDetails          string
 	DidNotAttendDetails          string
@@ -95,7 +95,7 @@ func (o OutcomesState) Submit() (OutcomesSubmit, error) {
 	}
 
 	// Outcome
-	submit.Outcome.Answer = o.OutcomeOptions.PatientOption
+	submit.Outcome.Answer = o.OutcomeOptions.OutcomeOption
 
 	switch submit.Outcome.Answer {
 	case "See on Symptom":

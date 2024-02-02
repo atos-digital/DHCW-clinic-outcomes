@@ -15,7 +15,7 @@ import (
 	. "github.com/atos-digital/DHCW-clinic-outcomes/ui/components"
 )
 
-var NamePatientOption = "patient_option"
+var NamePatientOption = "outcome_option"
 
 func Patient(data models.OutcomeOptions) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {

@@ -15,7 +15,7 @@ type OutcomesForm struct {
 	CancerPathwayOption string `json:"cancer_pathway_option"`
 	CancerPathwayOther  string `json:"cancer_pathway_other"`
 
-	PatientOption                string `json:"patient_option"`
+	OutcomeOption                string `json:"outcome_option"`
 	SeeOnSymptomDetails          string `json:"see_on_symptom_details"`
 	DidNotAnswerDetails          string `json:"did_not_answer_details"`
 	DidNotAttendDetails          string `json:"did_not_attend_details"`
@@ -94,7 +94,7 @@ func (o OutcomesForm) State() OutcomesState {
 			Other:   o.CancerPathwayOther,
 		},
 		OutcomeOptions: OutcomeOptions{
-			PatientOption:       o.PatientOption,
+			OutcomeOption:       o.OutcomeOption,
 			SeeOnSymptomDetails: o.SeeOnSymptomDetails,
 
 			DidNotAnswerDetails:   o.DidNotAnswerDetails,
