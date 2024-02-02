@@ -41,7 +41,7 @@ func (db *DB) Migrate() error {
 	return err
 }
 
-func (db *DB) StoreState(state models.OutcomesState) error {
+func (db *DB) StoreState(state models.ClinicOutcomesFormState) error {
 	b, err := json.Marshal(state)
 	if err != nil {
 		return err
@@ -50,8 +50,8 @@ func (db *DB) StoreState(state models.OutcomesState) error {
 	return err
 }
 
-func (db *DB) GetState(id string) (models.OutcomesState, error) {
-	var state models.OutcomesState
+func (db *DB) GetState(id string) (models.ClinicOutcomesFormState, error) {
+	var state models.ClinicOutcomesFormState
 	var b []byte
 	err := db.db.QueryRow("SELECT data FROM state WHERE id = ?").Scan(&b)
 	if err != nil {
@@ -61,7 +61,7 @@ func (db *DB) GetState(id string) (models.OutcomesState, error) {
 	return state, err
 }
 
-func (db *DB) StoreSubmission(submission models.OutcomesSubmit) error {
+func (db *DB) StoreSubmission(submission models.ClinicOutcomesFormSubmit) error {
 	b, err := json.Marshal(submission)
 	if err != nil {
 		return err
@@ -70,8 +70,8 @@ func (db *DB) StoreSubmission(submission models.OutcomesSubmit) error {
 	return err
 }
 
-func (db *DB) GetSubmission(id string) (models.OutcomesSubmit, error) {
-	var submission models.OutcomesSubmit
+func (db *DB) GetSubmission(id string) (models.ClinicOutcomesFormSubmit, error) {
+	var submission models.ClinicOutcomesFormSubmit
 	var b []byte
 	err := db.db.QueryRow("SELECT data FROM submission WHERE id = ?").Scan(&b)
 	if err != nil {

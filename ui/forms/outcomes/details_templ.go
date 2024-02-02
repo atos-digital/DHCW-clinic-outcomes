@@ -22,7 +22,7 @@ var (
 		"Face to face",
 		"Office-based Decision",
 	}
-	specialties = []string{
+	event_specialty = []string{
 		"Cardiology",
 		"Dermatology",
 		"Endocrinology",
@@ -37,10 +37,10 @@ var (
 		"Rheumatology",
 		"Urology",
 	}
-	clinicians = []string{"A", "B", "C"}
+	event_clinician = []string{"A", "B", "C"}
 )
 
-func Details(data models.OutcomeDetails) templ.Component {
+func Details(data models.DetailsState) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -67,11 +67,11 @@ func Details(data models.OutcomeDetails) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input type=\"date\" name=\"consultation_date\" class=\"block dhcw-border\" value=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input type=\"date\" id=\"event_date\" name=\"event_date\" class=\"block dhcw-border\" value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(data.ConsultationDate))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(data.EventDate))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -94,11 +94,11 @@ func Details(data models.OutcomeDetails) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input type=\"time\" name=\"consultation_time\" class=\"block dhcw-border\" value=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<input type=\"time\" id=\"event_time\" name=\"event_time\" class=\"block dhcw-border\" value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(data.ConsultationTime))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(data.EventTime))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -121,7 +121,7 @@ func Details(data models.OutcomeDetails) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			templ_7745c5c3_Err = Select(consultationTypes, data.ConsultationType, "consultation_type").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Select(consultationTypes, data.EventType, "event_type").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -140,7 +140,7 @@ func Details(data models.OutcomeDetails) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			templ_7745c5c3_Err = Select(specialties, data.Specialties, "specialties").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Select(event_specialty, data.EventSpecialty, "event_specialty").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -159,7 +159,7 @@ func Details(data models.OutcomeDetails) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			templ_7745c5c3_Err = Select(clinicians, data.Clinicians, "clinicians").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Select(event_clinician, data.EventClinician, "event_clinician").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

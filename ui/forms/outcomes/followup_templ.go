@@ -17,7 +17,7 @@ import (
 	. "github.com/atos-digital/DHCW-clinic-outcomes/ui/components"
 )
 
-func FollowUp(data models.FollowUp) templ.Component {
+func FollowUp(data models.FollowUpState) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -159,7 +159,7 @@ func FollowUp(data models.FollowUp) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = TextInput("same_clinician_answer", data.SameClinicianAnswer, "Specify").Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = TextInput("same_clinician_no", data.SameClinicianNo, "Specify").Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -238,7 +238,7 @@ func FollowUp(data models.FollowUp) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = TextInput("appointment_dp", data.AppointmentDP, "Specify").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = TextInput("appointment_priority", data.AppointmentPriority, "Specify").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -292,7 +292,7 @@ func FollowUp(data models.FollowUp) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = TextInput("same_clinic_answer", data.SameClinicAnswer, "Specify").Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = TextInput("same_clinic_no", data.SameClinicNo, "Specify").Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -411,11 +411,11 @@ func FollowUp(data models.FollowUp) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Yes", "tests_required").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Yes", "tests_required_before_followup").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("No", "tests_required").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("No", "tests_required_before_followup").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -432,7 +432,7 @@ func FollowUp(data models.FollowUp) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var18 = []any{templ.KV("hidden", !Checked(ctx, "tests_required", "Yes"))}
+		var templ_7745c5c3_Var18 = []any{templ.KV("hidden", !Checked(ctx, "tests_required_before_followup", "Yes"))}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var18...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -505,11 +505,11 @@ func FollowupTest(data []models.Test) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(fmt.Sprintf("tests.required.%d", i)))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(fmt.Sprintf("tests_required_%d", i)))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" name=\"tests.required\" value=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" name=\"tests_required\" value=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -540,15 +540,15 @@ func FollowupTest(data []models.Test) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(fmt.Sprintf("tests.undertaken.%d", i)))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(fmt.Sprintf("tests_undertaken_by_%d", i)))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" name=\"tests.undertaken\" value=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" name=\"tests_undertaken_by\" value=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(data[i].UndertakenBy))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(data[i].TestsUndertakenBy))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -571,7 +571,7 @@ func FollowupTest(data []models.Test) templ.Component {
 					templ_7745c5c3_Buffer = templ.GetBuffer()
 					defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 				}
-				templ_7745c5c3_Err = Select([]string{"Day Prior to the Clinic", "Day of Clinic", "Other (Please Specify)"}, data[i].TestsRequiredBy, "tests.by").Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = Select([]string{"Day Prior to the Clinic", "Day of Clinic", "Other (Please Specify)"}, data[i].TestsRequiredBy, "tests_by").Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
