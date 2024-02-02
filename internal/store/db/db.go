@@ -44,7 +44,7 @@ func (db *DB) Migrate() error {
 	return err
 }
 
-func (db *DB) StoreState(state models.OutcomesState) error {
+func (db *DB) StoreState(state models.ClinicOutcomesFormState) error {
 	b, err := json.Marshal(state)
 	if err != nil {
 		return err
@@ -53,8 +53,8 @@ func (db *DB) StoreState(state models.OutcomesState) error {
 	return err
 }
 
-func (db *DB) GetState(id string) (models.OutcomesState, error) {
-	var state models.OutcomesState
+func (db *DB) GetState(id string) (models.ClinicOutcomesFormState, error) {
+	var state models.ClinicOutcomesFormState
 	var b []byte
 	err := db.db.QueryRow("SELECT data FROM state WHERE id = ?").Scan(&b)
 	if err != nil {
@@ -64,7 +64,7 @@ func (db *DB) GetState(id string) (models.OutcomesState, error) {
 	return state, err
 }
 
-func (db *DB) StoreSubmission(submission models.OutcomesSubmit) error {
+func (db *DB) StoreSubmission(submission models.ClinicOutcomesFormSubmit) error {
 	b, err := json.Marshal(submission)
 	if err != nil {
 		return err
@@ -75,7 +75,7 @@ func (db *DB) StoreSubmission(submission models.OutcomesSubmit) error {
 
 type Submission struct {
 	ID          string
-	Data        models.OutcomesSubmit
+	Data        models.ClinicOutcomesFormSubmit
 	DateCreated time.Time
 }
 
@@ -87,7 +87,7 @@ func (db *DB) GetSubmission(id string) (Submission, error) {
 	if err != nil {
 		return submission, err
 	}
-	var os models.OutcomesSubmit
+	var os models.ClinicOutcomesFormSubmit
 	err = json.Unmarshal(data, &os)
 	if err != nil {
 		return submission, err
@@ -115,7 +115,7 @@ func (db *DB) GetAllSubmissions() ([]Submission, error) {
 			return nil, err
 		}
 		var submission Submission
-		var os models.OutcomesSubmit
+		var os models.ClinicOutcomesFormSubmit
 		err = json.Unmarshal(data, &os)
 		if err != nil {
 			return nil, err

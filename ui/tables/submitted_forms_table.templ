@@ -42,19 +42,19 @@ templ SubmittedFormAnswers(sub db.Submission) {
 			</tr>
 			<tr>
 				<td class="p-2">Senior Responsible Clinician</td>
-				<td class="p-2">{ sub.Data.EventDetails.SeniorResponsibleClinician }</td>
+				<td class="p-2">{ sub.Data.Details.Clinician }</td>
 			</tr>
 			<tr>
 				<td class="p-2">Event Date</td>
-				<td class="p-2">{ sub.Data.EventDetails.DateTime.Format("02 Jan 06 15:04 MST") }</td>
+				<td class="p-2">{ sub.Data.Details.DateTime.Format("02 Jan 06 15:04 MST") }</td>
 			</tr>
 			<tr>
 				<td class="p-2">Event Type</td>
-				<td class="p-2">{ sub.Data.EventDetails.Type }</td>
+				<td class="p-2">{ sub.Data.Details.Type }</td>
 			</tr>
 			<tr>
 				<td class="p-2">Speciality</td>
-				<td class="p-2">{ sub.Data.EventDetails.Specialty }</td>
+				<td class="p-2">{ sub.Data.Details.Specialty }</td>
 			</tr>
 		</th>
 	</table>

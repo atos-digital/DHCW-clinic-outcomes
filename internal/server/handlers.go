@@ -60,18 +60,18 @@ func (s *Server) handlePageOutcomes() http.HandlerFunc {
 		}
 		b := session.Values["outcomes-form-data"]
 		w.Header().Set("Content-Type", "text/html")
-		var data models.OutcomesForm
+		var data models.ClinicOutcomesFormPayload
 		if b != nil {
 			json.Unmarshal(b.([]byte), &data)
 		}
-		ui.Index(pages.Outcomes(data.State())).Render(r.Context(), w)
+		ui.Index(pages.Outcomes(models.State(data))).Render(r.Context(), w)
 	}
 }
 
-func (s *Server) handleOutcomesForm() http.HandlerFunc {
+func (s *Server) handleClinicOutcomesForm() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// Read the body to get the latest form data.
-		var data models.OutcomesForm
+		var data models.ClinicOutcomesFormPayload
 		err := json.NewDecoder(r.Body).Decode(&data)
 		if err != nil {
 			log.Println(err)
@@ -79,9 +79,9 @@ func (s *Server) handleOutcomesForm() http.HandlerFunc {
 			return
 		}
 		if data.AddTest != nil {
-			data.FollowUpTestsRequired = append(data.FollowUpTestsRequired, "")
-			data.FollowUpTestsUndertaken = append(data.FollowUpTestsUndertaken, "")
-			data.FollowUpTestsBy = append(data.FollowUpTestsBy, "Day Prior to the Clinic")
+			data.TestsRequired = append(data.TestsRequired, "")
+			data.TestsUndertakenBy = append(data.TestsUndertakenBy, "")
+			data.TestsBy = append(data.TestsBy, "Day Prior to the Clinic")
 		}
 		// Back into bytes
 		b, err := json.Marshal(data)
@@ -105,14 +105,14 @@ func (s *Server) handleOutcomesForm() http.HandlerFunc {
 		}
 
 		w.Header().Set("Content-Type", "text/html")
-		pages.Outcomes(data.State()).Render(r.Context(), w)
+		pages.Outcomes(models.State(data)).Render(r.Context(), w)
 	}
 }
 
 func (s *Server) handleSaveOutcomes() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// Read the body to get the latest form data.
-		var data models.OutcomesForm
+		var data models.ClinicOutcomesFormPayload
 		err := json.NewDecoder(r.Body).Decode(&data)
 		if err != nil {
 			log.Println(err)
@@ -121,7 +121,7 @@ func (s *Server) handleSaveOutcomes() http.HandlerFunc {
 		}
 
 		// Store the data in the database.
-		err = s.db.StoreState(data.State())
+		err = s.db.StoreState(models.State(data))
 		if err != nil {
 			log.Println(err)
 			http.Error(w, "Error storing form data", http.StatusInternalServerError)
@@ -150,7 +150,7 @@ func (s *Server) handleSaveOutcomes() http.HandlerFunc {
 func (s *Server) handleSubmitOutcomes() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// Read the body to get the latest form data.
-		var data models.OutcomesForm
+		var data models.ClinicOutcomesFormPayload
 		err := json.NewDecoder(r.Body).Decode(&data)
 		if err != nil {
 			log.Println(err)
@@ -158,8 +158,7 @@ func (s *Server) handleSubmitOutcomes() http.HandlerFunc {
 			return
 		}
 
-		submission, err := data.State().Submit()
-		log.Println(submission)
+		submission, err := models.Submit(models.State(data))
 		if err != nil {
 			log.Println(err)
 			http.Error(w, "Error submitting form data", http.StatusInternalServerError)

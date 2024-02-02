@@ -7,11 +7,11 @@ import (
 
 var (
 	NameCancerPathway        = "cancer_pathway"
-	NameCancerPathwayOptions = "cancer_pathway_options"
+	NameCancerPathwayOptions = "cancer_pathway_option"
 	NameCancerPathwayOther   = "cancer_pathway_other"
 )
 
-templ Cancer(data models.CancerPathway) {
+templ Cancer(data models.CancerPathwayState) {
 	<div class="flex flex-col px-4">
 		@Checkbox("Cancer Pathway", NameCancerPathway)
 		<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !Checked(ctx,NameCancerPathway,"on")) }>

@@ -24,8 +24,9 @@ func (s *Server) Routes() error {
 	s.r.Method(http.MethodGet, "/outcomes", s.handlePageOutcomes())
 
 	s.r.Route("/hx", func(r chi.Router) {
-		r.Method(http.MethodPost, "/outcomes-form", s.handleOutcomesForm())
+		r.Method(http.MethodPost, "/outcomes-form", s.handleClinicOutcomesForm())
 		r.Method(http.MethodGet, "/view-submission/{id}", s.handleViewSubmission())
+		r.Method(http.MethodPost, "/outcomes-form", s.handleClinicOutcomesForm())
 		r.Method(http.MethodPost, "/save-outcomes-form", s.handleSaveOutcomes())
 		r.Method(http.MethodPost, "/submit-outcomes-form", s.handleSubmitOutcomes())
 	})
