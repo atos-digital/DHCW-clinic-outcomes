@@ -6,6 +6,7 @@ type ClinicOutcomesFormState struct {
 	Outcome          OutcomeState
 	FollowUp         FollowUpState
 	OtherInformation string
+	Errors           []string
 }
 
 type DetailsState struct {
@@ -127,5 +128,6 @@ func State(payload ClinicOutcomesFormPayload) ClinicOutcomesFormState {
 			Tests:                       tests,
 		},
 		OtherInformation: payload.OtherInformation,
+		Errors:           payload.Errors,
 	}
 }

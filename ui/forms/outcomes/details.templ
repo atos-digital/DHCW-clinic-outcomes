@@ -35,10 +35,10 @@ var (
 templ Details(data models.DetailsState) {
 	@SectionTitle("Enter Event Details")
 	<div class="flex justify-between px-4">
-		@Label("Date") {
+		@RequiredLabel("Date") {
 			<input type="date" id="event_date" name="event_date" class="block dhcw-border" value={ data.EventDate }/>
 		}
-		@Label("Time") {
+		@RequiredLabel("Time") {
 			<input type="time" id="event_time" name="event_time" class="block dhcw-border" value={ data.EventTime }/>
 		}
 		@Label("Consultation Type") {

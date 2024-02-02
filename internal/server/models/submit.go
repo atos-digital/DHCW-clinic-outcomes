@@ -41,9 +41,20 @@ type FollowUpSubmit struct {
 	Tests                       []Test
 }
 
+type ErrorSubmit struct {
+	Errors []string
+}
+
+func (e ErrorSubmit) Error() string {
+	if len(e.Errors) > 0 {
+		return "Missing fields"
+	}
+	return ""
+}
+
 func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 	var submit ClinicOutcomesFormSubmit
-	var errors []string
+	var errors ErrorSubmit
 
 	// EventDetails
 
@@ -52,10 +63,10 @@ func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 
 	switch {
 	case state.Details.EventDate == "":
-		errors = append(errors, "Event Date is required")
+		errors.Errors = append(errors.Errors, "Enter the event date")
 		fallthrough
 	case state.Details.EventTime == "":
-		errors = append(errors, "Event Time is required")
+		errors.Errors = append(errors.Errors, "Enter the event time")
 	default:
 		dateString := fmt.Sprintf("%s %s", state.Details.EventDate, state.Details.EventTime)
 		dateTime, err = time.Parse("2006-01-02 15:04", dateString)
@@ -132,14 +143,14 @@ func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 	if submit.FollowUpRequired {
 		switch {
 		case submit.FollowUp.Pathway == "":
-			errors = append(errors, "Pathway is required")
+			errors.Errors = append(errors.Errors, "Select follow up pathway")
 		default:
 			submit.FollowUp.Pathway = state.FollowUp.Pathway
 		}
 
 		switch {
 		case state.FollowUp.SameClinician == "":
-			errors = append(errors, "Same Clinician is required")
+			errors.Errors = append(errors.Errors, "Select follow up clinician")
 		case state.FollowUp.SameClinician == "No":
 			submit.FollowUp.SameClinician = fmt.Sprintf("No: %s", state.FollowUp.SameClinicianNo)
 		default:
@@ -155,7 +166,7 @@ func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 
 		switch {
 		case state.FollowUp.SeeInNum == "":
-			errors = append(errors, "See In is required")
+			errors.Errors = append(errors.Errors, "Select follow up date")
 		default:
 			submit.FollowUp.SeeIn = state.FollowUp.SeeInNum + " " + state.FollowUp.SeeInUnit
 			seeInNum, err := strconv.Atoi(state.FollowUp.SeeInNum)
@@ -176,7 +187,7 @@ func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 		submit.FollowUp.Hospital = state.FollowUp.Hospital
 		switch {
 		case state.FollowUp.AppointmentPriority == "":
-			errors = append(errors, "Appointment Priority is required")
+			errors.Errors = append(errors.Errors, "Enter the appointment priority")
 		default:
 			submit.FollowUp.AppointmentPriority = state.FollowUp.AppointmentPriority
 		}
@@ -184,7 +195,7 @@ func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 
 		switch {
 		case state.FollowUp.PreferredConsultationMethod == "":
-			errors = append(errors, "Preferred Consultation Method is required")
+			errors.Errors = append(errors.Errors, "Select the preferred consultation method")
 		default:
 			submit.FollowUp.PreferredConsultationMethod = state.FollowUp.PreferredConsultationMethod
 		}
@@ -193,20 +204,20 @@ func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 			followUpError := false
 			for _, test := range state.FollowUp.Tests {
 				if test.TestsRequired == "" {
-					errors = append(errors, "Tests Required is required")
 					followUpError = true
 					break
 				}
 				if test.TestsUndertakenBy == "" {
-					errors = append(errors, "Tests Undertaken By is required")
 					followUpError = true
 					break
 				}
 				if test.TestsRequiredBy == "Choose Option" {
-					errors = append(errors, "Tests Required By is required")
 					followUpError = true
 					break
 				}
+			}
+			if followUpError {
+				errors.Errors = append(errors.Errors, "All test request fields are required")
 			}
 			if !followUpError {
 				submit.FollowUp.Tests = state.FollowUp.Tests
@@ -224,7 +235,10 @@ func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 	fmt.Println(submit.FollowUp)
 	fmt.Println(submit.OtherInformation)
 
-	fmt.Printf("Errors: %v\n", errors)
-
-	return submit, nil
+	fmt.Printf("Errors: %v\n", errors.Errors)
+	if len(errors.Errors) > 0 {
+		return ClinicOutcomesFormSubmit{}, errors
+	} else {
+		return submit, nil
+	}
 }

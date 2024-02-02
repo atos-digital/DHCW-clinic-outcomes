@@ -136,9 +136,30 @@ func (s *Server) handleSubmitOutcomes() http.HandlerFunc {
 		}
 
 		submission, err := models.Submit(models.State(data))
-		if err != nil {
-			log.Println(err)
-			http.Error(w, "Error submitting form data", http.StatusInternalServerError)
+
+		if e, ok := err.(models.ErrorSubmit); ok && e.Error() == "Missing fields" {
+			data.Errors = e.Errors
+			// Back into bytes
+			b, err := json.Marshal(data)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			// Get the session store
+			session, err := s.sess.Get(r, s.conf.CookieName)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			// Update and save
+			session.Values["outcomes-form-data"] = b
+			err = session.Save(r, w)
+			if err != nil {
+				log.Println(err)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			w.Header().Set("HX-Location", `{"path":"/outcomes", "target":"closest body", "swap":"outerHTML show:window:top"}`)
 			return
 		}
 

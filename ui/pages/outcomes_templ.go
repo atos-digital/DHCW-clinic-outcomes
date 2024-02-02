@@ -29,7 +29,11 @@ func Outcomes(data models.ClinicOutcomesFormState) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form hx-post=\"/hx/outcomes-form\" hx-trigger=\"change, click from:button[type=button]\" hx-swap=\"outerHTML\" class=\"flex flex-col gap-4\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form hx-post=\"/hx/outcomes-form\" hx-trigger=\"change delay:20ms, click from:button[type=button]\" hx-swap=\"outerHTML\" class=\"flex flex-col gap-4\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = ErrorSummary(data.Errors).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -68,7 +72,7 @@ func Outcomes(data models.ClinicOutcomesFormState) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex justify-end px-4 gap-2\"><button hx-post=\"/hx/save-outcomes-form\" hx-target=\"closest body\" hx-push-url=\"/\" class=\"dhcw-border w-20 p-1 text-white bg-sky-600\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex justify-end px-4 gap-2\"><button hx-post=\"/hx/save-outcomes-form\" hx-target=\"closest body\" class=\"dhcw-border w-20 p-1 text-white bg-sky-600\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -77,7 +81,7 @@ func Outcomes(data models.ClinicOutcomesFormState) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button> <button hx-post=\"/hx/submit-outcomes-form\" hx-target=\"closest body\" hx-push-url=\"/\" class=\"dhcw-border w-20 p-1 text-white bg-emerald-600\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button> <button hx-post=\"/hx/submit-outcomes-form\" hx-target=\"closest body\" class=\"dhcw-border w-20 p-1 text-white bg-emerald-600\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
