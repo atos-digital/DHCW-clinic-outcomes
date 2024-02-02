@@ -53,6 +53,7 @@ func (e ErrorSubmit) Error() string {
 }
 
 func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
+	// TODO(viv): fix error handling
 	var submit ClinicOutcomesFormSubmit
 	var errors ErrorSubmit
 
@@ -228,14 +229,6 @@ func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 	// OtherInformation
 	submit.OtherInformation = state.OtherInformation
 
-	fmt.Println(submit.Details)
-	fmt.Println(submit.CancerPathway)
-	fmt.Println(submit.Outcome)
-	fmt.Println(submit.FollowUpRequired)
-	fmt.Println(submit.FollowUp)
-	fmt.Println(submit.OtherInformation)
-
-	fmt.Printf("Errors: %v\n", errors.Errors)
 	if len(errors.Errors) > 0 {
 		return ClinicOutcomesFormSubmit{}, errors
 	} else {
