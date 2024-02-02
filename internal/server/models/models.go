@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 )
 
-type OutcomesForm struct {
+type ClinicOutcomesForm struct {
 	EventDate      string `json:"event_date"`
 	EventTime      string `json:"event_time"`
 	EventType      string `json:"event_type"`
@@ -43,11 +43,11 @@ type OutcomesForm struct {
 	Condition                   string `json:"condition"`
 	PreferredConsultationMethod string `json:"preferred_consultation_method"`
 
-	TestsRequired           string      `json:"tests_required"`
-	FollowUpTestsRequired   ArrayString `json:"tests.required"`
-	FollowUpTestsUndertaken ArrayString `json:"tests.undertaken"`
-	FollowUpTestsBy         ArrayString `json:"tests.by"`
-	AddTest                 *string     `json:"add_test"`
+	TestsRequiredBeforeFollowup string      `json:"tests_required_before_followup"`
+	TestsRequired               ArrayString `json:"tests_required"`
+	TestsUndertakenBy           ArrayString `json:"tests.undertaken"`
+	TestsBy                     ArrayString `json:"tests.by"`
+	AddTest                     *string     `json:"add_test"`
 
 	OtherInformation string `json:"other_information"`
 }
@@ -66,34 +66,34 @@ func (a *ArrayString) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-func (o OutcomesForm) State() OutcomesState {
-	num := len(o.FollowUpTestsRequired)
+func (o ClinicOutcomesForm) State() ClinicOutcomesFormState {
+	num := len(o.TestsRequired)
 	if num == 0 {
 		num = 1
 	}
 	tests := make([]Test, num)
-	for i, v := range o.FollowUpTestsRequired {
+	for i, v := range o.TestsRequired {
 		tests[i] = Test{
-			TestsRequired:   v,
-			UndertakenBy:    o.FollowUpTestsUndertaken[i],
-			TestsRequiredBy: o.FollowUpTestsBy[i],
+			TestsRequired:     v,
+			TestsUndertakenBy: o.TestsUndertakenBy[i],
+			TestsRequiredBy:   o.TestsBy[i],
 		}
 	}
 
-	return OutcomesState{
-		OutcomeDetails: OutcomeDetails{
+	return ClinicOutcomesFormState{
+		Details: DetailsState{
 			EventDate:      o.EventDate,
 			EventTime:      o.EventTime,
 			EventType:      o.EventType,
 			EventSpecialty: o.EventSpecialty,
 			EventClinician: o.EventClinician,
 		},
-		CancerPathway: CancerPathway{
+		CancerPathway: CancerPathwayState{
 			Checked: o.CancerPathway == "on",
 			Option:  o.CancerPathwayOption,
 			Other:   o.CancerPathwayOther,
 		},
-		OutcomeOptions: OutcomeOptions{
+		Outcome: OutcomeState{
 			OutcomeOption:       o.OutcomeOption,
 			SeeOnSymptomDetails: o.SeeOnSymptomDetails,
 
@@ -113,7 +113,7 @@ func (o OutcomesForm) State() OutcomesState {
 			DiscussAtMdtDetails:        o.DiscussAtMdtDetails,
 			OutpatientProcedureDetails: o.OutpatientProcedureDetails,
 		},
-		FollowUp: FollowUp{
+		FollowUp: FollowUpState{
 			FollowUp:                    o.FollowUp,
 			Pathway:                     o.Pathway,
 			SameClinician:               o.SameClinician,
@@ -126,7 +126,7 @@ func (o OutcomesForm) State() OutcomesState {
 			AppointmentPriority:         o.AppointmentPriority,
 			Condition:                   o.Condition,
 			PreferredConsultationMethod: o.PreferredConsultationMethod,
-			TestsRequired:               o.TestsRequired,
+			TestsRequiredBeforeFollowup: o.TestsRequiredBeforeFollowup,
 			Tests:                       tests,
 		},
 		OtherInformation: o.OtherInformation,

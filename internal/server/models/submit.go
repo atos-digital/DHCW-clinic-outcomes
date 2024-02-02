@@ -2,28 +2,28 @@ package models
 
 import "time"
 
-type OutcomesSubmit struct {
-	EventDetails     EventDetailsAns
+type ClinicOutcomesFormSubmit struct {
+	DetailsSubmit    DetailsSubmit
 	CancerPathway    string
-	Outcome          OutcomeAns
+	Outcome          OutcomeSubmit
 	FollowUpRequired bool
-	FollowUp         FollowUpAns
+	FollowUp         FollowUpSubmit
 	OtherInformation string
 }
 
-type EventDetailsAns struct {
-	DateTime                   time.Time
-	Type                       string
-	Specialty                  string
-	SeniorResponsibleClinician string
+type DetailsSubmit struct {
+	DateTime  time.Time
+	Type      string
+	Specialty string
+	Clinician string
 }
 
-type OutcomeAns struct {
-	Answer         string
-	FollowUpAnswer string
+type OutcomeSubmit struct {
+	Answer        string
+	AnswerDetails string
 }
 
-type FollowUpAns struct {
+type FollowUpSubmit struct {
 	Pathway                     string
 	SameClinician               string
 	SameClinic                  string

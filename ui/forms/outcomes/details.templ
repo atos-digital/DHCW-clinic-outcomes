@@ -30,7 +30,7 @@ var (
 	event_clinician = []string{"A", "B", "C"}
 )
 
-templ Details(data models.OutcomeDetails) {
+templ Details(data models.DetailsState) {
 	@SectionTitle("Enter Event Details")
 	<div class="flex justify-between px-4">
 		@Label("Date") {

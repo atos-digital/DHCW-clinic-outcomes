@@ -7,7 +7,7 @@ import (
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
 )
 
-templ FollowUp(data models.FollowUp) {
+templ FollowUp(data models.FollowUpState) {
 	<div class="flex flex-col px-4 gap-3">
 		<div class="font-bold">
 			@Checkbox("Follow Up", "follow_up") {
@@ -78,11 +78,11 @@ templ FollowUp(data models.FollowUp) {
 				}
 				@Label("Does the patient require any tests before their FUP appointment?") {
 					<div class="flex flex-col">
-						@Radio("Yes", "tests_required")
-						@Radio("No", "tests_required")
+						@Radio("Yes", "tests_required_before_followup")
+						@Radio("No", "tests_required_before_followup")
 					</div>
 				}
-				<div class={ templ.KV("hidden", !Checked(ctx, "tests_required", "Yes")) }>
+				<div class={ templ.KV("hidden", !Checked(ctx, "tests_required_before_followup", "Yes")) }>
 					<p class="font-semibold italic text-blue-600">
 						This information is to help administrative colleagues with planning for clinic. It does not automatically generate a test request. The patient should not defer their appointment if the test cannot take place at the specified time.
 					</p>
@@ -98,10 +98,10 @@ templ FollowupTest(data []models.Test) {
 		for i:=0;i<len(data);i++ {
 			<div class="grid grid-cols-3 gap-4 w-full mb-2">
 				@RequiredLabel("Test(s) required") {
-					<input id={ fmt.Sprintf("tests.required.%d", i) } name="tests.required" value={ data[i].TestsRequired } class="dhcw-border shadow-inner px-2 py-0.5 w-2/3 block"/>
+					<input id={ fmt.Sprintf("tests_required.%d", i) } name="tests_required" value={ data[i].TestsRequired } class="dhcw-border shadow-inner px-2 py-0.5 w-2/3 block"/>
 				}
 				@RequiredLabel("Undertaken by") {
-					<input id={ fmt.Sprintf("tests.undertaken.%d", i) } name="tests.undertaken" value={ data[i].UndertakenBy } class="dhcw-border shadow-inner px-2 py-0.5 w-2/3 block"/>
+					<input id={ fmt.Sprintf("tests.undertaken.%d", i) } name="tests.undertaken" value={ data[i].TestsUndertakenBy } class="dhcw-border shadow-inner px-2 py-0.5 w-2/3 block"/>
 				}
 				@RequiredLabel("Test(s) required by") {
 					@Select([]string{"Day Prior to the Clinic", "Day of Clinic", "Other (Please Specify)"},data[i].TestsRequiredBy,"tests.by")

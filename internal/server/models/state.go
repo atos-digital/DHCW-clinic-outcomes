@@ -7,20 +7,29 @@ import (
 	"time"
 )
 
-type OutcomeDetails struct {
+type ClinicOutcomesFormState struct {
+	Details          DetailsState
+	CancerPathway    CancerPathwayState
+	Outcome          OutcomeState
+	FollowUp         FollowUpState
+	OtherInformation string
+}
+
+type DetailsState struct {
 	EventDate      string
 	EventTime      string
 	EventType      string
 	EventSpecialty string
 	EventClinician string
 }
-type CancerPathway struct {
+
+type CancerPathwayState struct {
 	Checked bool
 	Option  string
 	Other   string
 }
 
-type OutcomeOptions struct {
+type OutcomeState struct {
 	OutcomeOption                string
 	SeeOnSymptomDetails          string
 	DidNotAnswerDetails          string
@@ -39,51 +48,43 @@ type OutcomeOptions struct {
 }
 
 type Test struct {
-	TestsRequired   string
-	UndertakenBy    string
-	TestsRequiredBy string
+	TestsRequired     string
+	TestsUndertakenBy string
+	TestsRequiredBy   string
 }
 
-type FollowUp struct {
+type FollowUpState struct {
 	FollowUp                    string
 	Pathway                     string
 	SameClinician               string
 	SameClinicianNo             string
 	SameClinic                  string
 	SameClinicNo                string
-	SeeInUnit                   string
 	SeeInNum                    string
+	SeeInUnit                   string
 	Hospital                    string
 	AppointmentPriority         string
 	Condition                   string
 	PreferredConsultationMethod string
-	TestsRequired               string
+	TestsRequiredBeforeFollowup string
 	Tests                       []Test
 }
 
-type OutcomesState struct {
-	OutcomeDetails   OutcomeDetails
-	CancerPathway    CancerPathway
-	OutcomeOptions   OutcomeOptions
-	FollowUp         FollowUp
-	OtherInformation string
-}
-
-func (o OutcomesState) Submit() (OutcomesSubmit, error) {
-	var submit OutcomesSubmit
+func (o ClinicOutcomesFormState) Submit() (ClinicOutcomesFormSubmit, error) {
+	var submit ClinicOutcomesFormSubmit
 
 	// EventDetails
-	dateString := fmt.Sprintf("%s %s", o.OutcomeDetails.EventDate, o.OutcomeDetails.EventTime)
+	dateString := fmt.Sprintf("%s %s", o.Details.EventDate, o.Details.EventTime)
 	dateTime, err := time.Parse("2006-01-02 15:04", dateString)
 	if err != nil {
 		fmt.Println("Error parsing date:", err)
-		return OutcomesSubmit{}, err
+		return ClinicOutcomesFormSubmit{}, err
 	}
 
-	submit.EventDetails.DateTime = dateTime
-	submit.EventDetails.Type = o.OutcomeDetails.EventType
-	submit.EventDetails.Specialty = o.OutcomeDetails.EventSpecialty
-	submit.EventDetails.SeniorResponsibleClinician = o.OutcomeDetails.EventClinician
+	submit.DetailsSubmit.DateTime = dateTime
+	submit.DetailsSubmit.Type = o.Details.EventType
+	submit.DetailsSubmit.Specialty = o.Details.EventSpecialty
+	submit.DetailsSubmit.Clinician = o.Details.EventClinician
 
 	// CancerPathway
 	if !o.CancerPathway.Checked {
@@ -95,47 +96,47 @@ func (o OutcomesState) Submit() (OutcomesSubmit, error) {
 	}
 
 	// Outcome
-	submit.Outcome.Answer = o.OutcomeOptions.OutcomeOption
+	submit.Outcome.Answer = o.Outcome.OutcomeOption
 
 	switch submit.Outcome.Answer {
 	case "See on Symptom":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.SeeOnSymptomDetails
+		submit.Outcome.AnswerDetails = o.Outcome.SeeOnSymptomDetails
 	case "Did Not Answer":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.DidNotAnswerDetails
+		submit.Outcome.AnswerDetails = o.Outcome.DidNotAnswerDetails
 	case "Did Not Attend":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.DidNotAttendDetails
+		submit.Outcome.AnswerDetails = o.Outcome.DidNotAttendDetails
 	case "Could Not Attend":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.CouldNotAttendDetails
+		submit.Outcome.AnswerDetails = o.Outcome.CouldNotAttendDetails
 	case "Refer to Diagnostics":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.ReferToDiagnosticsDetails
+		submit.Outcome.AnswerDetails = o.Outcome.ReferToDiagnosticsDetails
 	case "Refer to another consultant / specialty":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.ReferToAnotherDetails
+		submit.Outcome.AnswerDetails = o.Outcome.ReferToAnotherDetails
 	case "Refer to Therapies":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.ReferToTherapiesDetails
+		submit.Outcome.AnswerDetails = o.Outcome.ReferToTherapiesDetails
 	case "Refer to Treatment":
 		ans := ""
-		if o.OutcomeOptions.ReferToTreatmentSact == "on" {
+		if o.Outcome.ReferToTreatmentSact == "on" {
 			ans += "SACT "
 		}
-		if o.OutcomeOptions.ReferToTreatmentRadiotherapy == "on" {
+		if o.Outcome.ReferToTreatmentRadiotherapy == "on" {
 			ans += "Radiotherapy "
 		}
-		if o.OutcomeOptions.ReferToTreatmentOther == "on" {
-			ans += fmt.Sprintf("Other: %s", o.OutcomeOptions.ReferToTreatmentDetails)
+		if o.Outcome.ReferToTreatmentOther == "on" {
+			ans += fmt.Sprintf("Other: %s", o.Outcome.ReferToTreatmentDetails)
 		}
-		submit.Outcome.FollowUpAnswer = strings.TrimSuffix(ans, " ")
+		submit.Outcome.AnswerDetails = strings.TrimSuffix(ans, " ")
 	case "Refer to treatment - SACT":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.ReferToTreatmentSact
+		submit.Outcome.AnswerDetails = o.Outcome.ReferToTreatmentSact
 	case "Refer to treatment - Radiotherapy":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.ReferToTreatmentRadiotherapy
+		submit.Outcome.AnswerDetails = o.Outcome.ReferToTreatmentRadiotherapy
 	case "Refer to treatment - Other":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.ReferToTreatmentOther
+		submit.Outcome.AnswerDetails = o.Outcome.ReferToTreatmentOther
 	case "Discuss at MDT":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.DiscussAtMdtDetails
+		submit.Outcome.AnswerDetails = o.Outcome.DiscussAtMdtDetails
 	case "Listed for Outpatient Procedure":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.OutpatientProcedureDetails
+		submit.Outcome.AnswerDetails = o.Outcome.OutpatientProcedureDetails
 	default:
-		submit.Outcome.FollowUpAnswer = "NA"
+		submit.Outcome.AnswerDetails = "NA"
 	}
 
 	// FollowUp
@@ -160,7 +161,7 @@ func (o OutcomesState) Submit() (OutcomesSubmit, error) {
 		seeInNum, err := strconv.Atoi(o.FollowUp.SeeInNum)
 		if err != nil {
 			fmt.Println("Error parsing number:", err)
-			return OutcomesSubmit{}, err
+			return ClinicOutcomesFormSubmit{}, err
 		}
 		switch o.FollowUp.SeeInUnit {
 		case "Weeks":
@@ -176,7 +177,7 @@ func (o OutcomesState) Submit() (OutcomesSubmit, error) {
 		submit.FollowUp.ClinicalCondition = o.FollowUp.Condition
 
 		submit.FollowUp.PreferredConsultationMethod = o.FollowUp.PreferredConsultationMethod
-		if o.FollowUp.TestsRequired == "Yes" {
+		if o.FollowUp.TestsRequiredBeforeFollowup == "Yes" {
 			submit.FollowUp.Tests = o.FollowUp.Tests
 			// TODO(viv): check if all fields populated before adding
 		}
