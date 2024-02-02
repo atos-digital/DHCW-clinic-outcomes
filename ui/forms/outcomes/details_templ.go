@@ -17,12 +17,14 @@ import (
 
 var (
 	consultationTypes = []string{
+		"Choose Option",
 		"Telephone Consultation",
 		"Video Consultation",
 		"Face to face",
 		"Office-based Decision",
 	}
 	event_specialty = []string{
+		"Choose Option",
 		"Cardiology",
 		"Dermatology",
 		"Endocrinology",
@@ -37,7 +39,7 @@ var (
 		"Rheumatology",
 		"Urology",
 	}
-	event_clinician = []string{"A", "B", "C"}
+	event_clinician = []string{"Choose Option", "A", "B", "C"}
 )
 
 func Details(data models.DetailsState) templ.Component {

@@ -13,6 +13,7 @@ templ Patient(data models.OutcomeState) {
 			<div class="flex flex-col">
 				@Radio("Patient Discharged", NamePatientOption)
 				@Radio("See on Symptom", NamePatientOption) {
+					@Tooltip("See on Symptom")
 					<div class="ml-4 max-w-10">
 						<select name="see_on_symptom_details" class={ "dhcw-border p-1", templ.KV("hidden",!Checked(ctx,NamePatientOption,"See on Symptom") ) }>
 							for _, option := range []string{"6 months", "12 months"} {
@@ -21,7 +22,9 @@ templ Patient(data models.OutcomeState) {
 						</select>
 					</div>
 				}
-				@Radio("Patient Initiated Follow Up", NamePatientOption)
+				@Radio("Patient Initiated Follow Up", NamePatientOption) {
+					@Tooltip("Patient Initiated Follow Up")
+				}
 			</div>
 			<div class="flex flex-col">
 				@Radio("Did Not Answer", NamePatientOption) {

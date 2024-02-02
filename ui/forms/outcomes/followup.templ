@@ -10,10 +10,7 @@ import (
 templ FollowUp(data models.FollowUpState) {
 	<div class="flex flex-col px-4 gap-3">
 		<div class="font-bold">
-			@Checkbox("Follow Up", "follow_up") {
-				<span class="text-red-500">*</span>
-				@Tooltip("Follow Up")
-			}
+			@Checkbox("Follow Up", "follow_up")
 		</div>
 		<div class={ "flex flex-col border border-black p-4 gap-3", templ.KV("hidden", !Checked(ctx,"follow_up","on")) }>
 			@RequiredLabel("Pathway") {
@@ -42,7 +39,7 @@ templ FollowUp(data models.FollowUpState) {
 							</div>
 						</div>
 					}
-					@Label("Appointment Directive / Priority") {
+					@RequiredLabel("Appointment Directive / Priority") {
 						@Tooltip("Appointment Directive / Priority")
 						@TextInput("appointment_priority", data.AppointmentPriority ,"Specify")
 					}
@@ -104,7 +101,7 @@ templ FollowupTest(data []models.Test) {
 					<input id={ fmt.Sprintf("tests_undertaken_by_%d", i) } name="tests_undertaken_by" value={ data[i].TestsUndertakenBy } class="dhcw-border shadow-inner px-2 py-0.5 w-2/3 block"/>
 				}
 				@RequiredLabel("Test(s) required by") {
-					@Select([]string{"Day Prior to the Clinic", "Day of Clinic", "Other (Please Specify)"},data[i].TestsRequiredBy,"tests_by")
+					@Select([]string{"Choose Option", "Day Prior to the Clinic", "Day of Clinic", "Other (Please Specify)"},data[i].TestsRequiredBy,"tests_by")
 				}
 			</div>
 		}
