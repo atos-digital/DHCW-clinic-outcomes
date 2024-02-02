@@ -67,7 +67,6 @@ func (s *Server) handleLoadState() http.HandlerFunc {
 			return
 		}
 		w.Header().Set("Content-Type", "text/html")
-		fmt.Print(state.Data)
 		ui.Index(pages.Outcomes(state.Data)).Render(r.Context(), w)
 	}
 }
