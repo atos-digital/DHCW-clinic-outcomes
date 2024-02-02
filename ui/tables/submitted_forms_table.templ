@@ -1,0 +1,24 @@
+package tables
+
+import "github.com/atos-digital/DHCW-clinic-outcomes/internal/store/db"
+
+templ SubmittedFormsTable(subs []db.Submission) {
+	<table class="border border-1 border-zinc-500 w-1/2">
+		<th>
+			<tr class="border border-1 border-t-0 border-zinc-500 ">
+				<td class="p-2 font-medium">ID</td>
+				<td class="p-2 font-medium">Date Created</td>
+				<td class="p-2 font-medium">Actions</td>
+			</tr>
+		</th>
+		for _, subs := range subs {
+			<tr>
+				<td class="p-2">{ subs.ID }</td>
+				<td class="p-2">{ subs.DateCreated.Format("02 Jan 06 15:04 MST") }</td>
+				<td class="p-2">
+					<button class="bg-sky-700 px-5 py-2 text-white rounded-3xl shadow-sm hover:bg-sky-600">Load</button>
+				</td>
+			</tr>
+		}
+	</table>
+}

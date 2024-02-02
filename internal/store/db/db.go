@@ -3,6 +3,8 @@ package db
 import (
 	"database/sql"
 	"encoding/json"
+	"strconv"
+	"time"
 
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
 )
@@ -34,6 +36,7 @@ func (db *DB) Migrate() error {
 
 	CREATE TABLE IF NOT EXISTS submission (
 		id INTEGER PRIMARY KEY,
+		date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 		data JSON
 	);
 	`
@@ -70,13 +73,57 @@ func (db *DB) StoreSubmission(submission models.OutcomesSubmit) error {
 	return err
 }
 
-func (db *DB) GetSubmission(id string) (models.OutcomesSubmit, error) {
-	var submission models.OutcomesSubmit
-	var b []byte
-	err := db.db.QueryRow("SELECT data FROM submission WHERE id = ?").Scan(&b)
+type Submission struct {
+	ID          string
+	Data        models.OutcomesSubmit
+	DateCreated time.Time
+}
+
+func (db *DB) GetSubmission(id string) (Submission, error) {
+	var submission Submission
+	var data []byte
+	var dateCreated time.Time
+	err := db.db.QueryRow("SELECT data,date_created FROM submission WHERE id = ?").Scan(&data, &dateCreated)
 	if err != nil {
 		return submission, err
 	}
-	err = json.Unmarshal(b, &submission)
-	return submission, err
+	var os models.OutcomesSubmit
+	err = json.Unmarshal(data, &os)
+	if err != nil {
+		return submission, err
+	}
+	submission.ID = id
+	submission.DateCreated = dateCreated
+	submission.Data = os
+
+	return submission, nil
+}
+
+func (db *DB) GetAllSubmissions() ([]Submission, error) {
+	var submissions []Submission
+	rows, err := db.db.Query("SELECT id,data,date_created FROM submission")
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var id int
+		var data []byte
+		var dateCreated time.Time
+		err = rows.Scan(&id, &data, &dateCreated)
+		if err != nil {
+			return nil, err
+		}
+		var submission Submission
+		var os models.OutcomesSubmit
+		err = json.Unmarshal(data, &os)
+		if err != nil {
+			return nil, err
+		}
+		submission.ID = strconv.Itoa(id)
+		submission.DateCreated = dateCreated
+		submission.Data = os
+		submissions = append(submissions, submission)
+	}
+	return submissions, rows.Err()
 }

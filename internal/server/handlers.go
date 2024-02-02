@@ -5,8 +5,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/a-h/templ"
-
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/pages"
@@ -24,8 +22,16 @@ func (s *Server) HandleFavicon() http.Handler {
 	})
 }
 
-func (s *Server) handlePageIndex() http.Handler {
-	return templ.Handler(pages.DefaultHome, templ.WithContentType("text/html"))
+func (s *Server) handlePageIndex() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		subs, err := s.db.GetAllSubmissions()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html")
+		ui.Index(pages.Home(subs)).Render(r.Context(), w)
+	}
 }
 
 func (s *Server) handlePageOutcomes() http.HandlerFunc {
@@ -136,6 +142,7 @@ func (s *Server) handleSubmitOutcomes() http.HandlerFunc {
 		}
 
 		submission, err := data.State().Submit()
+		log.Println(submission)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, "Error submitting form data", http.StatusInternalServerError)
