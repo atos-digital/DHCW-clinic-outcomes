@@ -12,7 +12,7 @@ var (
 		"Face to face",
 		"Office-based Decision",
 	}
-	specialties = []string{
+	event_specialty = []string{
 		"Cardiology",
 		"Dermatology",
 		"Endocrinology",
@@ -27,26 +27,26 @@ var (
 		"Rheumatology",
 		"Urology",
 	}
-	clinicians = []string{"A", "B", "C"}
+	event_clinician = []string{"A", "B", "C"}
 )
 
 templ Details(data models.OutcomeDetails) {
 	@SectionTitle("Enter Event Details")
 	<div class="flex justify-between px-4">
 		@Label("Date") {
-			<input type="date" name="consultation_date" class="block dhcw-border" value={ data.ConsultationDate }/>
+			<input type="date" name="event_date" class="block dhcw-border" value={ data.EventDate }/>
 		}
 		@Label("Time") {
-			<input type="time" name="consultation_time" class="block dhcw-border" value={ data.ConsultationTime }/>
+			<input type="time" name="event_time" class="block dhcw-border" value={ data.EventTime }/>
 		}
 		@Label("Consultation Type") {
-			@Select(consultationTypes, data.ConsultationType, "consultation_type")
+			@Select(consultationTypes, data.EventType, "event_type")
 		}
 		@Label("Specialty") {
-			@Select(specialties, data.Specialties, "specialties")
+			@Select(event_specialty, data.EventSpecialty, "event_specialty")
 		}
 		@Label("Senior Responsible Clinician") {
-			@Select(clinicians, data.Clinicians, "clinicians")
+			@Select(event_clinician, data.EventClinician, "event_clinician")
 		}
 	</div>
 }

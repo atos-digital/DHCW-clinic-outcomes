@@ -5,46 +5,51 @@ import (
 )
 
 type OutcomesForm struct {
-	AddTest                      *string     `json:"add_test"`
-	ConsultationDate             string      `json:"consultation_date"`
-	ConsultationTime             string      `json:"consultation_time"`
-	ConsultationType             string      `json:"consultation_type"`
-	Specialties                  string      `json:"specialties"`
-	Clinicians                   string      `json:"clinicians"`
-	CancerPathway                string      `json:"cancer_pathway"`
-	CancerPathwayOption          string      `json:"cancer_pathway_options"`
-	CancerPathwayOther           string      `json:"cancer_pathway_other"`
-	PatientOption                string      `json:"patient_option"`
-	SeeOnSymptomMonths           string      `json:"see_on_symptom_months"`
-	DidNotAnswer                 string      `json:"did_not_answer"`
-	DidNotAttend                 string      `json:"did_not_attend"`
-	CouldNotAttend               string      `json:"could_not_attend"`
-	ReferToDiagnosticsData       string      `json:"refer_to_diagnostics_data"`
-	ReferToAnotherData           string      `json:"refer_to_another_data"`
-	ReferRoTreatmentSact         string      `json:"refer_to_treatment_sact"`
-	ReferRoTreatmentRadiotherapy string      `json:"refer_to_treatment_radiotherapy"`
-	ReferRoTreatmentOther        string      `json:"refer_to_treatment_other"`
-	ReferRoTreatmentData         string      `json:"refer_to_treatment_data"`
-	ReferToTherapyData           string      `json:"refer_to_therapy_data"`
-	DiscussAtMdtData             string      `json:"discuss_at_mdt_data"`
-	OutpatientProcedureData      string      `json:"outpatient_procedure_data"`
-	FollowUp                     string      `json:"follow_up"`
-	Pathway                      string      `json:"pathway"`
-	SameClinician                string      `json:"same_clinician"`
-	SameClinicianAnswer          string      `json:"same_clinician_answer"`
-	SeeInUnit                    string      `json:"see_in_unit"`
-	SeeInNum                     string      `json:"see_in_num"`
-	SameClinic                   string      `json:"same_clinic"`
-	SameClinicAnswer             string      `json:"same_clinic_answer"`
-	Hospital                     string      `json:"hospital"`
-	Condition                    string      `json:"condition"`
-	AppointmentDP                string      `json:"appointment_dp"`
-	PreferredConsultationMethod  string      `json:"preferred_consultation_method"`
-	TestsRequired                string      `json:"tests_required"`
-	FollowUpTestsRequired        ArrayString `json:"tests.required"`
-	FollowUpTestsUndertaken      ArrayString `json:"tests.undertaken"`
-	FollowUpTestsBy              ArrayString `json:"tests.by"`
-	OtherInformation             string      `json:"other_information"`
+	EventDate      string `json:"event_date"`
+	EventTime      string `json:"event_time"`
+	EventType      string `json:"event_type"`
+	EventSpecialty string `json:"event_specialty"`
+	EventClinician string `json:"event_clinician"`
+
+	CancerPathway       string `json:"cancer_pathway"`
+	CancerPathwayOption string `json:"cancer_pathway_options"`
+	CancerPathwayOther  string `json:"cancer_pathway_other"`
+
+	PatientOption                string `json:"patient_option"`
+	SeeOnSymptomMonths           string `json:"see_on_symptom_months"`
+	DidNotAnswer                 string `json:"did_not_answer"`
+	DidNotAttend                 string `json:"did_not_attend"`
+	CouldNotAttend               string `json:"could_not_attend"`
+	ReferToDiagnosticsData       string `json:"refer_to_diagnostics_data"`
+	ReferToAnotherData           string `json:"refer_to_another_data"`
+	ReferRoTreatmentSact         string `json:"refer_to_treatment_sact"`
+	ReferRoTreatmentRadiotherapy string `json:"refer_to_treatment_radiotherapy"`
+	ReferRoTreatmentOther        string `json:"refer_to_treatment_other"`
+	ReferRoTreatmentData         string `json:"refer_to_treatment_data"`
+	ReferToTherapyData           string `json:"refer_to_therapy_data"`
+	DiscussAtMdtData             string `json:"discuss_at_mdt_data"`
+	OutpatientProcedureData      string `json:"outpatient_procedure_data"`
+
+	FollowUp                    string `json:"follow_up"`
+	Pathway                     string `json:"pathway"`
+	SameClinician               string `json:"same_clinician"`
+	SameClinicianAnswer         string `json:"same_clinician_answer"`
+	SeeInUnit                   string `json:"see_in_unit"`
+	SeeInNum                    string `json:"see_in_num"`
+	SameClinic                  string `json:"same_clinic"`
+	SameClinicAnswer            string `json:"same_clinic_answer"`
+	Hospital                    string `json:"hospital"`
+	Condition                   string `json:"condition"`
+	AppointmentDP               string `json:"appointment_dp"`
+	PreferredConsultationMethod string `json:"preferred_consultation_method"`
+
+	TestsRequired           string      `json:"tests_required"`
+	FollowUpTestsRequired   ArrayString `json:"tests.required"`
+	FollowUpTestsUndertaken ArrayString `json:"tests.undertaken"`
+	FollowUpTestsBy         ArrayString `json:"tests.by"`
+	AddTest                 *string     `json:"add_test"`
+
+	OtherInformation string `json:"other_information"`
 }
 
 type ArrayString []string
@@ -77,11 +82,11 @@ func (o OutcomesForm) State() OutcomesState {
 
 	return OutcomesState{
 		OutcomeDetails: OutcomeDetails{
-			ConsultationDate: o.ConsultationDate,
-			ConsultationTime: o.ConsultationTime,
-			ConsultationType: o.ConsultationType,
-			Specialties:      o.Specialties,
-			Clinicians:       o.Clinicians,
+			EventDate:      o.EventDate,
+			EventTime:      o.EventTime,
+			EventType:      o.EventType,
+			EventSpecialty: o.EventSpecialty,
+			EventClinician: o.EventClinician,
 		},
 		CancerPathway: CancerPathway{
 			Checked: o.CancerPathway == "on",

@@ -8,11 +8,11 @@ import (
 )
 
 type OutcomeDetails struct {
-	ConsultationDate string
-	ConsultationTime string
-	ConsultationType string
-	Specialties      string
-	Clinicians       string
+	EventDate      string
+	EventTime      string
+	EventType      string
+	EventSpecialty string
+	EventClinician string
 }
 type CancerPathway struct {
 	Checked bool
@@ -73,7 +73,7 @@ func (o OutcomesState) Submit() (OutcomesSubmit, error) {
 	var submit OutcomesSubmit
 
 	// EventDetails
-	dateString := fmt.Sprintf("%s %s", o.OutcomeDetails.ConsultationDate, o.OutcomeDetails.ConsultationTime)
+	dateString := fmt.Sprintf("%s %s", o.OutcomeDetails.EventDate, o.OutcomeDetails.EventTime)
 	dateTime, err := time.Parse("2006-01-02 15:04", dateString)
 	if err != nil {
 		fmt.Println("Error parsing date:", err)
@@ -81,9 +81,9 @@ func (o OutcomesState) Submit() (OutcomesSubmit, error) {
 	}
 
 	submit.EventDetails.DateTime = dateTime
-	submit.EventDetails.Type = o.OutcomeDetails.ConsultationType
-	submit.EventDetails.Specialty = o.OutcomeDetails.Specialties
-	submit.EventDetails.SeniorResponsibleClinician = o.OutcomeDetails.Clinicians
+	submit.EventDetails.Type = o.OutcomeDetails.EventType
+	submit.EventDetails.Specialty = o.OutcomeDetails.EventSpecialty
+	submit.EventDetails.SeniorResponsibleClinician = o.OutcomeDetails.EventClinician
 
 	// CancerPathway
 	if !o.CancerPathway.Checked {
