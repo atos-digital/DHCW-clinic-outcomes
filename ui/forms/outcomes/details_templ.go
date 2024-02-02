@@ -17,12 +17,14 @@ import (
 
 var (
 	consultationTypes = []string{
+		"Choose Option",
 		"Telephone Consultation",
 		"Video Consultation",
 		"Face to face",
 		"Office-based Decision",
 	}
 	event_specialty = []string{
+		"Choose Option",
 		"Cardiology",
 		"Dermatology",
 		"Endocrinology",
@@ -37,7 +39,7 @@ var (
 		"Rheumatology",
 		"Urology",
 	}
-	event_clinician = []string{"A", "B", "C"}
+	event_clinician = []string{"Choose Option", "A", "B", "C"}
 )
 
 func Details(data models.DetailsState) templ.Component {
@@ -84,7 +86,7 @@ func Details(data models.DetailsState) templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = Label("Date").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = RequiredLabel("Date").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -111,7 +113,7 @@ func Details(data models.DetailsState) templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = Label("Time").Render(templ.WithChildren(ctx, templ_7745c5c3_Var3), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = RequiredLabel("Time").Render(templ.WithChildren(ctx, templ_7745c5c3_Var3), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -1,0 +1,14 @@
+package components
+
+templ ErrorSummary(errors []string) {
+	if len(errors) != 0 {
+		<div class="px-4 py-1 border-2 border-red-600">
+			<h2 class="text-lg font-bold">Please fix the following errors</h2>
+			<ul class="list-disc list-inside text-red-600 font-semibold">
+				for _, err := range errors {
+					<li>{ err }</li>
+				}
+			</ul>
+		</div>
+	}
+}

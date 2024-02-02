@@ -50,6 +50,8 @@ type ClinicOutcomesFormPayload struct {
 	AddTest                     *string     `json:"add_test"`
 
 	OtherInformation string `json:"other_information"`
+
+	Errors ArrayString `json:"errors"`
 }
 
 type ArrayString []string
