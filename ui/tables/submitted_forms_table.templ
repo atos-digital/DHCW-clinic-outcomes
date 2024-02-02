@@ -1,0 +1,61 @@
+package tables
+
+import (
+	"fmt"
+	"github.com/atos-digital/DHCW-clinic-outcomes/internal/store/db"
+)
+
+templ SubmittedFormsTable(subs []db.Submission) {
+	
+	<table class="border border-1 border-zinc-500 w-1/2">
+		<th>
+			<tr class="border border-1 border-t-0 border-zinc-500 ">
+				<td class="p-2 font-medium">ID</td>
+				<td class="p-2 font-medium">Date Created</td>
+				<td class="p-2 font-medium">Actions</td>
+			</tr>
+		</th>
+		for _, subs := range subs {
+			<tr>
+				<td class="p-2">{ subs.ID }</td>
+				<td class="p-2">{ subs.DateCreated.Format("02 Jan 06 15:04 MST") }</td>
+				<td>
+					<button
+						class="bg-sky-700 px-3 py-1 text-white rounded-3xl shadow-sm hover:bg-sky-600"
+						hx-get={ fmt.Sprintf("/hx/view-submission/%s", subs.ID) }
+						hx-target="#answers"
+						hx-swap="innerHTML"
+					>See Answers</button>
+				</td>
+			</tr>
+		}
+	</table>
+	<div id="answers"></div>
+}
+
+templ SubmittedFormAnswers(sub db.Submission) {
+	<table class="border border-1 border-zinc-500 w-1/2 border-collapse mt-1">
+		<th>
+			<tr class="p-2 font-medium border border-1 border-t-0 border-zinc-500">
+				<td class="p-2">Question</td>
+				<td class="p-2">Answer</td>
+			</tr>
+			<tr>
+				<td class="p-2">Senior Responsible Clinician</td>
+				<td class="p-2">{ sub.Data.Details.Clinician }</td>
+			</tr>
+			<tr>
+				<td class="p-2">Event Date</td>
+				<td class="p-2">{ sub.Data.Details.DateTime.Format("02 Jan 06 15:04 MST") }</td>
+			</tr>
+			<tr>
+				<td class="p-2">Event Type</td>
+				<td class="p-2">{ sub.Data.Details.Type }</td>
+			</tr>
+			<tr>
+				<td class="p-2">Speciality</td>
+				<td class="p-2">{ sub.Data.Details.Specialty }</td>
+			</tr>
+		</th>
+	</table>
+}

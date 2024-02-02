@@ -2,14 +2,16 @@ package server
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
-	"github.com/a-h/templ"
+	"github.com/go-chi/chi/v5"
 
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/pages"
+	"github.com/atos-digital/DHCW-clinic-outcomes/ui/tables"
 )
 
 func (s *Server) HandleFavicon() http.Handler {
@@ -24,8 +26,49 @@ func (s *Server) HandleFavicon() http.Handler {
 	})
 }
 
-func (s *Server) handlePageIndex() http.Handler {
-	return templ.Handler(pages.DefaultHome, templ.WithContentType("text/html"))
+func (s *Server) handlePageIndex() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		subs, err := s.db.GetAllSubmissions()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		save, err := s.db.GetAllStates()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html")
+		ui.Index(pages.Home(subs, save)).Render(r.Context(), w)
+	}
+}
+
+func (s *Server) handleViewSubmission() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		id := chi.URLParam(r, "id")
+		sub, err := s.db.GetSubmission(id)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html")
+		tables.SubmittedFormAnswers(sub).Render(r.Context(), w)
+	}
+}
+
+func (s *Server) handleLoadState() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		id := chi.URLParam(r, "id")
+		state, err := s.db.GetState(id)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "text/html")
+		ui.Index(pages.Outcomes(state.Data)).Render(r.Context(), w)
+	}
 }
 
 func (s *Server) handlePageOutcomes() http.HandlerFunc {

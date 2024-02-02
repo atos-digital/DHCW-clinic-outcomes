@@ -1,0 +1,32 @@
+package tables
+
+import (
+	"fmt"
+	"github.com/atos-digital/DHCW-clinic-outcomes/internal/store/db"
+)
+
+templ SavedFormsTable(saves []db.Save) {
+	<table class="border border-1 border-zinc-500 w-1/2">
+		<th>
+			<tr>
+				<td class="p-2 font-medium">ID</td>
+				<td class="p-2 font-medium">Date Created</td>
+				<td class="p-2 font-medium">Actions</td>
+			</tr>
+		</th>
+		for _, save := range saves {
+			<tr>
+				<td class="p-2">{ save.ID }</td>
+				<td class="p-2">{ save.DateCreated.Format("02 Jan 06 15:04 MST") }</td>
+				<td class="p-2">
+					<button
+						class="bg-sky-700 px-3 py-1 text-white rounded-3xl shadow-sm hover:bg-sky-600"
+						hx-get={ fmt.Sprintf("/hx/load-save/%s", save.ID) }
+						hx-push-url="/outcomes"
+						hx-target="body"
+					>Load Save</button>
+				</td>
+			</tr>
+		}
+	</table>
+}

@@ -1,13 +1,15 @@
 package pages
 
-import "github.com/atos-digital/DHCW-clinic-outcomes/ui"
+import (
+	"github.com/atos-digital/DHCW-clinic-outcomes/ui/tables"
+	"github.com/atos-digital/DHCW-clinic-outcomes/internal/store/db"
+)
 
-var DefaultHome = ui.Index(Home())
-
-templ Home() {
+templ Home(subs []db.Submission, saves []db.Save){
 	<div>
-		<h1>Home</h1>
-		<p>Home page</p>
-		<p>Patients Table</p>
+		<h1 class="font-semibold text-sky-900 text-2xl py-2">Saved Forms</h1>
+		@tables.SavedFormsTable(saves)
+		<h1 class="font-semibold text-sky-900 text-2xl py-2">Submitted Forms</h1>
+		@tables.SubmittedFormsTable(subs)
 	</div>
 }
