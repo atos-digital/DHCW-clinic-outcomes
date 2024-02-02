@@ -34,27 +34,27 @@ templ SubmittedFormsTable(subs []db.Submission) {
 }
 
 templ SubmittedFormAnswers(sub db.Submission) {
-	<table>
+	<table class="border border-1 border-zinc-500 w-1/2 border-collapse mt-1">
 		<th>
-			<tr>
-				<td>Question</td>
-				<td>Answer</td>
+			<tr class="p-2 font-medium border border-1 border-t-0 border-zinc-500">
+				<td class="p-2">Question</td>
+				<td class="p-2">Answer</td>
 			</tr>
 			<tr>
-				<td>Senior Responsible Clinician</td>
-				<td>{ sub.Data.EventDetails.SeniorResponsibleClinician }</td>
+				<td class="p-2">Senior Responsible Clinician</td>
+				<td class="p-2">{ sub.Data.EventDetails.SeniorResponsibleClinician }</td>
 			</tr>
 			<tr>
-				<td>Event Date</td>
-				<td>{ sub.Data.EventDetails.DateTime.Format("02 Jan 06 15:04 MST") }</td>
+				<td class="p-2">Event Date</td>
+				<td class="p-2">{ sub.Data.EventDetails.DateTime.Format("02 Jan 06 15:04 MST") }</td>
 			</tr>
 			<tr>
-				<td>Event Type</td>
-				<td>{ sub.Data.EventDetails.Type }</td>
+				<td class="p-2">Event Type</td>
+				<td class="p-2">{ sub.Data.EventDetails.Type }</td>
 			</tr>
 			<tr>
-				<td>Speciality</td>
-				<td>{ sub.Data.EventDetails.Specialty }</td>
+				<td class="p-2">Speciality</td>
+				<td class="p-2">{ sub.Data.EventDetails.Specialty }</td>
 			</tr>
 		</th>
 	</table>
