@@ -14,9 +14,9 @@ templ Patient(data models.OutcomeOptions) {
 				@Radio("Patient Discharged", NamePatientOption)
 				@Radio("See on Symptom", NamePatientOption) {
 					<div class="ml-4 max-w-10">
-						<select name="see_on_symptom_months" class={ "dhcw-border p-1", templ.KV("hidden",!Checked(ctx,NamePatientOption,"See on Symptom") ) }>
+						<select name="see_on_symptom_details" class={ "dhcw-border p-1", templ.KV("hidden",!Checked(ctx,NamePatientOption,"See on Symptom") ) }>
 							for _, option := range []string{"6 months", "12 months"} {
-								<option selected?={ option == data.SeeOnSymptomMonths }>{ option }</option>
+								<option selected?={ option == data.SeeOnSymptomDetails }>{ option }</option>
 							}
 						</select>
 					</div>
@@ -26,20 +26,20 @@ templ Patient(data models.OutcomeOptions) {
 			<div class="flex flex-col">
 				@Radio("Did Not Answer", NamePatientOption) {
 					<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !Checked(ctx,NamePatientOption,"Did Not Answer")) }>
-						@Radio("Send for again", "did_not_answer")
-						@Radio("Discharge", "did_not_answer")
+						@Radio("Send for again", "did_not_answer_details")
+						@Radio("Discharge", "did_not_answer_details")
 					</div>
 				}
 				@Radio("Did Not Attend", NamePatientOption) {
 					<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !Checked(ctx,NamePatientOption,"Did Not Attend")) }>
-						@Radio("Send for again", "did_not_attend")
-						@Radio("Discharge", "did_not_attend")
+						@Radio("Send for again", "did_not_attend_details")
+						@Radio("Discharge", "did_not_attend_details")
 					</div>
 				}
 				@Radio("Could Not Attend", NamePatientOption) {
 					<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !Checked(ctx,NamePatientOption,"Could Not Attend")) }>
-						@Radio("Send for again", "could_not_attend")
-						@Radio("Discharge", "could_not_attend")
+						@Radio("Send for again", "could_not_attend_details")
+						@Radio("Discharge", "could_not_attend_details")
 					</div>
 				}
 			</div>
@@ -47,17 +47,17 @@ templ Patient(data models.OutcomeOptions) {
 		<div class="flex flex-col">
 			@Radio("Refer to Diagnostics", NamePatientOption) {
 				<div class={ "ml-4 my-1", templ.KV("hidden", !Checked(ctx, NamePatientOption, "Refer to Diagnostics")) }>
-					@TextInput("refer_to_diagnostics_data",data.ReferToDiagnosticsData,"Enter Diagnostic Test(s)")
+					@TextInput("refer_to_diagnostics_details",data.ReferToDiagnosticsDetails,"Enter Diagnostic Test(s)")
 				</div>
 			}
 			@Radio("Refer to another consultant / specialty", NamePatientOption) {
 				<div class={ "ml-4 my-1", templ.KV("hidden", !Checked(ctx, NamePatientOption, "Refer to another consultant / specialty")) }>
-					@TextInput("refer_to_another_data",data.ReferToAnotherData,"Type in which consultant or specialty")
+					@TextInput("refer_to_another_details",data.ReferToAnotherDetails,"Type in which consultant or specialty")
 				</div>
 			}
 			@Radio("Refer to Therapies", NamePatientOption) {
 				<div class={ "ml-4 my-1", templ.KV("hidden", !Checked(ctx, NamePatientOption, "Refer to Therapies")) }>
-					@TextInput("refer_to_therapy_data",data.ReferToTherapyData,"Type who to refer to")
+					@TextInput("refer_to_therapies_details",data.ReferToTherapiesDetails,"Type who to refer to")
 				</div>
 			}
 			@Radio("Refer to Treatment", NamePatientOption) {
@@ -66,7 +66,7 @@ templ Patient(data models.OutcomeOptions) {
 					@Checkbox("Radiotherapy", "refer_to_treatment_radiotherapy")
 					@Checkbox("Other", "refer_to_treatment_other")
 					<div class={ templ.KV("hidden", !(Checked(ctx, "refer_to_treatment_sact", "on") || Checked(ctx, "refer_to_treatment_radiotherapy", "on") || Checked(ctx, "refer_to_treatment_other", "on"))) }>
-						@TextInput("refer_to_treatment_data",data.ReferRoTreatmentData,"Enter Treatment")
+						@TextInput("refer_to_treatment_details",data.ReferToTreatmentDetails,"Enter Treatment")
 					</div>
 				</div>
 			}
@@ -77,12 +77,12 @@ templ Patient(data models.OutcomeOptions) {
 			@Radio("Awaiting Clinical Decision (i.e. MDT, test results)", NamePatientOption)
 			@Radio("Discuss at MDT", NamePatientOption) {
 				<div class={ "ml-4 my-1", templ.KV("hidden", !Checked(ctx, NamePatientOption, "Discuss at MDT")) }>
-					@TextInput("discuss_at_mdt_data",data.DiscussAtMdtData,"Which MDT (if known)?")
+					@TextInput("discuss_at_mdt_details",data.DiscussAtMdtDetails,"Which MDT (if known)?")
 				</div>
 			}
 			@Radio("Listed for Outpatient Procedure", NamePatientOption) {
 				<div class={ "ml-4 my-1", templ.KV("hidden", !Checked(ctx, NamePatientOption, "Listed for Outpatient Procedure")) }>
-					@TextInput("outpatient_procedure_data",data.OutpatientProcedureData,"Type in which procedure")
+					@TextInput("outpatient_procedure_details",data.OutpatientProcedureDetails,"Type in which procedure")
 				</div>
 			}
 		</div>

@@ -12,23 +12,23 @@ type OutcomesForm struct {
 	EventClinician string `json:"event_clinician"`
 
 	CancerPathway       string `json:"cancer_pathway"`
-	CancerPathwayOption string `json:"cancer_pathway_options"`
+	CancerPathwayOption string `json:"cancer_pathway_option"`
 	CancerPathwayOther  string `json:"cancer_pathway_other"`
 
 	PatientOption                string `json:"patient_option"`
-	SeeOnSymptomMonths           string `json:"see_on_symptom_months"`
-	DidNotAnswer                 string `json:"did_not_answer"`
-	DidNotAttend                 string `json:"did_not_attend"`
-	CouldNotAttend               string `json:"could_not_attend"`
-	ReferToDiagnosticsData       string `json:"refer_to_diagnostics_data"`
-	ReferToAnotherData           string `json:"refer_to_another_data"`
-	ReferRoTreatmentSact         string `json:"refer_to_treatment_sact"`
-	ReferRoTreatmentRadiotherapy string `json:"refer_to_treatment_radiotherapy"`
-	ReferRoTreatmentOther        string `json:"refer_to_treatment_other"`
-	ReferRoTreatmentData         string `json:"refer_to_treatment_data"`
-	ReferToTherapyData           string `json:"refer_to_therapy_data"`
-	DiscussAtMdtData             string `json:"discuss_at_mdt_data"`
-	OutpatientProcedureData      string `json:"outpatient_procedure_data"`
+	SeeOnSymptomDetails          string `json:"see_on_symptom_details"`
+	DidNotAnswerDetails          string `json:"did_not_answer_details"`
+	DidNotAttendDetails          string `json:"did_not_attend_details"`
+	CouldNotAttendDetails        string `json:"could_not_attend_details"`
+	ReferToDiagnosticsDetails    string `json:"refer_to_diagnostics_details"`
+	ReferToAnotherDetails        string `json:"refer_to_another_details"`
+	ReferToTherapiesDetails      string `json:"refer_to_therapies_details"`
+	ReferToTreatmentSact         string `json:"refer_to_treatment_sact"`
+	ReferToTreatmentRadiotherapy string `json:"refer_to_treatment_radiotherapy"`
+	ReferToTreatmentOther        string `json:"refer_to_treatment_other"`
+	ReferToTreatmentDetails      string `json:"refer_to_treatment_details"`
+	DiscussAtMdtDetails          string `json:"discuss_at_mdt_details"`
+	OutpatientProcedureDetails   string `json:"outpatient_procedure_details"`
 
 	FollowUp                    string `json:"follow_up"`
 	Pathway                     string `json:"pathway"`
@@ -94,24 +94,24 @@ func (o OutcomesForm) State() OutcomesState {
 			Other:   o.CancerPathwayOther,
 		},
 		OutcomeOptions: OutcomeOptions{
-			PatientOption:      o.PatientOption,
-			SeeOnSymptomMonths: o.SeeOnSymptomMonths,
+			PatientOption:       o.PatientOption,
+			SeeOnSymptomDetails: o.SeeOnSymptomDetails,
 
-			DidNotAnswer:   o.DidNotAnswer,
-			DidNotAttend:   o.DidNotAttend,
-			CouldNotAttend: o.CouldNotAttend,
+			DidNotAnswerDetails:   o.DidNotAnswerDetails,
+			DidNotAttendDetails:   o.DidNotAttendDetails,
+			CouldNotAttendDetails: o.CouldNotAttendDetails,
 
-			ReferToDiagnosticsData: o.ReferToDiagnosticsData,
-			ReferToAnotherData:     o.ReferToAnotherData,
-			ReferToTherapyData:     o.ReferToTherapyData,
+			ReferToDiagnosticsDetails: o.ReferToDiagnosticsDetails,
+			ReferToAnotherDetails:     o.ReferToAnotherDetails,
+			ReferToTherapiesDetails:   o.ReferToTherapiesDetails,
 
-			ReferRoTreatmentSact:         o.ReferRoTreatmentSact,
-			ReferRoTreatmentRadiotherapy: o.ReferRoTreatmentRadiotherapy,
-			ReferRoTreatmentOther:        o.ReferRoTreatmentOther,
-			ReferRoTreatmentData:         o.ReferRoTreatmentData,
+			ReferToTreatmentSact:         o.ReferToTreatmentSact,
+			ReferToTreatmentRadiotherapy: o.ReferToTreatmentRadiotherapy,
+			ReferToTreatmentOther:        o.ReferToTreatmentOther,
+			ReferToTreatmentDetails:      o.ReferToTreatmentDetails,
 
-			DiscussAtMdtData:        o.DiscussAtMdtData,
-			OutpatientProcedureData: o.OutpatientProcedureData,
+			DiscussAtMdtDetails:        o.DiscussAtMdtDetails,
+			OutpatientProcedureDetails: o.OutpatientProcedureDetails,
 		},
 		FollowUp: FollowUp{
 			FollowUp:                    o.FollowUp,

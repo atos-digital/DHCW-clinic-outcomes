@@ -22,20 +22,20 @@ type CancerPathway struct {
 
 type OutcomeOptions struct {
 	PatientOption                string
-	SeeOnSymptomMonths           string
-	DidNotAnswer                 string
-	DidNotAttend                 string
-	CouldNotAttend               string
-	ReferToDiagnosticsData       string
-	ReferToAnotherData           string
-	ReferToTherapyData           string
+	SeeOnSymptomDetails          string
+	DidNotAnswerDetails          string
+	DidNotAttendDetails          string
+	CouldNotAttendDetails        string
+	ReferToDiagnosticsDetails    string
+	ReferToAnotherDetails        string
+	ReferToTherapiesDetails      string
 	ReferToTreatment             string
-	ReferRoTreatmentSact         string
-	ReferRoTreatmentRadiotherapy string
-	ReferRoTreatmentOther        string
-	ReferRoTreatmentData         string
-	DiscussAtMdtData             string
-	OutpatientProcedureData      string
+	ReferToTreatmentSact         string
+	ReferToTreatmentRadiotherapy string
+	ReferToTreatmentOther        string
+	ReferToTreatmentDetails      string
+	DiscussAtMdtDetails          string
+	OutpatientProcedureDetails   string
 }
 
 type Test struct {
@@ -99,41 +99,41 @@ func (o OutcomesState) Submit() (OutcomesSubmit, error) {
 
 	switch submit.Outcome.Answer {
 	case "See on Symptom":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.SeeOnSymptomMonths
+		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.SeeOnSymptomDetails
 	case "Did Not Answer":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.DidNotAnswer
+		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.DidNotAnswerDetails
 	case "Did Not Attend":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.DidNotAttend
+		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.DidNotAttendDetails
 	case "Could Not Attend":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.CouldNotAttend
+		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.CouldNotAttendDetails
 	case "Refer to Diagnostics":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.ReferToDiagnosticsData
+		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.ReferToDiagnosticsDetails
 	case "Refer to another consultant / specialty":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.ReferToAnotherData
+		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.ReferToAnotherDetails
 	case "Refer to Therapies":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.ReferToTherapyData
+		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.ReferToTherapiesDetails
 	case "Refer to Treatment":
 		ans := ""
-		if o.OutcomeOptions.ReferRoTreatmentSact == "on" {
+		if o.OutcomeOptions.ReferToTreatmentSact == "on" {
 			ans += "SACT "
 		}
-		if o.OutcomeOptions.ReferRoTreatmentRadiotherapy == "on" {
+		if o.OutcomeOptions.ReferToTreatmentRadiotherapy == "on" {
 			ans += "Radiotherapy "
 		}
-		if o.OutcomeOptions.ReferRoTreatmentOther == "on" {
-			ans += fmt.Sprintf("Other: %s", o.OutcomeOptions.ReferRoTreatmentData)
+		if o.OutcomeOptions.ReferToTreatmentOther == "on" {
+			ans += fmt.Sprintf("Other: %s", o.OutcomeOptions.ReferToTreatmentDetails)
 		}
 		submit.Outcome.FollowUpAnswer = strings.TrimSuffix(ans, " ")
 	case "Refer to treatment - SACT":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.ReferRoTreatmentSact
+		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.ReferToTreatmentSact
 	case "Refer to treatment - Radiotherapy":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.ReferRoTreatmentRadiotherapy
+		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.ReferToTreatmentRadiotherapy
 	case "Refer to treatment - Other":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.ReferRoTreatmentOther
+		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.ReferToTreatmentOther
 	case "Discuss at MDT":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.DiscussAtMdtData
+		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.DiscussAtMdtDetails
 	case "Listed for Outpatient Procedure":
-		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.OutpatientProcedureData
+		submit.Outcome.FollowUpAnswer = o.OutcomeOptions.OutpatientProcedureDetails
 	default:
 		submit.Outcome.FollowUpAnswer = "NA"
 	}

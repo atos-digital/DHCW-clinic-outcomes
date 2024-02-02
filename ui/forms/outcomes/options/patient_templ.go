@@ -53,7 +53,7 @@ func Patient(data models.OutcomeOptions) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<select name=\"see_on_symptom_months\" class=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<select name=\"see_on_symptom_details\" class=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -70,7 +70,7 @@ func Patient(data models.OutcomeOptions) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				if option == data.SeeOnSymptomMonths {
+				if option == data.SeeOnSymptomDetails {
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" selected")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
@@ -83,7 +83,7 @@ func Patient(data models.OutcomeOptions) templ.Component {
 				var templ_7745c5c3_Var4 string
 				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(option)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/forms/outcomes/options/patient.templ`, Line: 18, Col: 72}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/forms/outcomes/options/patient.templ`, Line: 18, Col: 73}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 				if templ_7745c5c3_Err != nil {
@@ -138,11 +138,11 @@ func Patient(data models.OutcomeOptions) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Send for again", "did_not_answer").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Send for again", "did_not_answer_details").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Discharge", "did_not_answer").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Discharge", "did_not_answer_details").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -182,11 +182,11 @@ func Patient(data models.OutcomeOptions) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Send for again", "did_not_attend").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Send for again", "did_not_attend_details").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Discharge", "did_not_attend").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Discharge", "did_not_attend_details").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -226,11 +226,11 @@ func Patient(data models.OutcomeOptions) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Send for again", "could_not_attend").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Send for again", "could_not_attend_details").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Discharge", "could_not_attend").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Discharge", "could_not_attend_details").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -274,7 +274,7 @@ func Patient(data models.OutcomeOptions) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = TextInput("refer_to_diagnostics_data", data.ReferToDiagnosticsData, "Enter Diagnostic Test(s)").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = TextInput("refer_to_diagnostics_details", data.ReferToDiagnosticsDetails, "Enter Diagnostic Test(s)").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -314,7 +314,7 @@ func Patient(data models.OutcomeOptions) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = TextInput("refer_to_another_data", data.ReferToAnotherData, "Type in which consultant or specialty").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = TextInput("refer_to_another_details", data.ReferToAnotherDetails, "Type in which consultant or specialty").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -354,7 +354,7 @@ func Patient(data models.OutcomeOptions) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = TextInput("refer_to_therapy_data", data.ReferToTherapyData, "Type who to refer to").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = TextInput("refer_to_therapies_details", data.ReferToTherapiesDetails, "Type who to refer to").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -423,7 +423,7 @@ func Patient(data models.OutcomeOptions) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = TextInput("refer_to_treatment_data", data.ReferRoTreatmentData, "Enter Treatment").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = TextInput("refer_to_treatment_details", data.ReferToTreatmentDetails, "Enter Treatment").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -479,7 +479,7 @@ func Patient(data models.OutcomeOptions) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = TextInput("discuss_at_mdt_data", data.DiscussAtMdtData, "Which MDT (if known)?").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = TextInput("discuss_at_mdt_details", data.DiscussAtMdtDetails, "Which MDT (if known)?").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -519,7 +519,7 @@ func Patient(data models.OutcomeOptions) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = TextInput("outpatient_procedure_data", data.OutpatientProcedureData, "Type in which procedure").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = TextInput("outpatient_procedure_details", data.OutpatientProcedureDetails, "Type in which procedure").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
