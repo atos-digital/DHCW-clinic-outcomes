@@ -3,7 +3,6 @@ package models
 import (
 	"fmt"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -114,22 +113,19 @@ func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 	case "Refer to Treatment":
 		ans := ""
 		switch {
-		case state.Outcome.ReferToTreatmentSact == "on":
+		case state.Outcome.ReferToTreatmentSact:
 			ans += "SACT "
 			fallthrough
-		case state.Outcome.ReferToTreatmentRadiotherapy == "on":
+		case state.Outcome.ReferToTreatmentRadiotherapy:
 			ans += "Radiotherapy "
 			fallthrough
-		case state.Outcome.ReferToTreatmentOther == "on":
-			ans += fmt.Sprintf("Other: %s", state.Outcome.ReferToTreatmentDetails)
+		case state.Outcome.ReferToTreatmentOther:
+			ans += "Other "
+			fallthrough
+		default:
+			ans += state.Outcome.ReferToTreatmentDetails
 		}
-		submit.Outcome.AnswerDetails = strings.TrimSuffix(ans, " ")
-	case "Refer to treatment - SACT":
-		submit.Outcome.AnswerDetails = state.Outcome.ReferToTreatmentSact
-	case "Refer to treatment - Radiotherapy":
-		submit.Outcome.AnswerDetails = state.Outcome.ReferToTreatmentRadiotherapy
-	case "Refer to treatment - Other":
-		submit.Outcome.AnswerDetails = state.Outcome.ReferToTreatmentOther
+		submit.Outcome.AnswerDetails = ans
 	case "Discuss at MDT":
 		submit.Outcome.AnswerDetails = state.Outcome.DiscussAtMdtDetails
 	case "Listed for Outpatient Procedure":
@@ -139,7 +135,7 @@ func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 	}
 
 	// FollowUp
-	submit.FollowUpRequired = state.FollowUp.FollowUp == "on"
+	submit.FollowUpRequired = state.FollowUp.Checked
 
 	if submit.FollowUpRequired {
 		switch {

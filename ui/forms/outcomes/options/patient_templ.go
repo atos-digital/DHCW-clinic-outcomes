@@ -34,7 +34,7 @@ func Patient(data models.OutcomeState) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Radio("Patient Discharged", NamePatientOption).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Radio("Patient Discharged", NamePatientOption, data.OutcomeOption == "Patient Discharged").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -52,7 +52,7 @@ func Patient(data models.OutcomeState) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var3 = []any{"dhcw-border p-1", templ.KV("hidden", !Checked(ctx, NamePatientOption, "See on Symptom"))}
+			var templ_7745c5c3_Var3 = []any{"dhcw-border p-1", templ.KV("hidden", data.OutcomeOption != "See on Symptom")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var3...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -107,7 +107,7 @@ func Patient(data models.OutcomeState) templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = Radio("See on Symptom", NamePatientOption).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Radio("See on Symptom", NamePatientOption, data.OutcomeOption == "See on Symptom").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -126,7 +126,7 @@ func Patient(data models.OutcomeState) templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = Radio("Patient Initiated Follow Up", NamePatientOption).Render(templ.WithChildren(ctx, templ_7745c5c3_Var5), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Radio("Patient Initiated Follow Up", NamePatientOption, data.OutcomeOption == "Patient Initiated Follow Up").Render(templ.WithChildren(ctx, templ_7745c5c3_Var5), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -140,7 +140,7 @@ func Patient(data models.OutcomeState) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			var templ_7745c5c3_Var7 = []any{"flex flex-col ml-4 my-1", templ.KV("hidden", !Checked(ctx, NamePatientOption, "Did Not Answer"))}
+			var templ_7745c5c3_Var7 = []any{"flex flex-col ml-4 my-1", templ.KV("hidden", data.OutcomeOption != "Did Not Answer")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var7...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -157,11 +157,11 @@ func Patient(data models.OutcomeState) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Send for again", "did_not_answer_details").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Send for again", "did_not_answer_details", data.DidNotAnswerDetails == "Send for again").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Discharge", "did_not_answer_details").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Discharge", "did_not_answer_details", data.DidNotAnswerDetails == "Discharge").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -174,7 +174,7 @@ func Patient(data models.OutcomeState) templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = Radio("Did Not Answer", NamePatientOption).Render(templ.WithChildren(ctx, templ_7745c5c3_Var6), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Radio("Did Not Answer", NamePatientOption, data.OutcomeOption == "Did Not Answer").Render(templ.WithChildren(ctx, templ_7745c5c3_Var6), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -184,7 +184,7 @@ func Patient(data models.OutcomeState) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			var templ_7745c5c3_Var9 = []any{"flex flex-col ml-4 my-1", templ.KV("hidden", !Checked(ctx, NamePatientOption, "Did Not Attend"))}
+			var templ_7745c5c3_Var9 = []any{"flex flex-col ml-4 my-1", templ.KV("hidden", data.OutcomeOption != "Did Not Attend")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var9...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -201,11 +201,11 @@ func Patient(data models.OutcomeState) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Send for again", "did_not_attend_details").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Send for again", "did_not_attend_details", data.DidNotAttendDetails == "Send for again").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Discharge", "did_not_attend_details").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Discharge", "did_not_attend_details", data.DidNotAttendDetails == "Discharge").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -218,7 +218,7 @@ func Patient(data models.OutcomeState) templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = Radio("Did Not Attend", NamePatientOption).Render(templ.WithChildren(ctx, templ_7745c5c3_Var8), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Radio("Did Not Attend", NamePatientOption, data.OutcomeOption == "Did Not Attend").Render(templ.WithChildren(ctx, templ_7745c5c3_Var8), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -228,7 +228,7 @@ func Patient(data models.OutcomeState) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			var templ_7745c5c3_Var11 = []any{"flex flex-col ml-4 my-1", templ.KV("hidden", !Checked(ctx, NamePatientOption, "Could Not Attend"))}
+			var templ_7745c5c3_Var11 = []any{"flex flex-col ml-4 my-1", templ.KV("hidden", data.OutcomeOption != "Could Not Attend")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var11...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -245,11 +245,11 @@ func Patient(data models.OutcomeState) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Send for again", "could_not_attend_details").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Send for again", "could_not_attend_details", data.CouldNotAttendDetails == "Send for again").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Discharge", "could_not_attend_details").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Discharge", "could_not_attend_details", data.CouldNotAttendDetails == "Discharge").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -262,7 +262,7 @@ func Patient(data models.OutcomeState) templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = Radio("Could Not Attend", NamePatientOption).Render(templ.WithChildren(ctx, templ_7745c5c3_Var10), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Radio("Could Not Attend", NamePatientOption, data.OutcomeOption == "Could Not Attend").Render(templ.WithChildren(ctx, templ_7745c5c3_Var10), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -276,7 +276,7 @@ func Patient(data models.OutcomeState) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			var templ_7745c5c3_Var13 = []any{"ml-4 my-1", templ.KV("hidden", !Checked(ctx, NamePatientOption, "Refer to Diagnostics"))}
+			var templ_7745c5c3_Var13 = []any{"ml-4 my-1", templ.KV("hidden", data.OutcomeOption != "Refer to Diagnostics")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var13...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -306,7 +306,7 @@ func Patient(data models.OutcomeState) templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = Radio("Refer to Diagnostics", NamePatientOption).Render(templ.WithChildren(ctx, templ_7745c5c3_Var12), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Radio("Refer to Diagnostics", NamePatientOption, data.OutcomeOption == "Refer to Diagnostics").Render(templ.WithChildren(ctx, templ_7745c5c3_Var12), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -316,7 +316,7 @@ func Patient(data models.OutcomeState) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			var templ_7745c5c3_Var15 = []any{"ml-4 my-1", templ.KV("hidden", !Checked(ctx, NamePatientOption, "Refer to another consultant / specialty"))}
+			var templ_7745c5c3_Var15 = []any{"ml-4 my-1", templ.KV("hidden", data.OutcomeOption != "Refer to another consultant / specialty")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var15...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -346,7 +346,7 @@ func Patient(data models.OutcomeState) templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = Radio("Refer to another consultant / specialty", NamePatientOption).Render(templ.WithChildren(ctx, templ_7745c5c3_Var14), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Radio("Refer to another consultant / specialty", NamePatientOption, data.OutcomeOption == "Refer to another consultant / specialty").Render(templ.WithChildren(ctx, templ_7745c5c3_Var14), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -356,7 +356,7 @@ func Patient(data models.OutcomeState) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			var templ_7745c5c3_Var17 = []any{"ml-4 my-1", templ.KV("hidden", !Checked(ctx, NamePatientOption, "Refer to Therapies"))}
+			var templ_7745c5c3_Var17 = []any{"ml-4 my-1", templ.KV("hidden", data.OutcomeOption != "Refer to Therapies")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var17...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -386,7 +386,7 @@ func Patient(data models.OutcomeState) templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = Radio("Refer to Therapies", NamePatientOption).Render(templ.WithChildren(ctx, templ_7745c5c3_Var16), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Radio("Refer to Therapies", NamePatientOption, data.OutcomeOption == "Refer to Therapies").Render(templ.WithChildren(ctx, templ_7745c5c3_Var16), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -396,7 +396,7 @@ func Patient(data models.OutcomeState) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			var templ_7745c5c3_Var19 = []any{"flex flex-col ml-4 my-1", templ.KV("hidden", !Checked(ctx, NamePatientOption, "Refer to Treatment"))}
+			var templ_7745c5c3_Var19 = []any{"flex flex-col ml-4 my-1", templ.KV("hidden", data.OutcomeOption != "Refer to Treatment")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var19...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -413,19 +413,19 @@ func Patient(data models.OutcomeState) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Checkbox("SACT", "refer_to_treatment_sact").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Checkbox("SACT", "refer_to_treatment_sact", data.ReferToTreatmentSact).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Checkbox("Radiotherapy", "refer_to_treatment_radiotherapy").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Checkbox("Radiotherapy", "refer_to_treatment_radiotherapy", data.ReferToTreatmentRadiotherapy).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Checkbox("Other", "refer_to_treatment_other").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Checkbox("Other", "refer_to_treatment_other", data.ReferToTreatmentOther).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var20 = []any{templ.KV("hidden", !(Checked(ctx, "refer_to_treatment_sact", "on") || Checked(ctx, "refer_to_treatment_radiotherapy", "on") || Checked(ctx, "refer_to_treatment_other", "on")))}
+			var templ_7745c5c3_Var20 = []any{templ.KV("hidden", (!data.ReferToTreatmentSact && !data.ReferToTreatmentRadiotherapy && !data.ReferToTreatmentOther))}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var20...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -455,7 +455,7 @@ func Patient(data models.OutcomeState) templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = Radio("Refer to Treatment", NamePatientOption).Render(templ.WithChildren(ctx, templ_7745c5c3_Var18), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Radio("Refer to Treatment", NamePatientOption, data.OutcomeOption == "Refer to Treatment").Render(templ.WithChildren(ctx, templ_7745c5c3_Var18), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -463,15 +463,15 @@ func Patient(data models.OutcomeState) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Radio("Add to Daycare List", NamePatientOption).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Radio("Add to Daycare List", NamePatientOption, data.OutcomeOption == "Add to Daycare List").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Radio("Add to Inpatient List", NamePatientOption).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Radio("Add to Inpatient List", NamePatientOption, data.OutcomeOption == "Add to Inpatient List").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Radio("Awaiting Clinical Decision (i.e. MDT, test results)", NamePatientOption).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Radio("Awaiting Clinical Decision (i.e. MDT, test results)", NamePatientOption, data.OutcomeOption == "Awaiting Clinical Decision (i.e. MDT, test results)").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -481,7 +481,7 @@ func Patient(data models.OutcomeState) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			var templ_7745c5c3_Var22 = []any{"ml-4 my-1", templ.KV("hidden", !Checked(ctx, NamePatientOption, "Discuss at MDT"))}
+			var templ_7745c5c3_Var22 = []any{"ml-4 my-1", templ.KV("hidden", data.OutcomeOption != "Discuss at MDT")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var22...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -511,7 +511,7 @@ func Patient(data models.OutcomeState) templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = Radio("Discuss at MDT", NamePatientOption).Render(templ.WithChildren(ctx, templ_7745c5c3_Var21), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Radio("Discuss at MDT", NamePatientOption, data.OutcomeOption == "Discuss at MDT").Render(templ.WithChildren(ctx, templ_7745c5c3_Var21), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -521,7 +521,7 @@ func Patient(data models.OutcomeState) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			var templ_7745c5c3_Var24 = []any{"ml-4 my-1", templ.KV("hidden", !Checked(ctx, NamePatientOption, "Listed for Outpatient Procedure"))}
+			var templ_7745c5c3_Var24 = []any{"ml-4 my-1", templ.KV("hidden", data.OutcomeOption != "Listed for Outpatient Procedure")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var24...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -551,7 +551,7 @@ func Patient(data models.OutcomeState) templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = Radio("Listed for Outpatient Procedure", NamePatientOption).Render(templ.WithChildren(ctx, templ_7745c5c3_Var23), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Radio("Listed for Outpatient Procedure", NamePatientOption, data.OutcomeOption == "Listed for Outpatient Procedure").Render(templ.WithChildren(ctx, templ_7745c5c3_Var23), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -559,7 +559,7 @@ func Patient(data models.OutcomeState) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Radio("Admit from Clinic / Consultation", NamePatientOption).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Radio("Admit from Clinic / Consultation", NamePatientOption, data.OutcomeOption == "Admit from Clinic / Consultation").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

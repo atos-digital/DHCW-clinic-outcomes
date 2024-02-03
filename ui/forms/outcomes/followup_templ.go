@@ -34,7 +34,7 @@ func FollowUp(data models.FollowUpState) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Checkbox("Follow Up", "follow_up").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Checkbox("Follow Up", "follow_up", data.Checked).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -42,7 +42,7 @@ func FollowUp(data models.FollowUpState) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var2 = []any{"flex flex-col border border-black p-4 gap-3", templ.KV("hidden", !Checked(ctx, "follow_up", "on"))}
+		var templ_7745c5c3_Var2 = []any{"flex flex-col border border-black p-4 gap-3", templ.KV("hidden", !data.Checked)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -69,11 +69,11 @@ func FollowUp(data models.FollowUpState) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Definitive Treatment given today (Clock stop)", "pathway").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Definitive Treatment given today (Clock stop)", "pathway", data.Pathway == "Definitive Treatment given today (Clock stop)").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Ongoing review", "pathway").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Ongoing review", "pathway", data.Pathway == "Ongoing review").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -104,7 +104,7 @@ func FollowUp(data models.FollowUpState) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Yes", "same_clinician").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Yes", "same_clinician", data.SameClinician == "Yes").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -114,7 +114,7 @@ func FollowUp(data models.FollowUpState) templ.Component {
 					templ_7745c5c3_Buffer = templ.GetBuffer()
 					defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 				}
-				var templ_7745c5c3_Var6 = []any{templ.KV("hidden", !Checked(ctx, "same_clinician", "No"))}
+				var templ_7745c5c3_Var6 = []any{templ.KV("hidden", data.SameClinician != "No")}
 				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var6...)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -144,7 +144,7 @@ func FollowUp(data models.FollowUpState) templ.Component {
 				}
 				return templ_7745c5c3_Err
 			})
-			templ_7745c5c3_Err = Radio("No", "same_clinician").Render(templ.WithChildren(ctx, templ_7745c5c3_Var5), templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("No", "same_clinician", data.SameClinician == "No").Render(templ.WithChildren(ctx, templ_7745c5c3_Var5), templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -237,7 +237,7 @@ func FollowUp(data models.FollowUpState) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Yes", "same_clinic").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Yes", "same_clinic", data.SameClinic == "Yes").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -247,7 +247,7 @@ func FollowUp(data models.FollowUpState) templ.Component {
 					templ_7745c5c3_Buffer = templ.GetBuffer()
 					defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 				}
-				var templ_7745c5c3_Var11 = []any{templ.KV("hidden", !Checked(ctx, "same_clinic", "No"))}
+				var templ_7745c5c3_Var11 = []any{templ.KV("hidden", data.SameClinic != "No")}
 				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var11...)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -277,7 +277,7 @@ func FollowUp(data models.FollowUpState) templ.Component {
 				}
 				return templ_7745c5c3_Err
 			})
-			templ_7745c5c3_Err = Radio("No", "same_clinic").Render(templ.WithChildren(ctx, templ_7745c5c3_Var10), templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("No", "same_clinic", data.SameClinic == "No").Render(templ.WithChildren(ctx, templ_7745c5c3_Var10), templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -355,7 +355,7 @@ func FollowUp(data models.FollowUpState) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			for _, v := range []string{"Face to face", "Telephone", "Video", "Clinical review (patient not required to attend)"} {
-				templ_7745c5c3_Err = Radio(v, "preferred_consultation_method").Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = Radio(v, "preferred_consultation_method", data.PreferredConsultationMethod == v).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -383,11 +383,11 @@ func FollowUp(data models.FollowUpState) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("Yes", "tests_required_before_followup").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("Yes", "tests_required_before_followup", data.TestsRequiredBeforeFollowup == "Yes").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = Radio("No", "tests_required_before_followup").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = Radio("No", "tests_required_before_followup", data.TestsRequiredBeforeFollowup == "No").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -404,7 +404,7 @@ func FollowUp(data models.FollowUpState) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var16 = []any{templ.KV("hidden", !Checked(ctx, "tests_required_before_followup", "Yes"))}
+		var templ_7745c5c3_Var16 = []any{templ.KV("hidden", data.TestsRequiredBeforeFollowup != "Yes")}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var16...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

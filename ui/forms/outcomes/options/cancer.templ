@@ -13,12 +13,12 @@ var (
 
 templ Cancer(data models.CancerPathwayState) {
 	<div class="flex flex-col px-4">
-		@Checkbox("Cancer Pathway", NameCancerPathway)
-		<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !Checked(ctx,NameCancerPathway,"on")) }>
-			@Radio("First Suspicion of Cancer", NameCancerPathwayOptions)
-			@Radio("Patient to remain on USC pathway", NameCancerPathwayOptions)
-			@Radio("Other", NameCancerPathwayOptions) {
-				<div class={ "ml-4 my-1", templ.KV("hidden", !Checked(ctx, NameCancerPathwayOptions, "Other")) }>
+		@Checkbox("Cancer Pathway", NameCancerPathway, data.Checked)
+		<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", !data.Checked) }>
+			@Radio("First Suspicion of Cancer", NameCancerPathwayOptions, data.Option == "First Suspicion of Cancer")
+			@Radio("Patient to remain on USC pathway", NameCancerPathwayOptions, data.Option == "Patient to remain on USC pathway")
+			@Radio("Other", NameCancerPathwayOptions, data.Option == "Other") {
+				<div class={ "ml-4 my-1", templ.KV("hidden", data.Option != "Other") }>
 					@TextInput(NameCancerPathwayOther, data.Other, "Specify")
 				</div>
 			}

@@ -10,22 +10,22 @@ import (
 templ FollowUp(data models.FollowUpState) {
 	<div class="flex flex-col px-4 gap-3">
 		<div class="font-bold">
-			@Checkbox("Follow Up", "follow_up")
+			@Checkbox("Follow Up", "follow_up", data.Checked)
 		</div>
-		<div class={ "flex flex-col border border-black p-4 gap-3", templ.KV("hidden", !Checked(ctx,"follow_up","on")) }>
+		<div class={ "flex flex-col border border-black p-4 gap-3", templ.KV("hidden", !data.Checked) }>
 			@RequiredLabel("Pathway") {
 				<div class="flex flex-col font-bold">
-					@Radio("Definitive Treatment given today (Clock stop)", "pathway")
-					@Radio("Ongoing review", "pathway")
+					@Radio("Definitive Treatment given today (Clock stop)", "pathway", data.Pathway == "Definitive Treatment given today (Clock stop)")
+					@Radio("Ongoing review", "pathway", data.Pathway == "Ongoing review")
 				</div>
 			}
 			<div class="grid grid-cols-2">
 				<div class="flex flex-col gap-3">
 					@RequiredLabel("To be seen under the same senior responsible clinician?") {
 						<div class="flex flex-col">
-							@Radio("Yes", "same_clinician")
-							@Radio("No", "same_clinician") {
-								<div class={ templ.KV("hidden", !Checked(ctx, "same_clinician", "No")) }>
+							@Radio("Yes", "same_clinician", data.SameClinician == "Yes")
+							@Radio("No", "same_clinician", data.SameClinician == "No") {
+								<div class={ templ.KV("hidden", data.SameClinician != "No") }>
 									@TextInput("same_clinician_no",data.SameClinicianNo,"Specify")
 								</div>
 							}
@@ -47,9 +47,9 @@ templ FollowUp(data models.FollowUpState) {
 				<div class="flex flex-col gap-3">
 					@Label("See in this clinic?") {
 						<div class="flex flex-col">
-							@Radio("Yes", "same_clinic")
-							@Radio("No", "same_clinic") {
-								<div class={ templ.KV("hidden", !Checked(ctx, "same_clinic", "No")) }>
+							@Radio("Yes", "same_clinic", data.SameClinic == "Yes")
+							@Radio("No", "same_clinic", data.SameClinic == "No") {
+								<div class={ templ.KV("hidden", data.SameClinic != "No") }>
 									@TextInput("same_clinic_no",data.SameClinicNo,"Specify")
 								</div>
 							}
@@ -69,17 +69,17 @@ templ FollowUp(data models.FollowUpState) {
 				@RequiredLabel("Patient's preferred consultation method") {
 					<div class="flex flex-col">
 						for _, v := range []string{"Face to face", "Telephone", "Video", "Clinical review (patient not required to attend)"} {
-							@Radio(v, "preferred_consultation_method")
+							@Radio(v, "preferred_consultation_method", data.PreferredConsultationMethod == v)
 						}
 					</div>
 				}
 				@Label("Does the patient require any tests before their FUP appointment?") {
 					<div class="flex flex-col">
-						@Radio("Yes", "tests_required_before_followup")
-						@Radio("No", "tests_required_before_followup")
+						@Radio("Yes", "tests_required_before_followup", data.TestsRequiredBeforeFollowup == "Yes")
+						@Radio("No", "tests_required_before_followup", data.TestsRequiredBeforeFollowup == "No")
 					</div>
 				}
-				<div class={ templ.KV("hidden", !Checked(ctx, "tests_required_before_followup", "Yes")) }>
+				<div class={ templ.KV("hidden", data.TestsRequiredBeforeFollowup != "Yes") }>
 					<p class="font-semibold italic text-blue-600">
 						This information is to help administrative colleagues with planning for clinic. It does not automatically generate a test request. The patient should not defer their appointment if the test cannot take place at the specified time.
 					</p>

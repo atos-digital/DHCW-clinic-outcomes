@@ -33,9 +33,9 @@ type OutcomeState struct {
 	ReferToAnotherDetails        string
 	ReferToTherapiesDetails      string
 	ReferToTreatment             string
-	ReferToTreatmentSact         string
-	ReferToTreatmentRadiotherapy string
-	ReferToTreatmentOther        string
+	ReferToTreatmentSact         bool
+	ReferToTreatmentRadiotherapy bool
+	ReferToTreatmentOther        bool
 	ReferToTreatmentDetails      string
 	DiscussAtMdtDetails          string
 	OutpatientProcedureDetails   string
@@ -48,7 +48,7 @@ type Test struct {
 }
 
 type FollowUpState struct {
-	FollowUp                    string
+	Checked                     bool
 	Pathway                     string
 	SameClinician               string
 	SameClinicianNo             string
@@ -103,16 +103,16 @@ func State(payload ClinicOutcomesFormPayload) ClinicOutcomesFormState {
 			ReferToAnotherDetails:     payload.ReferToAnotherDetails,
 			ReferToTherapiesDetails:   payload.ReferToTherapiesDetails,
 
-			ReferToTreatmentSact:         payload.ReferToTreatmentSact,
-			ReferToTreatmentRadiotherapy: payload.ReferToTreatmentRadiotherapy,
-			ReferToTreatmentOther:        payload.ReferToTreatmentOther,
+			ReferToTreatmentSact:         payload.ReferToTreatmentSact == "on",
+			ReferToTreatmentRadiotherapy: payload.ReferToTreatmentRadiotherapy == "on",
+			ReferToTreatmentOther:        payload.ReferToTreatmentOther == "on",
 			ReferToTreatmentDetails:      payload.ReferToTreatmentDetails,
 
 			DiscussAtMdtDetails:        payload.DiscussAtMdtDetails,
 			OutpatientProcedureDetails: payload.OutpatientProcedureDetails,
 		},
 		FollowUp: FollowUpState{
-			FollowUp:                    payload.FollowUp,
+			Checked:                     payload.FollowUp == "on",
 			Pathway:                     payload.Pathway,
 			SameClinician:               payload.SameClinician,
 			SameClinicianNo:             payload.SameClinicianNo,
