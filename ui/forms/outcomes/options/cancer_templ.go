@@ -38,11 +38,11 @@ func Cancer(data models.CancerPathwayState) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Checkbox("Cancer Pathway", NameCancerPathway).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Checkbox("Cancer Pathway", NameCancerPathway, data.Checked).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var2 = []any{"flex flex-col ml-4 my-1", templ.KV("hidden", !Checked(ctx, NameCancerPathway, "on"))}
+		var templ_7745c5c3_Var2 = []any{"flex flex-col ml-4 my-1", templ.KV("hidden", !data.Checked)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -59,11 +59,11 @@ func Cancer(data models.CancerPathwayState) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Radio("First Suspicion of Cancer", NameCancerPathwayOptions).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Radio("First Suspicion of Cancer", NameCancerPathwayOptions, data.Option == "First Suspicion of Cancer").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Radio("Patient to remain on USC pathway", NameCancerPathwayOptions).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Radio("Patient to remain on USC pathway", NameCancerPathwayOptions, data.Option == "Patient to remain on USC pathway").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -73,7 +73,7 @@ func Cancer(data models.CancerPathwayState) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			var templ_7745c5c3_Var4 = []any{"ml-4 my-1", templ.KV("hidden", !Checked(ctx, NameCancerPathwayOptions, "Other"))}
+			var templ_7745c5c3_Var4 = []any{"ml-4 my-1", templ.KV("hidden", data.Option != "Other")}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var4...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -103,7 +103,7 @@ func Cancer(data models.CancerPathwayState) templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = Radio("Other", NameCancerPathwayOptions).Render(templ.WithChildren(ctx, templ_7745c5c3_Var3), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Radio("Other", NameCancerPathwayOptions, data.Option == "Other").Render(templ.WithChildren(ctx, templ_7745c5c3_Var3), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

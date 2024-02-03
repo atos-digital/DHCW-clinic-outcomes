@@ -8,17 +8,17 @@ templ TextArea(name, value, placeholder string) {
 	<textarea id={ name } name={ name } class="dhcw-border shadow-inner px-2 py-0.5 w-full" placeholder={ placeholder }>{ value }</textarea>
 }
 
-templ Radio(text , name string) {
+templ Radio(text, name string, checked bool) {
 	<label>
-		<input type="radio" name={ name } value={ text } checked?={ Checked(ctx, name, text) }/>
+		<input type="radio" name={ name } value={ text } checked?={ checked }/>
 		{ text }
 		{ children... }
 	</label>
 }
 
-templ Checkbox(text, name string) {
+templ Checkbox(text, name string, checked bool) {
 	<label>
-		<input type="checkbox" name={ name } checked?={ Checked(ctx, name, "on") }/>
+		<input type="checkbox" name={ name } checked?={ checked }/>
 		{ text }
 		{ children... }
 	</label>
