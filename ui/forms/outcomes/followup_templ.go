@@ -167,7 +167,7 @@ func FollowUp(data models.FollowUpState) templ.Component {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
 				defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex gap-3\"><input type=\"number\" min=\"1\" name=\"see_in_num\" class=\"dhcw-border shadow-inner px-2 py-0.5 w-16\" value=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex gap-3\"><input type=\"number\" min=\"1\" id=\"see_in_num\" name=\"see_in_num\" class=\"dhcw-border shadow-inner px-2 py-0.5 w-16\" value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
