@@ -10,7 +10,6 @@ import (
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/pages"
-	"github.com/atos-digital/DHCW-clinic-outcomes/ui/tables"
 )
 
 func (s *Server) HandleFavicon() http.Handler {
@@ -53,7 +52,7 @@ func (s *Server) handleViewSubmission() http.HandlerFunc {
 		}
 
 		w.Header().Set("Content-Type", "text/html")
-		tables.SubmittedForm(sub.Data).Render(r.Context(), w)
+		ui.Index(pages.ViewSubmissions(sub.Data)).Render(r.Context(), w)
 	}
 }
 
@@ -86,7 +85,7 @@ func (s *Server) handleLoadState() http.HandlerFunc {
 		}
 
 		w.Header().Set("Content-Type", "text/html")
-		ui.Index(pages.Outcomes(models.State(state.Data))).Render(r.Context(), w)
+		ui.Index(pages.OutcomesForm(models.State(state.Data))).Render(r.Context(), w)
 	}
 }
 
@@ -103,7 +102,7 @@ func (s *Server) handlePageOutcomes() http.HandlerFunc {
 		if b != nil {
 			json.Unmarshal(b.([]byte), &data)
 		}
-		ui.Index(pages.Outcomes(models.State(data))).Render(r.Context(), w)
+		ui.Index(pages.OutcomesForm(models.State(data))).Render(r.Context(), w)
 	}
 }
 
@@ -144,7 +143,7 @@ func (s *Server) handleClinicOutcomesForm() http.HandlerFunc {
 		}
 
 		w.Header().Set("Content-Type", "text/html")
-		pages.Outcomes(models.State(data)).Render(r.Context(), w)
+		pages.OutcomesForm(models.State(data)).Render(r.Context(), w)
 	}
 }
 

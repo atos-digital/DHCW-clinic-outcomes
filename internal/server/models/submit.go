@@ -85,7 +85,7 @@ func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 
 	switch {
 	case !state.CancerPathway.Checked:
-		submit.CancerPathway = "NA"
+		submit.CancerPathway = ""
 	case state.CancerPathway.Option == "Other":
 		submit.CancerPathway = fmt.Sprintf("Other: %s", state.CancerPathway.Other)
 	default:
@@ -130,8 +130,6 @@ func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 		submit.Outcome.AnswerDetails = state.Outcome.DiscussAtMdtDetails
 	case "Listed for Outpatient Procedure":
 		submit.Outcome.AnswerDetails = state.Outcome.OutpatientProcedureDetails
-	default:
-		submit.Outcome.AnswerDetails = "NA"
 	}
 
 	// FollowUp
@@ -223,6 +221,7 @@ func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 	}
 
 	// OtherInformation
+
 	submit.OtherInformation = state.OtherInformation
 
 	if len(errors.Errors) > 0 {

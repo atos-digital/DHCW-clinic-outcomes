@@ -4,6 +4,6 @@
 
 @layer utilities {
   .dhcw-border {
-    @apply border-gray-300 border rounded;
+    @apply border border-gray-300 rounded;
   }
 }

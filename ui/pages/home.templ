@@ -5,11 +5,11 @@ import (
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/store/db"
 )
 
-templ Home(subs []db.Submission, saves []db.Save){
-	<div>
-		<h1 class="font-semibold text-sky-900 text-2xl py-2">Saved Forms</h1>
+templ Home(subs []db.Submission, saves []db.Save) {
+	<div class="px-4">
+		<h1 class="font-semibold text-sky-900 text-2xl py-2">Drafts</h1>
 		@tables.SavedFormsTable(saves)
-		<h1 class="font-semibold text-sky-900 text-2xl py-2">Submitted Forms</h1>
+		<h1 class="font-semibold text-sky-900 text-2xl pt-10 pb-2">Submitted</h1>
 		@tables.SubmittedFormsTable(subs)
 	</div>
 }

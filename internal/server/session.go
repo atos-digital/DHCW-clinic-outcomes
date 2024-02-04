@@ -12,7 +12,7 @@ func (s *Server) cookieStore() *sessions.CookieStore {
 		Codecs: securecookie.CodecsFromPairs(s.conf.CookieSecret),
 		Options: &sessions.Options{
 			Path:     "/",
-			MaxAge:   86400 * 30,
+			MaxAge:   0,
 			Secure:   true,
 			HttpOnly: true,
 			SameSite: http.SameSiteLaxMode,

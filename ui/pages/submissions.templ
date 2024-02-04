@@ -1,0 +1,106 @@
+package pages
+
+import (
+	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
+)
+
+templ SubmittedFormSectionTitle(title string) {
+	<tr class="p-2 font-semibold border border-zinc-500 bg-dhcw-blue">
+		<td class="p-2 w-1/3 text-xl text-white">{ title }</td>
+		<td class="p-2"></td>
+	</tr>
+}
+
+templ SubmittedFormRow(q,a string) {
+	<tr class="align-top text-lg">
+		<td class="p-2 border-b border-zinc-200 font-medium">{ q }</td>
+		if a == "" {
+			<td class="p-2 border-b border-zinc-200">-</td>
+		} else {
+			<td class="p-2 border-b border-zinc-200">{ a }</td>
+		}
+	</tr>
+}
+
+templ SubmittedFormRowLast(q,a string) {
+	<tr class="align-top text-lg">
+		<td class="p-2 font-medium">{ q }</td>
+		if a == "" {
+			<td class="p-2">-</td>
+		} else {
+			<td class="p-2">{ a }</td>
+		}
+	</tr>
+}
+
+templ ViewSubmissions(data models.ClinicOutcomesFormSubmit) {
+	<div class="px-4">
+		<div class="flex gap-2 mb-2">
+			<svg
+				class="w-2 fill-sky-700"
+				xmlns="http://www.w3.org/2000/svg"
+				viewBox="0 0 320 512"
+			>
+				<!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+				<path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"></path>
+			</svg>
+			<a href="/" class="text-sky-700">Back to Home</a>
+		</div>
+		<div class="flex flex-col gap-y-4">
+			<table class="table-fixed border-separate border-spacing-0 w-full mt-1">
+				@SubmittedFormSectionTitle("Event Details")
+				@SubmittedFormRow("Consultation Date", data.Details.DateTime.Format("02 Jan 06"))
+				@SubmittedFormRow("Consultation Time", data.Details.DateTime.Format("15:04"))
+				@SubmittedFormRow("Consultation Type", data.Details.Type)
+				@SubmittedFormRow("Speciality", data.Details.Specialty)
+				@SubmittedFormRowLast("Senior Responsible Clinician", data.Details.Clinician)
+			</table>
+			<table class="table-fixed border-separate border-spacing-0 w-full mt-4">
+				@SubmittedFormSectionTitle("Outcomes")
+				@SubmittedFormRow("Cancer Pathway", data.CancerPathway)
+				@SubmittedFormRow("Consultation Outcome", data.Outcome.Answer)
+				@SubmittedFormRowLast("Next Steps", data.Outcome.AnswerDetails)
+			</table>
+			<table class="table-fixed border-separate border-spacing-0 w-full mt-4">
+				@SubmittedFormSectionTitle("Follow Up")
+				if data.FollowUpRequired {
+					@SubmittedFormRow("Follow Up Required", "Yes")
+					@SubmittedFormRow("Pathway", data.FollowUp.Pathway)
+					@SubmittedFormRow("To be seen under the same senior responsible clinician?", data.FollowUp.SameClinician)
+					@SubmittedFormRow("See in this clinic?", data.FollowUp.SameClinic)
+					@SubmittedFormRow("See in?", data.FollowUp.SeeIn)
+					@SubmittedFormRow("In which hospital?", data.FollowUp.Hospital)
+					@SubmittedFormRow("Appointment Directive / Priority", data.FollowUp.AppointmentPriority)
+					@SubmittedFormRow("Clinical Condition", data.FollowUp.ClinicalCondition)
+					@SubmittedFormRow("Patient's preferred consultation method", data.FollowUp.PreferredConsultationMethod)
+					<tr class="align-top text-lg">
+						<td class="p-2 font-medium">Tests required before follow up appointment</td>
+						<td class="p-2">
+							if len(data.FollowUp.Tests) == 0 {
+								-
+							} else {
+								for i, test := range data.FollowUp.Tests {
+									Tests required: { test.TestsRequired }
+									<br/>
+									Undertaken by: { test.TestsUndertakenBy }
+									<br/>
+									Tests required by: { test.TestsRequiredBy }
+									<br/>
+									if i < len(data.FollowUp.Tests)-1 {
+										<br/>
+									}
+								}
+							}
+						</td>
+					</tr>
+				} else {
+					@SubmittedFormRowLast("Follow Up Required", "No")
+				}
+			</table>
+			<table class="table-fixed border-separate border-spacing-0 w-full mt-4">
+				@SubmittedFormSectionTitle("Other")
+				@SubmittedFormRowLast("Other information", data.OtherInformation)
+			</table>
+		</div>
+	</div>
+}
