@@ -60,6 +60,15 @@ func (db *DB) StoreState(state models.ClinicOutcomesFormPayload) error {
 	return err
 }
 
+func (db *DB) UpdateState(id string, newState models.ClinicOutcomesFormPayload) error {
+	b, err := json.Marshal(newState)
+	if err != nil {
+		return err
+	}
+	_, err = db.db.Exec("UPDATE state SET data = ? WHERE id = ?", string(b), id)
+	return err
+}
+
 func (db *DB) GetState(id string) (Save, error) {
 	var save Save
 	var b []byte

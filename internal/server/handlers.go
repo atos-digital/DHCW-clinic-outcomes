@@ -77,6 +77,7 @@ func (s *Server) handleLoadState() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		session.Values["outcomes-form-id"] = id
 		session.Values["outcomes-form-data"] = b
 		err = session.Save(r, w)
 		if err != nil {
@@ -159,21 +160,29 @@ func (s *Server) handleSaveOutcomes() http.HandlerFunc {
 			return
 		}
 
-		// Store the data in the database.
-		err = s.db.StoreState(data)
-		if err != nil {
-			log.Println(err)
-			http.Error(w, "Error storing form data", http.StatusInternalServerError)
-			return
-		}
-
 		// Get the session store
 		session, err := s.sess.Get(r, s.conf.CookieName)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
+		// Store the data in the database.
+		id := session.Values["outcomes-form-id"]
+		if id != nil {
+			err = s.db.UpdateState(id.(string), data)
+		} else {
+			err = s.db.StoreState(data)
+		}
+
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Error storing form data", http.StatusInternalServerError)
+			return
+		}
+
 		// Update and save
+		session.Values["outcomes-form-id"] = ""
 		session.Values["outcomes-form-data"] = []byte{}
 		err = session.Save(r, w)
 		if err != nil {
