@@ -25,7 +25,7 @@ templ Checkbox(text, name string, checked bool) {
 }
 
 templ Select(options []string, selected, name string) {
-	<select name={ name } class="block dhcw-border p-1 w-full">
+	<select id={ name } name={ name } class="block dhcw-border p-1 w-full">
 		for _, option := range options {
 			<option selected?={ selected==option }>{ option }</option>
 		}
