@@ -51,8 +51,9 @@ func (s *Server) handleViewSubmission() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
 		w.Header().Set("Content-Type", "text/html")
-		tables.SubmittedFormAnswers(sub).Render(r.Context(), w)
+		tables.SubmittedForm(sub.Data).Render(r.Context(), w)
 	}
 }
 
