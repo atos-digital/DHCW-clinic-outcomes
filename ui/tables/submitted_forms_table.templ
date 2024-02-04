@@ -3,102 +3,33 @@ package tables
 import (
 	"fmt"
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/store/db"
-	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
 )
 
 templ SubmittedFormsTable(subs []db.Submission) {
-	<table class="border border-zinc-500 w-1/2">
-		<th>
-			<tr class="border border-t-0 border-zinc-500 ">
-				<td class="p-2 font-medium">ID</td>
-				<td class="p-2 font-medium">Date Created</td>
-				<td class="p-2 font-medium">Actions</td>
-			</tr>
-		</th>
+	<table class="table-fixed border border-gray-300 w-2/3">
+		<tr class="bg-gray-300">
+			<td class="p-2 font-medium w-10">ID</td>
+			<td class="p-2 font-medium ">Date Created</td>
+			<td class="p-2 font-medium">Speciality</td>
+			<td class="p-2 font-medium w-1/3">Senior Responsible Clinician</td>
+			<td class="p-2 font-medium w-32"></td>
+		</tr>
 		for _, subs := range subs {
 			<tr>
 				<td class="p-2">{ subs.ID }</td>
-				<td class="p-2">{ subs.DateCreated.Format("02 Jan 06 15:04 MST") }</td>
-				<td>
+				<td class="p-2">{ subs.DateCreated.Format("02-Jan-06 15:04 MST") }</td>
+				<td class="p-2">{ subs.Data.Details.Specialty }</td>
+				<td class="p-2">{ subs.Data.Details.Clinician }</td>
+				<td class="py-2">
 					<button
 						class="bg-sky-700 px-3 py-1 text-white rounded-3xl shadow-sm hover:bg-sky-600"
 						hx-get={ fmt.Sprintf("/hx/view-submission/%s", subs.ID) }
-						hx-target="#answers"
-						hx-swap="innerHTML"
+						hx-push-url={ fmt.Sprintf("/submissions/%s", subs.ID) }
+						hx-target="body"
 					>See Answers</button>
 				</td>
 			</tr>
 		}
 	</table>
 	<div id="answers"></div>
-}
-
-templ SubmittedFormRow(q,a string) {
-	<tr class="align-top ">
-		<td class="p-2 border-b border-zinc-200">{ q }</td>
-		<td class="p-2 border-b border-zinc-200">{ a }</td>
-	</tr>
-}
-
-templ SubmittedForm(data models.ClinicOutcomesFormSubmit) {
-	<table class="border-separate border-spacing-0 border border-zinc-500 w-1/2 mt-1">
-		<thead>
-			<tr class="p-2 font-bold border border-zinc-500 bg-blue-400">
-				<td class="p-2">Question</td>
-				<td class="p-2">Answer</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr class="p-2 font-semibold border  border-zinc-500 bg-blue-200">
-				<td colspan="2" class="p-2">Event Details</td>
-			</tr>
-			@SubmittedFormRow("Consultation Date", data.Details.DateTime.Format("02 Jan 06"))
-			@SubmittedFormRow("Consultation Time", data.Details.DateTime.Format("15:04"))
-			@SubmittedFormRow("Consultation Type", data.Details.Type)
-			@SubmittedFormRow("Speciality", data.Details.Specialty)
-			@SubmittedFormRow("Senior Responsible Clinician", data.Details.Clinician)
-			<tr class="p-2 font-semibold border  border-zinc-500 bg-blue-200">
-				<td colspan="2" class="p-2">Outcomes</td>
-			</tr>
-			@SubmittedFormRow("Cancer Pathway", data.CancerPathway)
-			@SubmittedFormRow("Consultation Outcome", data.Outcome.Answer)
-			@SubmittedFormRow("Additional Details", data.Outcome.AnswerDetails)
-			<tr class="p-2 font-semibold border  border-zinc-500 bg-blue-200">
-				<td colspan="2" class="p-2">Follow Up</td>
-			</tr>
-			if data.FollowUpRequired {
-				@SubmittedFormRow("Follow Up Required", "Yes")
-				@SubmittedFormRow("Pathway", data.FollowUp.Pathway)
-				@SubmittedFormRow("To be seen under the same senior responsible clinician?", data.FollowUp.SameClinician)
-				@SubmittedFormRow("See in this clinic?", data.FollowUp.SameClinic)
-				@SubmittedFormRow("See in?", data.FollowUp.SeeIn)
-				@SubmittedFormRow("In which hospital?", data.FollowUp.Hospital)
-				@SubmittedFormRow("Appointment Directive / Priority", data.FollowUp.AppointmentPriority)
-				@SubmittedFormRow("Clinical Condition", data.FollowUp.ClinicalCondition)
-				@SubmittedFormRow("Patient's preferred consultation method", data.FollowUp.PreferredConsultationMethod)
-				<tr class="align-top">
-					<td class="p-2">Tests required before follow up appointment</td>
-					<td class="p-2 ">
-						for i, test := range data.FollowUp.Tests {
-							Tests required: { test.TestsRequired }
-							<br/>
-							Undertaken by: { test.TestsUndertakenBy }
-							<br/>
-							Tests required by: { test.TestsRequiredBy }
-							<br/>
-							if i < len(data.FollowUp.Tests)-1 {
-								<br/>
-							}
-						}
-					</td>
-				</tr>
-			} else {
-				@SubmittedFormRow("Follow Up Required", "No")
-			}
-			<tr class="p-2 font-semibold border  border-zinc-500 bg-blue-200">
-				<td colspan="2" class="p-2">Other</td>
-			</tr>
-			@SubmittedFormRow("Other information", data.OtherInformation)
-		</tbody>
-	</table>
 }

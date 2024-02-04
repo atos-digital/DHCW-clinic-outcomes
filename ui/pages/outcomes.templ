@@ -6,7 +6,7 @@ import (
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
 )
 
-templ Outcomes(data models.ClinicOutcomesFormState) {
+templ OutcomesForm(data models.ClinicOutcomesFormState) {
 	<form
 		hx-post="/hx/outcomes-form"
 		hx-trigger="change delay:20ms, click from:button[type=button]"
@@ -23,8 +23,8 @@ templ Outcomes(data models.ClinicOutcomesFormState) {
 			}
 		</div>
 		<div class="flex justify-end px-4 gap-2">
-			<button hx-post="/hx/save-outcomes-form" hx-target="closest body" class="dhcw-border w-20 p-1 text-white bg-sky-600">Save</button>
-			<button hx-post="/hx/submit-outcomes-form" hx-target="closest body" class="dhcw-border w-20 p-1 text-white bg-emerald-600">Submit</button>
+			<button hx-post="/hx/save-outcomes-form" hx-target="body" class="dhcw-border w-20 p-1 text-white bg-sky-700">Save</button>
+			<button hx-post="/hx/submit-outcomes-form" hx-target="body" class="dhcw-border w-20 p-1 text-white bg-teal-700">Submit</button>
 		</div>
 	</form>
 }
