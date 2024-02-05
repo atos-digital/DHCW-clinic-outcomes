@@ -28,7 +28,7 @@ func Home(subs []db.Submission, saves []db.Save) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"px-4 flex flex-col gap-4\"><div class=\"flex flex-col gap-2\"><h1 class=\"font-semibold text-sky-900 text-2xl\">New Form</h1><button hx-get=\"/form\" hx-target=\"body\" hx-push-url=\"true\" class=\"bg-sky-700 px-3 py-1 text-white rounded-3xl shadow-sm hover:bg-sky-600 w-max\">New Form</button></div><div class=\"flex flex-col gap-2\"><h1 class=\"font-semibold text-sky-900 text-2xl\">Drafts</h1>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"px-4 flex flex-col gap-4\"><div class=\"flex flex-col gap-2\"><h1 class=\"font-semibold text-sky-900 text-2xl\">New Form</h1><button id=\"new-form\" hx-get=\"/form\" hx-target=\"body\" hx-push-url=\"true\" class=\"bg-sky-700 px-3 py-1 text-white rounded-3xl shadow-sm hover:bg-sky-600 w-max\">New Form</button></div><div class=\"flex flex-col gap-2\"><h1 class=\"font-semibold text-sky-900 text-2xl\">Drafts</h1>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
