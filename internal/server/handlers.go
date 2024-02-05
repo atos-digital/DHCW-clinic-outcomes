@@ -103,6 +103,7 @@ func (s *Server) handlePageOutcomes() http.HandlerFunc {
 		if b != nil {
 			json.Unmarshal(b.([]byte), &data)
 		}
+
 		ui.Index(pages.OutcomesForm(models.State(data))).Render(r.Context(), w)
 	}
 }
