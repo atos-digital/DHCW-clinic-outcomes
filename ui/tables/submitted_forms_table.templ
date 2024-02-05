@@ -26,6 +26,7 @@ templ SubmittedFormsTable(subs []db.Submission) {
 						hx-get={ fmt.Sprintf("/hx/view-submission/%s", subs.ID) }
 						hx-push-url={ fmt.Sprintf("/submissions/%s", subs.ID) }
 						hx-target="body"
+						hx-swap="show:window:top"
 					>See Answers</button>
 				</td>
 			</tr>

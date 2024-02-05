@@ -26,6 +26,7 @@ templ SavedFormsTable(saves []db.Save) {
 						hx-get={ fmt.Sprintf("/hx/load-save/%s", save.ID) }
 						hx-push-url="/outcomes"
 						hx-target="body"
+						hx-swap="show:window:top"
 					>Load Draft</button>
 				</td>
 			</tr>

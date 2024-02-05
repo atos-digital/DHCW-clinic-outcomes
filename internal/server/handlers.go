@@ -181,7 +181,7 @@ func (s *Server) handleSaveOutcomes() http.HandlerFunc {
 		}
 
 		// Update and save
-		session.Values["outcomes-form-id"] = ""
+		session.Values["outcomes-form-id"] = nil
 		session.Values["outcomes-form-data"] = []byte{}
 		err = session.Save(r, w)
 		if err != nil {
