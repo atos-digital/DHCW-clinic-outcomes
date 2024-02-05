@@ -1,7 +1,6 @@
 package tables
 
 import (
-	"fmt"
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/store/db"
 )
 
@@ -23,7 +22,7 @@ templ SubmittedFormsTable(subs []db.Submission) {
 				<td class="py-2">
 					<button
 						class="bg-sky-700 px-3 py-1 text-white rounded-3xl shadow-sm hover:bg-sky-600"
-						hx-get={ fmt.Sprintf("/submissions/%s", subs.ID) }
+						hx-get={ "/submissions/" + subs.ID }
 						hx-push-url="true"
 						hx-target="body"
 						hx-swap="show:window:top"

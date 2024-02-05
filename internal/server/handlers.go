@@ -52,7 +52,7 @@ func (s *Server) handlePageIndex() http.HandlerFunc {
 		}
 
 		w.Header().Set("Content-Type", "text/html")
-		ui.Index(pages.Home(subs, save)).Render(r.Context(), w)
+		ui.Index(pages.HomePage(subs, save)).Render(r.Context(), w)
 	}
 }
 
@@ -256,6 +256,6 @@ func (s *Server) handleSubmission() http.HandlerFunc {
 		}
 
 		w.Header().Set("Content-Type", "text/html")
-		ui.Index(pages.ViewSubmissions(sub.Data)).Render(r.Context(), w)
+		ui.Index(pages.SubmissionsPage(sub.Data)).Render(r.Context(), w)
 	}
 }
