@@ -21,15 +21,14 @@ func (s *Server) Routes() error {
 	s.r.Method(http.MethodGet, "/favicon.ico", s.HandleFavicon())
 
 	s.r.Method(http.MethodGet, "/", s.handlePageIndex())
-	s.r.Method(http.MethodGet, "/outcomes", s.handlePageOutcomes())
-	s.r.Method(http.MethodGet, "/submissions/{id}", s.handleViewSubmission())
+	s.r.Method(http.MethodGet, "/outcomes", s.handleNewForm())
+	s.r.Method(http.MethodGet, "/outcomes/{id}", s.handleDraftForm())
+	s.r.Method(http.MethodGet, "/submissions/{id}", s.handleSubmission())
 
 	s.r.Route("/hx", func(r chi.Router) {
-		r.Method(http.MethodPost, "/outcomes-form", s.handleClinicOutcomesForm())
-		r.Method(http.MethodPost, "/outcomes-form", s.handleClinicOutcomesForm())
-		r.Method(http.MethodPost, "/save-outcomes-form", s.handleSaveOutcomes())
-		r.Method(http.MethodPost, "/submit-outcomes-form", s.handleSubmitOutcomes())
-		r.Method(http.MethodGet, "/load-save/{id}", s.handleLoadState())
+		r.Method(http.MethodPost, "/outcomes-form", s.handleAutosaveForm())
+		r.Method(http.MethodPost, "/save-outcomes-form", s.handleSaveForm())
+		r.Method(http.MethodPost, "/submit-outcomes-form", s.handleSubmitForm())
 	})
 
 	return nil
