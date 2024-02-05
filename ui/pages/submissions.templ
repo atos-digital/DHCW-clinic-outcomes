@@ -12,6 +12,7 @@ templ SubmissionsPage(data models.ClinicOutcomesFormSubmit) {
 		<div class="flex flex-col gap-y-4">
 			// Each form section will be displayed in a separate table 
 			// Do not display the followup section table if it has not been selected
+			// Consider whether any of the code below can be broken out into a separate component and reused
 			<table class="table-fixed border-collapse w-full">
 				<tr class="p-2 font-semibold bg-dhcw-blue">
 					<td class="p-2 w-1/3 text-xl text-white">Event Details</td>
@@ -24,12 +25,4 @@ templ SubmissionsPage(data models.ClinicOutcomesFormSubmit) {
 			</table>
 		</div>
 	</div>
-}
-
-templ SubmittedFormSectionTitle(title string) {
-	// Create a section title row component 
-}
-
-templ SubmittedFormRow(q,a string) {
-	// Create a row component to display the questions and answers
 }

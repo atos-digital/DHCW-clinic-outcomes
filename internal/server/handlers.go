@@ -224,7 +224,7 @@ func (s *Server) handleSubmitForm() http.HandlerFunc {
 
 func (s *Server) handleSubmission() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// Ticket 53
+		// Ticket 52
 		// Get the submission from the database and render it.
 	}
 }
