@@ -10,7 +10,7 @@ templ OutcomesForm(data models.ClinicOutcomesFormState) {
 	<form
 		hx-post="/hx/outcomes-form"
 		hx-trigger="change delay:20ms, click from:button[type=button]"
-		hx-swap="outerHTML"
+		hx-swap="morph:outerHTML"
 		class="flex flex-col gap-4"
 	>
 		@ErrorSummary(data.Errors)
