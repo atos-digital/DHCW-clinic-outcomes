@@ -29,13 +29,13 @@ templ OutcomesForm(data models.ClinicOutcomesFormState) {
 		@outcomes.Options(data)
 		@outcomes.FollowUp(data.FollowUp)
 		<div class="flex flex-col px-4">
-			@Label("Other information") {
+			@Label("Other information (The information entered here may be transcribed into WPAS so that it can be visible in your follow up not booked list in WCP.)") {
 				@TextArea("other_information",data.OtherInformation,"Add any other relevant information such as any outpatient procedures taken, or details of any tests required before next appointment.")
 			}
 		</div>
 		<div class="flex justify-end px-4 gap-2">
-			<button hx-post="/hx/save-outcomes-form" hx-target="body" class="dhcw-border w-20 p-1 text-white bg-sky-700">Save</button>
-			<button hx-post="/hx/submit-outcomes-form" hx-target="body" class="dhcw-border w-20 p-1 text-white bg-teal-700">Submit</button>
+			<button hx-post="/hx/save-outcomes-form" hx-target="body" class="rounded w-20 p-1 text-white bg-sky-700">Save</button>
+			<button hx-post="/hx/submit-outcomes-form" hx-target="body" class="rounded w-20 p-1 text-white bg-teal-700">Submit</button>
 		</div>
 	</form>
 }

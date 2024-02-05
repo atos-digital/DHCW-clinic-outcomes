@@ -39,6 +39,7 @@ type OutcomeState struct {
 	ReferToTreatmentDetails      string
 	DiscussAtMdtDetails          string
 	OutpatientProcedureDetails   string
+	FollowUpChecked              bool
 }
 
 type Test struct {
@@ -78,6 +79,8 @@ func State(payload ClinicOutcomesFormPayload) ClinicOutcomesFormState {
 		}
 	}
 
+	FollowUpChecked := payload.FollowUp == "on" && payload.OutcomeOption != "Patient Initiated Follow Up"
+
 	return ClinicOutcomesFormState{
 		Details: DetailsState{
 			EventDate:      payload.EventDate,
@@ -110,9 +113,10 @@ func State(payload ClinicOutcomesFormPayload) ClinicOutcomesFormState {
 
 			DiscussAtMdtDetails:        payload.DiscussAtMdtDetails,
 			OutpatientProcedureDetails: payload.OutpatientProcedureDetails,
+			FollowUpChecked:            FollowUpChecked,
 		},
 		FollowUp: FollowUpState{
-			Checked:                     payload.FollowUp == "on",
+			Checked:                     FollowUpChecked,
 			Pathway:                     payload.Pathway,
 			SameClinician:               payload.SameClinician,
 			SameClinicianNo:             payload.SameClinicianNo,

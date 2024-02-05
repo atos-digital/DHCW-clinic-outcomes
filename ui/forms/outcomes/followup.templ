@@ -9,9 +9,6 @@ import (
 
 templ FollowUp(data models.FollowUpState) {
 	<div class="flex flex-col px-4 gap-3">
-		<div class="font-bold">
-			@Checkbox("Follow Up", "follow_up", data.Checked)
-		</div>
 		<div class={ "flex flex-col border border-black p-4 gap-3", templ.KV("hidden", !data.Checked) }>
 			@RequiredLabel("Pathway") {
 				<div class="flex flex-col font-bold">
@@ -40,7 +37,9 @@ templ FollowUp(data models.FollowUpState) {
 						</div>
 					}
 					@RequiredLabel("Appointment Directive / Priority") {
-						@Tooltip("Appointment Directive / Priority")
+						@Tooltip() {
+							Appointment Directive / Priority
+						}
 						@TextInput("appointment_priority", data.AppointmentPriority ,"Specify")
 					}
 				</div>
@@ -59,7 +58,9 @@ templ FollowUp(data models.FollowUpState) {
 						@TextInput("hospital",data.Hospital, "Specify")
 					}
 					@Label("Clinical Condition") {
-						@Tooltip("Clinical Condition")
+						@Tooltip() {
+							Clinical Condition
+						}
 						@TextInput("condition",data.Condition, "Enter if applicable")
 					}
 				</div>
@@ -80,7 +81,7 @@ templ FollowUp(data models.FollowUpState) {
 					</div>
 				}
 				<div class={ templ.KV("hidden", data.TestsRequiredBeforeFollowup != "Yes") }>
-					<p class="font-semibold italic text-blue-600">
+					<p class="font-semibold italic text-blue-600 mb-4">
 						This information is to help administrative colleagues with planning for clinic. It does not automatically generate a test request. The patient should not defer their appointment if the test cannot take place at the specified time.
 					</p>
 					@FollowupTest(data.Tests)

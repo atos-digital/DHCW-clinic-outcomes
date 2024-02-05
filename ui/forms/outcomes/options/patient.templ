@@ -13,7 +13,9 @@ templ Patient(data models.OutcomeState) {
 			<div class="flex flex-col">
 				@Radio("Patient Discharged", NamePatientOption, data.OutcomeOption == "Patient Discharged")
 				@Radio("See on Symptom", NamePatientOption, data.OutcomeOption == "See on Symptom") {
-					@Tooltip("See on Symptom")
+					@Tooltip() {
+						See on Symptom
+					}
 					<div class="ml-4 max-w-10">
 						<select name="see_on_symptom_details" class={ "dhcw-border p-1", templ.KV("hidden",data.OutcomeOption != "See on Symptom" ) }>
 							for _, option := range []string{"6 months", "12 months"} {
@@ -23,24 +25,34 @@ templ Patient(data models.OutcomeState) {
 					</div>
 				}
 				@Radio("Patient Initiated Follow Up", NamePatientOption, data.OutcomeOption =="Patient Initiated Follow Up") {
-					@Tooltip("Patient Initiated Follow Up")
+					@Tooltip() {
+						<div class="text-blue-600">
+							Patient initiated follow up (PIFU)
+							<br/>
+							A Patient initiated follow up could be utilised for long term/chronic health complaints e.g. rheumatology linked conditions.
+							<br/>
+							A PIFU pathway can be used for cases where the next appointment does not need to be booked at that point in time as the condition is being managed well by the patient. Therefore, the patient and clinician agree that the Patient initiates the next Follow Up when required. The clinician may still need to review the patient (with or without the patient) at a defined time in the future in order to ensure NICE guidelines are followed and that patient care plans are still appropriate.
+							<br/>
+							The patient is not discharged and access to PIFU is not time-limited. 
+						</div>
+					}
 				}
 			</div>
 			<div class="flex flex-col">
 				@Radio("Did Not Answer", NamePatientOption, data.OutcomeOption == "Did Not Answer") {
-					<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", data.OutcomeOption != "Did Not Answer") }>
+					<div class={ "flex flex-col ml-4 my-1 text-blue-600", templ.KV("hidden", data.OutcomeOption != "Did Not Answer") }>
 						@Radio("Send for again", "did_not_answer_details", data.DidNotAnswerDetails == "Send for again")
 						@Radio("Discharge", "did_not_answer_details", data.DidNotAnswerDetails == "Discharge")
 					</div>
 				}
 				@Radio("Did Not Attend", NamePatientOption, data.OutcomeOption == "Did Not Attend") {
-					<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", data.OutcomeOption != "Did Not Attend") }>
+					<div class={ "flex flex-col ml-4 my-1 text-blue-600", templ.KV("hidden", data.OutcomeOption != "Did Not Attend") }>
 						@Radio("Send for again", "did_not_attend_details", data.DidNotAttendDetails == "Send for again")
 						@Radio("Discharge", "did_not_attend_details", data.DidNotAttendDetails == "Discharge")
 					</div>
 				}
 				@Radio("Could Not Attend", NamePatientOption, data.OutcomeOption == "Could Not Attend") {
-					<div class={ "flex flex-col ml-4 my-1", templ.KV("hidden", data.OutcomeOption != "Could Not Attend") }>
+					<div class={ "flex flex-col ml-4 my-1 text-blue-600", templ.KV("hidden", data.OutcomeOption != "Could Not Attend") }>
 						@Radio("Send for again", "could_not_attend_details", data.CouldNotAttendDetails == "Send for again")
 						@Radio("Discharge", "could_not_attend_details", data.CouldNotAttendDetails == "Discharge")
 					</div>
@@ -90,5 +102,11 @@ templ Patient(data models.OutcomeState) {
 			}
 		</div>
 		@Radio("Admit from Clinic / Consultation", NamePatientOption, data.OutcomeOption == "Admit from Clinic / Consultation")
+		<div class="font-bold">
+			<label>
+				<input type="checkbox" name="follow_up" checked?={ data.FollowUpChecked } disabled?={ data.OutcomeOption =="Patient Initiated Follow Up" }/>
+				Follow Up
+			</label>
+		</div>
 	</div>
 }

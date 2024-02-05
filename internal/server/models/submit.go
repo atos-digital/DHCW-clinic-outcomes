@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -61,13 +62,13 @@ func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 	var dateTime time.Time
 	var err error
 
-	switch {
-	case state.Details.EventDate == "":
+	if state.Details.EventDate == "" {
 		errors.Errors = append(errors.Errors, "Enter the event date")
-		fallthrough
-	case state.Details.EventTime == "":
+	}
+	if state.Details.EventTime == "" {
 		errors.Errors = append(errors.Errors, "Enter the event time")
-	default:
+	}
+	if state.Details.EventDate != "" && state.Details.EventTime != "" {
 		dateString := fmt.Sprintf("%s %s", state.Details.EventDate, state.Details.EventTime)
 		dateTime, err = time.Parse("2006-01-02 15:04", dateString)
 		if err != nil {
@@ -112,19 +113,17 @@ func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 		submit.Outcome.AnswerDetails = state.Outcome.ReferToTherapiesDetails
 	case "Refer to Treatment":
 		ans := ""
-		switch {
-		case state.Outcome.ReferToTreatmentSact:
-			ans += "SACT "
-			fallthrough
-		case state.Outcome.ReferToTreatmentRadiotherapy:
-			ans += "Radiotherapy "
-			fallthrough
-		case state.Outcome.ReferToTreatmentOther:
-			ans += "Other "
-			fallthrough
-		default:
-			ans += state.Outcome.ReferToTreatmentDetails
+		if state.Outcome.ReferToTreatmentSact {
+			ans += "SACT, "
 		}
+		if state.Outcome.ReferToTreatmentRadiotherapy {
+			ans += "Radiotherapy, "
+		}
+		if state.Outcome.ReferToTreatmentOther {
+			ans += "Other, "
+		}
+		ans = strings.TrimSuffix(ans, ", ")
+		ans += ": " + state.Outcome.ReferToTreatmentDetails
 		submit.Outcome.AnswerDetails = ans
 	case "Discuss at MDT":
 		submit.Outcome.AnswerDetails = state.Outcome.DiscussAtMdtDetails

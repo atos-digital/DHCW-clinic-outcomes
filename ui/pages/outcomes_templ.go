@@ -86,11 +86,11 @@ func OutcomesForm(data models.ClinicOutcomesFormState) templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = Label("Other information").Render(templ.WithChildren(ctx, templ_7745c5c3_Var4), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Label("Other information (The information entered here may be transcribed into WPAS so that it can be visible in your follow up not booked list in WCP.)").Render(templ.WithChildren(ctx, templ_7745c5c3_Var4), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex justify-end px-4 gap-2\"><button hx-post=\"/hx/save-outcomes-form\" hx-target=\"body\" class=\"dhcw-border w-20 p-1 text-white bg-sky-700\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex justify-end px-4 gap-2\"><button hx-post=\"/hx/save-outcomes-form\" hx-target=\"body\" class=\"rounded w-20 p-1 text-white bg-sky-700\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -99,7 +99,7 @@ func OutcomesForm(data models.ClinicOutcomesFormState) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button> <button hx-post=\"/hx/submit-outcomes-form\" hx-target=\"body\" class=\"dhcw-border w-20 p-1 text-white bg-teal-700\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button> <button hx-post=\"/hx/submit-outcomes-form\" hx-target=\"body\" class=\"rounded w-20 p-1 text-white bg-teal-700\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
