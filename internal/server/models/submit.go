@@ -78,9 +78,24 @@ func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
 	}
 
 	submit.Details.DateTime = dateTime
-	submit.Details.Type = state.Details.EventType
-	submit.Details.Specialty = state.Details.EventSpecialty
-	submit.Details.Clinician = state.Details.EventClinician
+
+	if state.Details.EventType == "Choose Option" {
+		errors.Errors = append(errors.Errors, "Select consultation type")
+	} else {
+		submit.Details.Type = state.Details.EventType
+	}
+
+	if state.Details.EventSpecialty == "Choose Option" {
+		errors.Errors = append(errors.Errors, "Select specialty")
+	} else {
+		submit.Details.Specialty = state.Details.EventSpecialty
+	}
+
+	if state.Details.EventClinician == "Choose Option" {
+		errors.Errors = append(errors.Errors, "Select senior responsible clinician")
+	} else {
+		submit.Details.Clinician = state.Details.EventClinician
+	}
 
 	// CancerPathway
 
