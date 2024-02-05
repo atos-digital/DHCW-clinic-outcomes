@@ -36,15 +36,15 @@ func (s *Server) handlePageIndex() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		w.Header().Set("Content-Type", "text/html")
-		ui.Index(pages.Home(subs, save)).Render(r.Context(), w)
-	}
-}
 
-func (s *Server) handleViewSubmission() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		id := chi.URLParam(r, "id")
-		sub, err := s.db.GetSubmission(id)
+		session, err := s.sess.Get(r, s.conf.CookieName)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		session.Values["outcomes-form-id"] = nil
+		session.Values["outcomes-form-data"] = []byte{}
+		err = session.Save(r, w)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -52,11 +52,32 @@ func (s *Server) handleViewSubmission() http.HandlerFunc {
 		}
 
 		w.Header().Set("Content-Type", "text/html")
-		ui.Index(pages.ViewSubmissions(sub.Data)).Render(r.Context(), w)
+		ui.Index(pages.Home(subs, save)).Render(r.Context(), w)
 	}
 }
 
-func (s *Server) handleLoadState() http.HandlerFunc {
+func (s *Server) handleNewForm() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		var data models.ClinicOutcomesFormPayload
+
+		if r.Header.Get("HX-Trigger") != "new-form" {
+			session, err := s.sess.Get(r, s.conf.CookieName)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			b := session.Values["outcomes-form-data"]
+			if b != nil {
+				json.Unmarshal(b.([]byte), &data)
+			}
+		}
+
+		w.Header().Set("Content-Type", "text/html")
+		ui.Index(pages.OutcomesFormPage(models.State(data))).Render(r.Context(), w)
+	}
+}
+
+func (s *Server) handleDraftForm() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := chi.URLParam(r, "id")
 		state, err := s.db.GetState(id)
@@ -86,29 +107,11 @@ func (s *Server) handleLoadState() http.HandlerFunc {
 		}
 
 		w.Header().Set("Content-Type", "text/html")
-		ui.Index(pages.OutcomesForm(models.State(state.Data))).Render(r.Context(), w)
+		ui.Index(pages.OutcomesFormPage(models.State(state.Data))).Render(r.Context(), w)
 	}
 }
 
-func (s *Server) handlePageOutcomes() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		session, err := s.sess.Get(r, s.conf.CookieName)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		b := session.Values["outcomes-form-data"]
-		w.Header().Set("Content-Type", "text/html")
-		var data models.ClinicOutcomesFormPayload
-		if b != nil {
-			json.Unmarshal(b.([]byte), &data)
-		}
-
-		ui.Index(pages.OutcomesForm(models.State(data))).Render(r.Context(), w)
-	}
-}
-
-func (s *Server) handleClinicOutcomesForm() http.HandlerFunc {
+func (s *Server) handleAutosaveForm() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// Read the body to get the latest form data.
 		var data models.ClinicOutcomesFormPayload
@@ -149,7 +152,7 @@ func (s *Server) handleClinicOutcomesForm() http.HandlerFunc {
 	}
 }
 
-func (s *Server) handleSaveOutcomes() http.HandlerFunc {
+func (s *Server) handleSaveForm() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// Read the body to get the latest form data.
 		var data models.ClinicOutcomesFormPayload
@@ -195,7 +198,7 @@ func (s *Server) handleSaveOutcomes() http.HandlerFunc {
 	}
 }
 
-func (s *Server) handleSubmitOutcomes() http.HandlerFunc {
+func (s *Server) handleSubmitForm() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// Read the body to get the latest form data.
 		var data models.ClinicOutcomesFormPayload
@@ -209,28 +212,9 @@ func (s *Server) handleSubmitOutcomes() http.HandlerFunc {
 		submission, err := models.Submit(models.State(data))
 
 		if e, ok := err.(models.ErrorSubmit); ok && e.Error() == "Missing fields" {
-			data.Errors = e.Errors
-			// Back into bytes
-			b, err := json.Marshal(data)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-			// Get the session store
-			session, err := s.sess.Get(r, s.conf.CookieName)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-			// Update and save
-			session.Values["outcomes-form-data"] = b
-			err = session.Save(r, w)
-			if err != nil {
-				log.Println(err)
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-			w.Header().Set("HX-Location", `{"path":"/outcomes", "target":"closest body", "swap":"outerHTML show:window:top"}`)
+			w.Header().Set("HX-Retarget", "#error-summary")
+			w.Header().Set("HX-Reswap", "outerHTML show:window:top")
+			pages.ErrorSummary(e.Errors).Render(r.Context(), w)
 			return
 		}
 
@@ -258,5 +242,20 @@ func (s *Server) handleSubmitOutcomes() http.HandlerFunc {
 		}
 
 		w.Header().Set("HX-Location", "/")
+	}
+}
+
+func (s *Server) handleSubmission() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		id := chi.URLParam(r, "id")
+		sub, err := s.db.GetSubmission(id)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "text/html")
+		ui.Index(pages.ViewSubmissions(sub.Data)).Render(r.Context(), w)
 	}
 }
