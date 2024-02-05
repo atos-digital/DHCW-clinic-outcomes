@@ -17,7 +17,7 @@ templ SubmittedFormsTable(subs []db.Submission) {
 		for _, subs := range subs {
 			<tr>
 				<td class="p-2">{ subs.ID }</td>
-				<td class="p-2">{ subs.DateCreated.Format("02-Jan-06 15:04 MST") }</td>
+				<td class="p-2">{ subs.DateCreated.Format("02-Jan-06 15:04") }</td>
 				<td class="p-2">{ subs.Data.Details.Specialty }</td>
 				<td class="p-2">{ subs.Data.Details.Clinician }</td>
 				<td class="py-2">

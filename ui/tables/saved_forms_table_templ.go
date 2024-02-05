@@ -50,9 +50,9 @@ func SavedFormsTable(saves []db.Save) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(save.DateCreated.Format("02-Jan-06 15:04 MST"))
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(save.DateCreated.Format("02-Jan-06 15:04"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/tables/saved_forms_table.templ`, Line: 16, Col: 68}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/tables/saved_forms_table.templ`, Line: 16, Col: 64}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
