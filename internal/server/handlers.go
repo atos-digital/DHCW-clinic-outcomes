@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
+	"github.com/atos-digital/DHCW-clinic-outcomes/internal/store/db"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/pages"
 )
@@ -29,16 +30,15 @@ func (s *Server) HandleFavicon() http.Handler {
 
 func (s *Server) handlePageIndex() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		subs, err := s.db.GetAllSubmissions()
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
 		save, err := s.db.GetAllStates()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
+		var subs []db.Submission
+		// Ticket 51
+		// Get all submissions
 
 		session, err := s.sess.Get(r, s.conf.CookieName)
 		if err != nil {
