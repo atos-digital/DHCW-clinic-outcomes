@@ -16,7 +16,7 @@ import (
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/forms/outcomes"
 )
 
-func OutcomesForm(data models.ClinicOutcomesFormState) templ.Component {
+func OutcomesFormPage(data models.ClinicOutcomesFormState) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -29,15 +29,47 @@ func OutcomesForm(data models.ClinicOutcomesFormState) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-<<<<<<< HEAD
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex gap-2 mb-2\"><svg class=\"w-2 fill-sky-700\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 512\"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d=\"M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z\"></path></svg> <a hx-boost=\"true\" href=\"/\" class=\"text-sky-700\">Back to Home</a></div><form hx-post=\"/hx/outcomes-form\" hx-trigger=\"change delay:20ms, click from:button[type=button]\" hx-swap=\"morph:outerHTML\" class=\"flex flex-col gap-4\">")
-=======
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"outcomes-form\"><div class=\"flex gap-2 mb-2\"><svg class=\"w-2 fill-sky-700\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 320 512\"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d=\"M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z\"></path></svg> <a hx-boost=\"true\" href=\"/\" class=\"text-sky-700\">Back to Home</a></div><form hx-post=\"/hx/outcomes-form\" hx-trigger=\"change delay:20ms, click from:button[type=button]\" hx-target=\"#outcomes-form\" hx-swap=\"morph:outerHTML\" class=\"flex flex-col gap-4\">")
->>>>>>> origin/master
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col gap-2 px-4\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = Nav().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		templ_7745c5c3_Err = ErrorSummary(data.Errors).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = OutcomesForm(data).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if !templ_7745c5c3_IsBuffer {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteTo(templ_7745c5c3_W)
+		}
+		return templ_7745c5c3_Err
+	})
+}
+
+func OutcomesForm(data models.ClinicOutcomesFormState) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
+		if !templ_7745c5c3_IsBuffer {
+			templ_7745c5c3_Buffer = templ.GetBuffer()
+			defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var2 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var2 == nil {
+			templ_7745c5c3_Var2 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form hx-post=\"/hx/outcomes-form\" hx-trigger=\"change delay:20ms, click from:button[type=button]\" hx-target=\"#outcomes-form\" hx-swap=\"morph:outerHTML\" class=\"flex flex-col gap-4\" id=\"outcomes-form\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -57,7 +89,7 @@ func OutcomesForm(data models.ClinicOutcomesFormState) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Var2 := templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Var3 := templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 			if !templ_7745c5c3_IsBuffer {
 				templ_7745c5c3_Buffer = templ.GetBuffer()
@@ -72,15 +104,11 @@ func OutcomesForm(data models.ClinicOutcomesFormState) templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = Label("Other information (The information entered here may be transcribed into WPAS so that it can be visible in your follow up not booked list in WCP.)").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Label("Other information (The information entered here may be transcribed into WPAS so that it can be visible in your follow up not booked list in WCP.)").Render(templ.WithChildren(ctx, templ_7745c5c3_Var3), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-<<<<<<< HEAD
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex justify-end px-4 gap-2\"><button hx-post=\"/hx/save-outcomes-form\" hx-target=\"body\" class=\"rounded w-20 p-1 text-white bg-sky-700\">Save</button> <button hx-post=\"/hx/submit-outcomes-form\" hx-target=\"body\" class=\"rounded w-20 p-1 text-white bg-teal-700\">Submit</button></div></form>")
-=======
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex justify-end px-4 gap-2\"><button hx-post=\"/hx/save-outcomes-form\" hx-target=\"body\" class=\"rounded w-20 p-1 text-white bg-sky-700\">Save</button> <button hx-post=\"/hx/submit-outcomes-form\" hx-target=\"body\" class=\"rounded w-20 p-1 text-white bg-teal-700\">Submit</button></div></form></div>")
->>>>>>> origin/master
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -58,9 +58,19 @@ func (s *Server) handlePageIndex() http.HandlerFunc {
 
 func (s *Server) handleNewForm() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		session, err := s.sess.Get(r, s.conf.CookieName)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		b := session.Values["outcomes-form-data"]
 		var data models.ClinicOutcomesFormPayload
+		if b != nil {
+			json.Unmarshal(b.([]byte), &data)
+		}
+
 		w.Header().Set("Content-Type", "text/html")
-		ui.Index(pages.OutcomesForm(models.State(data))).Render(r.Context(), w)
+		ui.Index(pages.OutcomesFormPage(models.State(data))).Render(r.Context(), w)
 	}
 }
 
@@ -94,7 +104,7 @@ func (s *Server) handleDraftForm() http.HandlerFunc {
 		}
 
 		w.Header().Set("Content-Type", "text/html")
-		ui.Index(pages.OutcomesForm(models.State(state.Data))).Render(r.Context(), w)
+		ui.Index(pages.OutcomesFormPage(models.State(state.Data))).Render(r.Context(), w)
 	}
 }
 
