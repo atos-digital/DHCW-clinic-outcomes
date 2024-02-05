@@ -6,6 +6,7 @@ import (
 )
 
 templ SavedFormsTable(saves []db.Save) {
+	<button hx-get="/outcomes" hx-target="body" class="dhcw-border w-20 p-1 text-white bg-sky-700">New</button>
 	<table class="table-fixed border border-gray-300 w-2/3">
 		<tr class="bg-gray-300">
 			<td class="p-2 font-medium w-10">ID</td>
