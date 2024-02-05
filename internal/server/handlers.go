@@ -12,6 +12,11 @@ import (
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/pages"
 )
 
+const (
+	formID   = "outcomes-form-id"
+	formData = "outcomes-form-data"
+)
+
 func (s *Server) HandleFavicon() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		b, err := assets.ReadFile("assets/img/favicon.ico")
@@ -42,8 +47,8 @@ func (s *Server) handlePageIndex() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		session.Values["outcomes-form-id"] = nil
-		session.Values["outcomes-form-data"] = []byte{}
+		session.Values[formID] = nil
+		session.Values[formData] = []byte{}
 		err = session.Save(r, w)
 		if err != nil {
 			log.Println(err)
@@ -66,7 +71,7 @@ func (s *Server) handleNewForm() http.HandlerFunc {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
-			b := session.Values["outcomes-form-data"]
+			b := session.Values[formData]
 			if b != nil {
 				json.Unmarshal(b.([]byte), &data)
 			}
@@ -80,9 +85,16 @@ func (s *Server) handleNewForm() http.HandlerFunc {
 func (s *Server) handleDraftForm() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := chi.URLParam(r, "id")
+
 		state, err := s.db.GetState(id)
 		if err != nil {
 			log.Println(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		session, err := s.sess.Get(r, s.conf.CookieName)
+		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -92,13 +104,9 @@ func (s *Server) handleDraftForm() http.HandlerFunc {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		session, err := s.sess.Get(r, s.conf.CookieName)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		session.Values["outcomes-form-id"] = id
-		session.Values["outcomes-form-data"] = b
+
+		session.Values[formID] = id
+		session.Values[formData] = b
 		err = session.Save(r, w)
 		if err != nil {
 			log.Println(err)
@@ -139,7 +147,7 @@ func (s *Server) handleAutosaveForm() http.HandlerFunc {
 			return
 		}
 		// Update and save
-		session.Values["outcomes-form-data"] = b
+		session.Values[formData] = b
 		err = session.Save(r, w)
 		if err != nil {
 			log.Println(err)
@@ -171,7 +179,7 @@ func (s *Server) handleSaveForm() http.HandlerFunc {
 		}
 
 		// Store the data in the database.
-		id := session.Values["outcomes-form-id"]
+		id := session.Values[formID]
 		if id != nil {
 			err = s.db.UpdateState(id.(string), data)
 		} else {
@@ -185,8 +193,8 @@ func (s *Server) handleSaveForm() http.HandlerFunc {
 		}
 
 		// Update and save
-		session.Values["outcomes-form-id"] = nil
-		session.Values["outcomes-form-data"] = []byte{}
+		session.Values[formID] = nil
+		session.Values[formData] = []byte{}
 		err = session.Save(r, w)
 		if err != nil {
 			log.Println(err)
@@ -233,7 +241,7 @@ func (s *Server) handleSubmitForm() http.HandlerFunc {
 			return
 		}
 		// Update and save
-		session.Values["outcomes-form-data"] = []byte{}
+		session.Values[formData] = []byte{}
 		err = session.Save(r, w)
 		if err != nil {
 			log.Println(err)
