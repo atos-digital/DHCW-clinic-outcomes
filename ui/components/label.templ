@@ -14,9 +14,11 @@ templ RequiredLabel(text string) {
 	</label>
 }
 
-templ Tooltip(text string) {
+templ Tooltip() {
 	<span class="relative group">
-		<span class="invisible group-hover:visible absolute rounded shadow-lg px-2 py-1 bg-gray-100 text-black font-normal ml-1 w-52 transform -translate-y-full">{ text }</span>
+		<span class="invisible group-hover:visible absolute rounded shadow-lg px-2 py-1 bg-gray-100 text-black font-normal ml-1 max-w-[42rem] w-max transform -translate-y-full">
+			{ children... }
+		</span>
 		<img src="/assets/img/tooltip.svg" class="w-4 inline-block"/>
 	</span>
 }
