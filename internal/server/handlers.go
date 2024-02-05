@@ -5,8 +5,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/go-chi/chi/v5"
-
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/pages"
@@ -84,38 +82,17 @@ func (s *Server) handleNewForm() http.HandlerFunc {
 
 func (s *Server) handleDraftForm() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		id := chi.URLParam(r, "id")
+		// Ticket 50
 
-		state, err := s.db.GetState(id)
-		if err != nil {
-			log.Println(err)
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+		// Get id from URL
 
-		session, err := s.sess.Get(r, s.conf.CookieName)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+		// Get state from database
 
-		b, err := json.Marshal(state.Data)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+		// Get session store
 
-		session.Values[formID] = id
-		session.Values[formData] = b
-		err = session.Save(r, w)
-		if err != nil {
-			log.Println(err)
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
+		// Save id and state in the session
 
-		w.Header().Set("Content-Type", "text/html")
-		ui.Index(pages.OutcomesFormPage(models.State(state.Data))).Render(r.Context(), w)
+		// Set content type and render the form
 	}
 }
 
@@ -162,7 +139,6 @@ func (s *Server) handleAutosaveForm() http.HandlerFunc {
 
 func (s *Server) handleSaveForm() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// Read the body to get the latest form data.
 		var data models.ClinicOutcomesFormPayload
 		err := json.NewDecoder(r.Body).Decode(&data)
 		if err != nil {
@@ -171,14 +147,12 @@ func (s *Server) handleSaveForm() http.HandlerFunc {
 			return
 		}
 
-		// Get the session store
 		session, err := s.sess.Get(r, s.conf.CookieName)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		// Store the data in the database.
 		id := session.Values[formID]
 		if id != nil {
 			err = s.db.UpdateState(id.(string), data)
@@ -192,7 +166,6 @@ func (s *Server) handleSaveForm() http.HandlerFunc {
 			return
 		}
 
-		// Update and save
 		session.Values[formID] = nil
 		session.Values[formData] = []byte{}
 		err = session.Save(r, w)
@@ -208,7 +181,6 @@ func (s *Server) handleSaveForm() http.HandlerFunc {
 
 func (s *Server) handleSubmitForm() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// Read the body to get the latest form data.
 		var data models.ClinicOutcomesFormPayload
 		err := json.NewDecoder(r.Body).Decode(&data)
 		if err != nil {
@@ -226,7 +198,6 @@ func (s *Server) handleSubmitForm() http.HandlerFunc {
 			return
 		}
 
-		// Store the data in the database.
 		err = s.db.StoreSubmission(submission)
 		if err != nil {
 			log.Println(err)
@@ -234,13 +205,11 @@ func (s *Server) handleSubmitForm() http.HandlerFunc {
 			return
 		}
 
-		// Get the session store
 		session, err := s.sess.Get(r, s.conf.CookieName)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		// Update and save
 		session.Values[formData] = []byte{}
 		err = session.Save(r, w)
 		if err != nil {
@@ -255,15 +224,7 @@ func (s *Server) handleSubmitForm() http.HandlerFunc {
 
 func (s *Server) handleSubmission() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		id := chi.URLParam(r, "id")
-		sub, err := s.db.GetSubmission(id)
-		if err != nil {
-			log.Println(err)
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		w.Header().Set("Content-Type", "text/html")
-		ui.Index(pages.SubmissionsPage(sub.Data)).Render(r.Context(), w)
+		// Ticket 53
+		// Get the submission from the database and render it.
 	}
 }

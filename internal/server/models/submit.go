@@ -53,7 +53,6 @@ func (e ErrorSubmit) Error() string {
 }
 
 func Submit(state ClinicOutcomesFormState) (ClinicOutcomesFormSubmit, error) {
-	// TODO(viv): fix error handling
 	var submit ClinicOutcomesFormSubmit
 	var errors ErrorSubmit
 

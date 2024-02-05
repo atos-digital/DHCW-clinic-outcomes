@@ -13,22 +13,11 @@ templ SubmittedFormsTable(subs []db.Submission) {
 			<td class="p-2 font-medium w-1/3">Senior Responsible Clinician</td>
 			<td class="p-2 font-medium w-32"></td>
 		</tr>
-		for _, subs := range subs {
-			<tr>
-				<td class="p-2">{ subs.ID }</td>
-				<td class="p-2">{ subs.DateCreated.Format("02-Jan-06 15:04") }</td>
-				<td class="p-2">{ subs.Data.Details.Specialty }</td>
-				<td class="p-2">{ subs.Data.Details.Clinician }</td>
-				<td class="py-2">
-					<button
-						class="bg-sky-700 px-3 py-1 text-white rounded-3xl shadow-sm hover:bg-sky-600"
-						hx-get={ "/submissions/" + subs.ID }
-						hx-push-url="true"
-						hx-target="body"
-						hx-swap="show:window:top"
-					>See Answers</button>
-				</td>
-			</tr>
-		}
+		// Ticket 51
+		// Display the ID, Date Created, Specialty and Senior Responsible Clinician of each submission. 
+		// The last column of each row should contain a button that links to the submission display page.
+		//
+		// Ticket 53
+		// Add hx attributes to button
 	</table>
 }
