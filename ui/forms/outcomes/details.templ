@@ -41,13 +41,13 @@ templ Details(data models.DetailsState) {
 		@RequiredLabel("Time") {
 			<input type="time" id="event_time" name="event_time" class="block dhcw-border" value={ data.EventTime }/>
 		}
-		@Label("Consultation Type") {
+		@RequiredLabel("Consultation Type") {
 			@Select(consultationTypes, data.EventType, "event_type")
 		}
-		@Label("Specialty") {
+		@RequiredLabel("Specialty") {
 			@Select(event_specialty, data.EventSpecialty, "event_specialty")
 		}
-		@Label("Senior Responsible Clinician") {
+		@RequiredLabel("Senior Responsible Clinician") {
 			@Select(event_clinician, data.EventClinician, "event_clinician")
 		}
 	</div>
