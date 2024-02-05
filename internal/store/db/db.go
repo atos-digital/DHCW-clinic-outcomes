@@ -117,6 +117,12 @@ func (db *DB) GetAllStates() ([]Save, error) {
 	return saves, rows.Err()
 }
 
+type Submission struct {
+	ID          string
+	Data        models.ClinicOutcomesFormSubmit
+	DateCreated time.Time
+}
+
 func (db *DB) StoreSubmission(submission models.ClinicOutcomesFormSubmit) error {
 	b, err := json.Marshal(submission)
 	if err != nil {
@@ -124,12 +130,6 @@ func (db *DB) StoreSubmission(submission models.ClinicOutcomesFormSubmit) error 
 	}
 	_, err = db.db.Exec("INSERT INTO submission (data) VALUES (?)", string(b))
 	return err
-}
-
-type Submission struct {
-	ID          string
-	Data        models.ClinicOutcomesFormSubmit
-	DateCreated time.Time
 }
 
 func (db *DB) GetSubmission(id string) (Submission, error) {
@@ -153,30 +153,11 @@ func (db *DB) GetSubmission(id string) (Submission, error) {
 }
 
 func (db *DB) GetAllSubmissions() ([]Submission, error) {
-	var submissions []Submission
-	rows, err := db.db.Query("SELECT id,data,date_created FROM submission")
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	for rows.Next() {
-		var id int
-		var data []byte
-		var dateCreated time.Time
-		err = rows.Scan(&id, &data, &dateCreated)
-		if err != nil {
-			return nil, err
-		}
-		var submission Submission
-		var os models.ClinicOutcomesFormSubmit
-		err = json.Unmarshal(data, &os)
-		if err != nil {
-			return nil, err
-		}
-		submission.ID = strconv.Itoa(id)
-		submission.DateCreated = dateCreated
-		submission.Data = os
-		submissions = append(submissions, submission)
-	}
-	return submissions, rows.Err()
+	// Ticket 51
+
+	// Get all submissions data from the database
+	// Iterate over the rows and append the data to the slice of Submissions
+
+	// Refer to the GetAllStates function above for an example of how to do this
+	return nil, nil
 }
