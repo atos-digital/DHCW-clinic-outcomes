@@ -27,7 +27,7 @@ func SavedFormsTable(saves []db.Save) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button hx-get=\"/form\" hx-target=\"body\" hx-push-url=\"true\" class=\"dhcw-border w-20 p-1 text-white bg-sky-700\">New</button><table class=\"table-fixed border border-gray-300 w-1/2\"><tr class=\"bg-gray-300\"><td class=\"p-2 font-medium w-10\">ID</td><td class=\"p-2 font-medium \">Date Created</td><td class=\"p-2 font-medium w-32\"></td></tr>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<table class=\"table-fixed border border-gray-300 w-1/3\"><tr class=\"bg-gray-300\"><td class=\"p-2 font-medium w-10\">ID</td><td class=\"p-2 font-medium \">Date Created</td><td class=\"p-2 font-medium w-32\"></td></tr>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -39,7 +39,7 @@ func SavedFormsTable(saves []db.Save) templ.Component {
 			var templ_7745c5c3_Var2 string
 			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(save.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/tables/saved_forms_table.templ`, Line: 16, Col: 29}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/tables/saved_forms_table.templ`, Line: 15, Col: 29}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
@@ -52,7 +52,7 @@ func SavedFormsTable(saves []db.Save) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(save.DateCreated.Format("02-Jan-06 15:04 MST"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/tables/saved_forms_table.templ`, Line: 17, Col: 68}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/tables/saved_forms_table.templ`, Line: 16, Col: 68}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
