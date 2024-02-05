@@ -16,7 +16,7 @@ templ OutcomesFormPage(data models.ClinicOutcomesFormState) {
 
 templ OutcomesForm(data models.ClinicOutcomesFormState) {
 	<form
-		hx-post="/hx/outcomes-form"
+		hx-post="/hx/autosave-form"
 		hx-trigger="change delay:20ms, click from:button[type=button]"
 		hx-target="#outcomes-form"
 		hx-swap="morph:outerHTML"
@@ -32,8 +32,8 @@ templ OutcomesForm(data models.ClinicOutcomesFormState) {
 			}
 		</div>
 		<div class="flex justify-end px-4 gap-2">
-			<button hx-post="/hx/save-outcomes-form" hx-target="body" class="rounded w-20 p-1 text-white bg-sky-700">Save</button>
-			<button hx-post="/hx/submit-outcomes-form" hx-target="body" class="rounded w-20 p-1 text-white bg-teal-700">Submit</button>
+			<button hx-post="/hx/save-form" hx-target="body" class="rounded w-20 p-1 text-white bg-sky-700">Save</button>
+			<button hx-post="/hx/submit-form" hx-target="body" class="rounded w-20 p-1 text-white bg-teal-700">Submit</button>
 		</div>
 	</form>
 }

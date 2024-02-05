@@ -5,7 +5,7 @@ import (
 )
 
 templ SavedFormsTable(saves []db.Save) {
-	<button hx-get="/outcomes" hx-target="body" hx-push-url="true" class="dhcw-border w-20 p-1 text-white bg-sky-700">New</button>
+	<button hx-get="/form" hx-target="body" hx-push-url="true" class="dhcw-border w-20 p-1 text-white bg-sky-700">New</button>
 	<table class="table-fixed border border-gray-300 w-1/2">
 		<tr class="bg-gray-300">
 			<td class="p-2 font-medium w-10">ID</td>
@@ -19,7 +19,7 @@ templ SavedFormsTable(saves []db.Save) {
 				<td class="p-2">
 					<button
 						class="bg-sky-700 px-3 py-1 text-white rounded-3xl shadow-sm hover:bg-sky-600"
-						hx-get={ "/outcomes/" + save.ID }
+						hx-get={ "/form/" + save.ID }
 						hx-target="body"
 						hx-swap="show:window:top"
 						hx-push-url="true"

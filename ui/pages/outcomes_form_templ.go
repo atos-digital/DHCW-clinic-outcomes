@@ -69,7 +69,7 @@ func OutcomesForm(data models.ClinicOutcomesFormState) templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form hx-post=\"/hx/outcomes-form\" hx-trigger=\"change delay:20ms, click from:button[type=button]\" hx-target=\"#outcomes-form\" hx-swap=\"morph:outerHTML\" class=\"flex flex-col gap-4\" id=\"outcomes-form\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form hx-post=\"/hx/autosave-form\" hx-trigger=\"change delay:20ms, click from:button[type=button]\" hx-target=\"#outcomes-form\" hx-swap=\"morph:outerHTML\" class=\"flex flex-col gap-4\" id=\"outcomes-form\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -108,7 +108,7 @@ func OutcomesForm(data models.ClinicOutcomesFormState) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex justify-end px-4 gap-2\"><button hx-post=\"/hx/save-outcomes-form\" hx-target=\"body\" class=\"rounded w-20 p-1 text-white bg-sky-700\">Save</button> <button hx-post=\"/hx/submit-outcomes-form\" hx-target=\"body\" class=\"rounded w-20 p-1 text-white bg-teal-700\">Submit</button></div></form>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><div class=\"flex justify-end px-4 gap-2\"><button hx-post=\"/hx/save-form\" hx-target=\"body\" class=\"rounded w-20 p-1 text-white bg-sky-700\">Save</button> <button hx-post=\"/hx/submit-form\" hx-target=\"body\" class=\"rounded w-20 p-1 text-white bg-teal-700\">Submit</button></div></form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

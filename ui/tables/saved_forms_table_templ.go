@@ -27,7 +27,7 @@ func SavedFormsTable(saves []db.Save) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button hx-get=\"/outcomes\" hx-target=\"body\" hx-push-url=\"true\" class=\"dhcw-border w-20 p-1 text-white bg-sky-700\">New</button><table class=\"table-fixed border border-gray-300 w-1/2\"><tr class=\"bg-gray-300\"><td class=\"p-2 font-medium w-10\">ID</td><td class=\"p-2 font-medium \">Date Created</td><td class=\"p-2 font-medium w-32\"></td></tr>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button hx-get=\"/form\" hx-target=\"body\" hx-push-url=\"true\" class=\"dhcw-border w-20 p-1 text-white bg-sky-700\">New</button><table class=\"table-fixed border border-gray-300 w-1/2\"><tr class=\"bg-gray-300\"><td class=\"p-2 font-medium w-10\">ID</td><td class=\"p-2 font-medium \">Date Created</td><td class=\"p-2 font-medium w-32\"></td></tr>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -62,7 +62,7 @@ func SavedFormsTable(saves []db.Save) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString("/outcomes/" + save.ID))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString("/form/" + save.ID))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

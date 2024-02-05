@@ -21,14 +21,14 @@ func (s *Server) Routes() error {
 	s.r.Method(http.MethodGet, "/favicon.ico", s.HandleFavicon())
 
 	s.r.Method(http.MethodGet, "/", s.handlePageIndex())
-	s.r.Method(http.MethodGet, "/outcomes", s.handleNewForm())
-	s.r.Method(http.MethodGet, "/outcomes/{id}", s.handleDraftForm())
+	s.r.Method(http.MethodGet, "/form", s.handleNewForm())
+	s.r.Method(http.MethodGet, "/form/{id}", s.handleDraftForm())
 	s.r.Method(http.MethodGet, "/submissions/{id}", s.handleSubmission())
 
 	s.r.Route("/hx", func(r chi.Router) {
-		r.Method(http.MethodPost, "/outcomes-form", s.handleAutosaveForm())
-		r.Method(http.MethodPost, "/save-outcomes-form", s.handleSaveForm())
-		r.Method(http.MethodPost, "/submit-outcomes-form", s.handleSubmitForm())
+		r.Method(http.MethodPost, "/autosave-form", s.handleAutosaveForm())
+		r.Method(http.MethodPost, "/save-form", s.handleSaveForm())
+		r.Method(http.MethodPost, "/submit-form", s.handleSubmitForm())
 	})
 
 	return nil

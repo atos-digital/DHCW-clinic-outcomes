@@ -58,15 +58,18 @@ func (s *Server) handlePageIndex() http.HandlerFunc {
 
 func (s *Server) handleNewForm() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		session, err := s.sess.Get(r, s.conf.CookieName)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		b := session.Values["outcomes-form-data"]
 		var data models.ClinicOutcomesFormPayload
-		if b != nil {
-			json.Unmarshal(b.([]byte), &data)
+
+		if r.Header.Get("HX-Request") != "true" {
+			session, err := s.sess.Get(r, s.conf.CookieName)
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			b := session.Values["outcomes-form-data"]
+			if b != nil {
+				json.Unmarshal(b.([]byte), &data)
+			}
 		}
 
 		w.Header().Set("Content-Type", "text/html")
@@ -231,7 +234,7 @@ func (s *Server) handleSubmitForm() http.HandlerFunc {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
-			w.Header().Set("HX-Location", `{"path":"/outcomes", "target":"closest body", "swap":"outerHTML show:window:top"}`)
+			w.Header().Set("HX-Location", `{"path":"/form", "target":"body", "swap":"outerHTML show:window:top"}`)
 			// TODO(viv): fix hx attributes
 			return
 		}
