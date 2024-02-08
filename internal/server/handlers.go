@@ -2,13 +2,14 @@ package server
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
-	"github.com/atos-digital/DHCW-clinic-outcomes/internal/store/db"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/pages"
+	"github.com/go-chi/chi/v5"
 )
 
 const (
@@ -36,9 +37,13 @@ func (s *Server) handlePageIndex() http.HandlerFunc {
 			return
 		}
 
-		var subs []db.Submission
 		// Ticket 51
 		// Get all submissions
+		subs, err := s.db.GetAllSubmissions()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 
 		session, err := s.sess.Get(r, s.conf.CookieName)
 		if err != nil {
@@ -85,14 +90,43 @@ func (s *Server) handleDraftForm() http.HandlerFunc {
 		// Ticket 50
 
 		// Get id from URL
+		id := chi.URLParam(r, "id")
+		fmt.Println(id)
 
 		// Get state from database
+		state, err := s.db.GetState(id)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		fmt.Print(state)
 
 		// Get session store
+		session, err := s.sess.Get(r, s.conf.CookieName)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		b, err := json.Marshal(state.Data)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 
 		// Save id and state in the session
+		session.Values[formID] = id
+		session.Values[formData] = b
+		err = session.Save(r, w)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 
 		// Set content type and render the form
+		w.Header().Set("Content-Type", "text/html")
+		ui.Index(pages.OutcomesFormPage(models.State(state.Data))).Render(r.Context(), w)
 	}
 }
 

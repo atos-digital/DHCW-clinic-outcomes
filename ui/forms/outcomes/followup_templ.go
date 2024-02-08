@@ -200,7 +200,7 @@ func FollowUp(data models.FollowUpState) templ.Component {
 					templ_7745c5c3_Buffer = templ.GetBuffer()
 					defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("Appointment Directive / Priority")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("Appointment Directive / Priority\r")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -332,7 +332,7 @@ func FollowUp(data models.FollowUpState) templ.Component {
 					templ_7745c5c3_Buffer = templ.GetBuffer()
 					defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("Clinical Condition")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("Clinical Condition\r")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -439,7 +439,7 @@ func FollowUp(data models.FollowUpState) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><p class=\"font-semibold italic text-blue-600 mb-4\">This information is to help administrative colleagues with planning for clinic. It does not automatically generate a test request. The patient should not defer their appointment if the test cannot take place at the specified time.</p>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><p class=\"font-semibold italic text-blue-600 mb-4\">This information is to help administrative colleagues with planning for clinic. It does not automatically generate a test request. The patient should not defer their appointment if the test cannot take place at the specified time.\r</p>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

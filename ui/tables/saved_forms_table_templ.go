@@ -39,7 +39,7 @@ func SavedFormsTable(saves []db.Save) templ.Component {
 			var templ_7745c5c3_Var2 string
 			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(save.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/tables/saved_forms_table.templ`, Line: 15, Col: 29}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui\tables\saved_forms_table.templ`, Line: 15, Col: 29}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
@@ -52,13 +52,21 @@ func SavedFormsTable(saves []db.Save) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(save.DateCreated.Format("02-Jan-06 15:04"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/tables/saved_forms_table.templ`, Line: 16, Col: 64}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui\tables\saved_forms_table.templ`, Line: 16, Col: 64}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td class=\"p-2\"><button class=\"bg-sky-700 px-3 py-1 text-white rounded-3xl shadow-sm hover:bg-sky-600\">Load Draft</button></td></tr>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td class=\"p-2\"><button hx-get=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString("/form/" + save.ID))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-push-url=\"true\" hx-target=\"body\" class=\"bg-sky-700 px-3 py-1 text-white rounded-3xl shadow-sm hover:bg-sky-600\">Load Draft</button></td></tr>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
