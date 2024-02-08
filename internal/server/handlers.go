@@ -2,9 +2,10 @@ package server
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/go-chi/chi/v5"
 
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui"
@@ -87,11 +88,8 @@ func (s *Server) handleNewForm() http.HandlerFunc {
 
 func (s *Server) handleDraftForm() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		// Ticket 50
-
 		// Get id from URL
 		id := chi.URLParam(r, "id")
-		fmt.Println(id)
 
 		// Get state from database
 		state, err := s.db.GetState(id)
@@ -100,8 +98,6 @@ func (s *Server) handleDraftForm() http.HandlerFunc {
 			return
 		}
 
-		fmt.Print(state)
-
 		// Get session store
 		session, err := s.sess.Get(r, s.conf.CookieName)
 		if err != nil {
@@ -109,13 +105,13 @@ func (s *Server) handleDraftForm() http.HandlerFunc {
 			return
 		}
 
+		// Save id and state in the session
 		b, err := json.Marshal(state.Data)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		// Save id and state in the session
 		session.Values[formID] = id
 		session.Values[formData] = b
 		err = session.Save(r, w)
@@ -125,7 +121,6 @@ func (s *Server) handleDraftForm() http.HandlerFunc {
 		}
 
 		// Set content type and render the form
-		w.Header().Set("Content-Type", "text/html")
 		ui.Index(pages.OutcomesFormPage(models.State(state.Data))).Render(r.Context(), w)
 	}
 }
