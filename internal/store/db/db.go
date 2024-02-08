@@ -154,42 +154,30 @@ func (db *DB) GetSubmission(id string) (Submission, error) {
 
 func (db *DB) GetAllSubmissions() ([]Submission, error) {
 	// Ticket 51
-
-	// Get all submissions data from the database
-	rows, err := db.db.Query("select id,data,date_created FROM submission")
+	var submissions []Submission
+	rows, err := db.db.Query("SELECT id,data,date_created FROM submission")
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-
-	//Submissions slice to hold data from the returned rows
-	var submissions []Submission
-
-	// Iterate over the rows and append the data to the slice of Submissions
 	for rows.Next() {
-		var id string
-		var formData []byte
+		var id int
+		var data []byte
 		var dateCreated time.Time
-
-		//scan the row
-		err := rows.Scan(&id, &formData, &dateCreated)
+		err = rows.Scan(&id, &data, &dateCreated)
 		if err != nil {
 			return nil, err
 		}
-
 		var submission Submission
-		var os models.ClinicOutcomesFormSubmit
-		err = json.Unmarshal(formData, &os)
+		var state models.ClinicOutcomesFormSubmit
+		err = json.Unmarshal(data, &state)
 		if err != nil {
 			return nil, err
 		}
-
-		submission.ID = id
+		submission.ID = strconv.Itoa(id)
 		submission.DateCreated = dateCreated
-		submission.Data = os
+		submission.Data = state
 		submissions = append(submissions, submission)
 	}
 	return submissions, rows.Err()
-
-	// Refer to the GetAllStates function above for an example of how to do this
 }

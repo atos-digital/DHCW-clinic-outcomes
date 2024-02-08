@@ -39,7 +39,7 @@ func SubmittedFormsTable(subs []db.Submission) templ.Component {
 			var templ_7745c5c3_Var2 string
 			templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(subs.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui\tables\submitted_forms_table.templ`, Line: 21, Col: 29}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/tables/submitted_forms_table.templ`, Line: 21, Col: 29}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 			if templ_7745c5c3_Err != nil {
@@ -52,7 +52,7 @@ func SubmittedFormsTable(subs []db.Submission) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(subs.DateCreated.Format("January 02, 2006 15:04:05"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui\tables\submitted_forms_table.templ`, Line: 22, Col: 74}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/tables/submitted_forms_table.templ`, Line: 22, Col: 74}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -65,7 +65,7 @@ func SubmittedFormsTable(subs []db.Submission) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(subs.Data.Details.Specialty)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui\tables\submitted_forms_table.templ`, Line: 23, Col: 49}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/tables/submitted_forms_table.templ`, Line: 23, Col: 49}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -78,7 +78,7 @@ func SubmittedFormsTable(subs []db.Submission) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(subs.Data.Details.Clinician)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui\tables\submitted_forms_table.templ`, Line: 24, Col: 49}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/tables/submitted_forms_table.templ`, Line: 24, Col: 49}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -92,7 +92,7 @@ func SubmittedFormsTable(subs []db.Submission) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-push-url=\"true\" hx-target=\"body\" class=\"bg-sky-700 px-3 py-1 text-white rounded-3xl shadow-sm hover:bg-sky-600\">Answers\r</button></td></tr>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-push-url=\"true\" hx-target=\"body\" class=\"bg-sky-700 px-3 py-1 text-white rounded-3xl shadow-sm hover:bg-sky-600\">Answers</button></td></tr>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

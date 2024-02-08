@@ -50,7 +50,7 @@ func Patient(data models.OutcomeState) templ.Component {
 					templ_7745c5c3_Buffer = templ.GetBuffer()
 					defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("See on Symptom\r")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("See on Symptom")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -102,7 +102,7 @@ func Patient(data models.OutcomeState) templ.Component {
 				var templ_7745c5c3_Var5 string
 				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(option)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui\forms\outcomes\options\patient.templ`, Line: 21, Col: 73}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `ui/forms/outcomes/options/patient.templ`, Line: 21, Col: 73}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 				if templ_7745c5c3_Err != nil {
@@ -138,7 +138,7 @@ func Patient(data models.OutcomeState) templ.Component {
 					templ_7745c5c3_Buffer = templ.GetBuffer()
 					defer templ.ReleaseBuffer(templ_7745c5c3_Buffer)
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"text-blue-600\">Patient initiated follow up (PIFU)\r<br>A Patient initiated follow up could be utilised for long term/chronic health complaints e.g. rheumatology linked conditions.\r<br>A PIFU pathway can be used for cases where the next appointment does not need to be booked at that point in time as the condition is being managed well by the patient. Therefore, the patient and clinician agree that the Patient initiates the next Follow Up when required. The clinician may still need to review the patient (with or without the patient) at a defined time in the future in order to ensure NICE guidelines are followed and that patient care plans are still appropriate.\r<br>The patient is not discharged and access to PIFU is not time-limited. \r</div>")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"text-blue-600\">Patient initiated follow up (PIFU)<br>A Patient initiated follow up could be utilised for long term/chronic health complaints e.g. rheumatology linked conditions.<br>A PIFU pathway can be used for cases where the next appointment does not need to be booked at that point in time as the condition is being managed well by the patient. Therefore, the patient and clinician agree that the Patient initiates the next Follow Up when required. The clinician may still need to review the patient (with or without the patient) at a defined time in the future in order to ensure NICE guidelines are followed and that patient care plans are still appropriate.<br>The patient is not discharged and access to PIFU is not time-limited. </div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -609,7 +609,7 @@ func Patient(data models.OutcomeState) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("> Follow Up\r</label></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("> Follow Up</label></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

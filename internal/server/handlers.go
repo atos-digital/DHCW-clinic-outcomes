@@ -8,7 +8,6 @@ import (
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/pages"
-	"github.com/go-chi/chi/v5"
 )
 
 const (
