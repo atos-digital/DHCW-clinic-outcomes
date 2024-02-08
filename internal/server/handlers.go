@@ -8,7 +8,6 @@ import (
 	"github.com/go-chi/chi/v5"
 
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
-	"github.com/atos-digital/DHCW-clinic-outcomes/internal/store/db"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/pages"
 )
@@ -38,9 +37,13 @@ func (s *Server) handlePageIndex() http.HandlerFunc {
 			return
 		}
 
-		var subs []db.Submission
 		// Ticket 51
 		// Get all submissions
+		subs, err := s.db.GetAllSubmissions()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 
 		session, err := s.sess.Get(r, s.conf.CookieName)
 		if err != nil {
