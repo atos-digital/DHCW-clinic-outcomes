@@ -19,6 +19,9 @@ templ SavedFormsTable(saves []db.Save) {
 					// Ticket 50
 					// Add hx attributes to button
 					<button
+						hx-get={ "/form/" + save.ID }
+						hx-push-url="true"
+						hx-target="body"
 						class="bg-sky-700 px-3 py-1 text-white rounded-3xl shadow-sm hover:bg-sky-600"
 					>Load Draft</button>
 				</td>
