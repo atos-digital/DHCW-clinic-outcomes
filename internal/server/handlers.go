@@ -5,11 +5,11 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/go-chi/chi/v5"
+
 	"github.com/atos-digital/DHCW-clinic-outcomes/internal/server/models"
-//	"github.com/atos-digital/DHCW-clinic-outcomes/internal/store/db"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui"
 	"github.com/atos-digital/DHCW-clinic-outcomes/ui/pages"
-	"github.com/go-chi/chi/v5"
 )
 
 const (
@@ -37,7 +37,8 @@ func (s *Server) handlePageIndex() http.HandlerFunc {
 			return
 		}
 
-		//var subs []db.Submission
+		// Ticket 51
+		// Get all submissions
 		subs, err := s.db.GetAllSubmissions()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -86,11 +87,10 @@ func (s *Server) handleNewForm() http.HandlerFunc {
 
 func (s *Server) handleDraftForm() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-
-        // Get id from URL
+		// Get id from URL
 		id := chi.URLParam(r, "id")
 
-        // Get state from database
+		// Get state from database
 		state, err := s.db.GetState(id)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)

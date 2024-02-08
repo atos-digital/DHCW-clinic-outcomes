@@ -16,8 +16,6 @@ templ SavedFormsTable(saves []db.Save) {
 				<td class="p-2">{ save.ID }</td>
 				<td class="p-2">{ save.DateCreated.Format("02-Jan-06 15:04") }</td>
 				<td class="p-2">
-					// Ticket 50
-					// Add hx attributes to button
 					<button
 						hx-get={ "/form/" + save.ID }
 						hx-push-url="true"
