@@ -24,7 +24,7 @@ templ Patient(data models.OutcomeState) {
 						</select>
 					</div>
 				}
-				@Radio("Patient Initiated Follow Up", NamePatientOption, data.OutcomeOption =="Patient Initiated Follow Up") {
+				@Radio("Patient Initiated Follow Up", NamePatientOption, data.OutcomeOption == "Patient Initiated Follow Up") {
 					@Tooltip() {
 						<div class="text-blue-600">
 							Patient initiated follow up (PIFU)
@@ -62,17 +62,17 @@ templ Patient(data models.OutcomeState) {
 		<div class="flex flex-col">
 			@Radio("Refer to Diagnostics", NamePatientOption, data.OutcomeOption == "Refer to Diagnostics") {
 				<div class={ "ml-4 my-1", templ.KV("hidden", data.OutcomeOption != "Refer to Diagnostics") }>
-					@TextInput("refer_to_diagnostics_details",data.ReferToDiagnosticsDetails,"Enter Diagnostic Test(s)")
+					@TextInput("refer_to_diagnostics_details", data.ReferToDiagnosticsDetails, "Enter Diagnostic Test(s)")
 				</div>
 			}
 			@Radio("Refer to another consultant / specialty", NamePatientOption, data.OutcomeOption == "Refer to another consultant / specialty") {
 				<div class={ "ml-4 my-1", templ.KV("hidden", data.OutcomeOption != "Refer to another consultant / specialty") }>
-					@TextInput("refer_to_another_details",data.ReferToAnotherDetails,"Type in which consultant or specialty")
+					@TextInput("refer_to_another_details", data.ReferToAnotherDetails, "Type in which consultant or specialty")
 				</div>
 			}
 			@Radio("Refer to Therapies", NamePatientOption, data.OutcomeOption == "Refer to Therapies") {
 				<div class={ "ml-4 my-1", templ.KV("hidden", data.OutcomeOption != "Refer to Therapies") }>
-					@TextInput("refer_to_therapies_details",data.ReferToTherapiesDetails,"Type who to refer to")
+					@TextInput("refer_to_therapies_details", data.ReferToTherapiesDetails, "Type who to refer to")
 				</div>
 			}
 			@Radio("Refer to Treatment", NamePatientOption, data.OutcomeOption == "Refer to Treatment") {
@@ -81,7 +81,7 @@ templ Patient(data models.OutcomeState) {
 					@Checkbox("Radiotherapy", "refer_to_treatment_radiotherapy", data.ReferToTreatmentRadiotherapy)
 					@Checkbox("Other", "refer_to_treatment_other", data.ReferToTreatmentOther)
 					<div class={ templ.KV("hidden", (!data.ReferToTreatmentSact && !data.ReferToTreatmentRadiotherapy && !data.ReferToTreatmentOther)) }>
-						@TextInput("refer_to_treatment_details",data.ReferToTreatmentDetails,"Enter Treatment")
+						@TextInput("refer_to_treatment_details", data.ReferToTreatmentDetails, "Enter Treatment")
 					</div>
 				</div>
 			}
@@ -92,12 +92,12 @@ templ Patient(data models.OutcomeState) {
 			@Radio("Awaiting Clinical Decision (i.e. MDT, test results)", NamePatientOption, data.OutcomeOption == "Awaiting Clinical Decision (i.e. MDT, test results)")
 			@Radio("Discuss at MDT", NamePatientOption, data.OutcomeOption == "Discuss at MDT") {
 				<div class={ "ml-4 my-1", templ.KV("hidden", data.OutcomeOption != "Discuss at MDT") }>
-					@TextInput("discuss_at_mdt_details",data.DiscussAtMdtDetails,"Which MDT (if known)?")
+					@TextInput("discuss_at_mdt_details", data.DiscussAtMdtDetails, "Which MDT (if known)?")
 				</div>
 			}
 			@Radio("Listed for Outpatient Procedure", NamePatientOption, data.OutcomeOption == "Listed for Outpatient Procedure") {
 				<div class={ "ml-4 my-1", templ.KV("hidden", data.OutcomeOption != "Listed for Outpatient Procedure") }>
-					@TextInput("outpatient_procedure_details",data.OutpatientProcedureDetails,"Type in which procedure")
+					@TextInput("outpatient_procedure_details", data.OutpatientProcedureDetails, "Type in which procedure")
 				</div>
 			}
 		</div>

@@ -250,6 +250,13 @@ func (s *Server) handleSubmitForm() http.HandlerFunc {
 func (s *Server) handleSubmission() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		// Ticket 52
+		submission, err := s.db.GetSubmission(chi.URLParam(r, "id"))
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		ui.Index(pages.SubmissionsPage(submission.Data)).Render(r.Context(), w)
 		// Get the submission from the database and render it.
 	}
 }

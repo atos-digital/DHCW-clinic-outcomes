@@ -14,15 +14,27 @@ templ SubmissionsPage(data models.ClinicOutcomesFormSubmit) {
 			// Do not display the followup section table if it has not been selected
 			// Consider whether any of the code below can be broken out into a separate component and reused
 			<table class="table-fixed border-collapse w-full">
-				<tr class="p-2 font-semibold bg-dhcw-blue">
-					<td class="p-2 w-1/3 text-xl text-white">Event Details</td>
-					<td class="p-2"></td>
-				</tr>
-				<tr class="align-top text-lg border-b border-zinc-200 last:border-0">
-					<td class="p-2 font-medium">Question</td>
-					<td class="p-2">Answer</td>
-				</tr>
+				@SubmissionHeaderRow("Other details")
+				@SubmissionAnswerRow("Date", data.Details.DateTime.Format("02-Jan-2006"))
+				@SubmissionAnswerRow("Time", data.Details.DateTime.Format("15:04"))
+				@SubmissionAnswerRow("Consultation Type", data.Details.Type)
+				@SubmissionAnswerRow("Specialty", data.Details.Specialty)
+				@SubmissionAnswerRow("SRC", data.Details.Clinician)
 			</table>
 		</div>
 	</div>
+}
+
+templ SubmissionHeaderRow(title string) {
+	<tr class="p-2 font-semibold bg-dhcw-blue">
+		<td class="p-2 w-1/3 text-xl text-white">{ title }</td>
+		<td class="p-2"></td>
+	</tr>
+}
+
+templ SubmissionAnswerRow(question string, answer string) {
+	<tr class="align-top text-lg border-b border-zinc-200 last:border-0">
+		<td class="p-2 font-medium">{ question }</td>
+		<td class="p-2">{ answer }</td>
+	</tr>
 }
